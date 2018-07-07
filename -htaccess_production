@@ -1,0 +1,6 @@
+RewriteEngine On    # Turn on the rewriting engine
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule    ^vliegeren.js?$    build_js.php   [NC,L]    # Handle requests for "pet-care"
+
+
+

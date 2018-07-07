@@ -1,0 +1,92 @@
+ @import url(http://fonts.googleapis.com/css?family=Luckiest+Guy);
+ /*-----------------------------------------
+  Style specific for this game.
+  -----------------------------------------
+  */
+	/* webfonts, we need the eot for IE 8! */
+	
+	
+	body, html{
+	/* background-image: url('img/background.jpg'); */
+		font-family: Tahoma, Verdana, Segoe, sans-serif;
+	}
+	/* meld een probleem op startpagina*/
+	
+	em {
+		font-family: 'Luckiest Guy';
+	}
+	a {
+		color: 	#022669;
+	}
+	a.h1{
+		color: rgba(255,255,255,0.7);
+		font-family: 'Luckiest Guy';
+	}
+		
+	/* standard text button */
+	.btn-content{
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.btn {
+		text-shadow: 0 -1px 0 rgba(0,0,0,0.25); 
+		background-color: #f5f5f7; 
+		background-image: -moz-linear-gradient(top, #f5f5f7, #bbbfca);
+		background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f5f5f7), to(#bbbfca));
+		background-image: -webkit-linear-gradient(top, #f5f5f7, #bbbfca);
+		background-image: -o-linear-gradient(top, #f5f5f7, #bbbfca);
+		background-image: linear-gradient(to bottom, #f5f5f7, #bbbfca);
+		background-repeat: repeat-x;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f7', endColorstr='#ffbbbfca', GradientType=0);
+		border-color: #f5f5f7 #f5f5f7 #bbbfca;
+		border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+		filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+		border: 1px solid #bbbfca;
+		display: inline-block;
+		color: #4e5269;
+		cursor: pointer;
+		border-radius: 0px;
+		box-shadow: 0 1px 2px 0 #888;
+		font-family: arial,sans-serif;
+		font-weight: bold;
+		position: relative;
+		text-align: center;
+	}
+		
+	.btn:hover{
+		color:#fff;
+		background-color: #7c858c; 
+		background-image: -moz-linear-gradient(top,  #7c858c, #f5f5f7);
+		background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#7c858c), to(#f5f5f7));
+		background-image: -webkit-linear-gradient(top, #7c858c, f5f5f7);
+		background-image: -o-linear-gradient(top, #7c858c, f5f5f7);
+		background-image: linear-gradient(to bottom,  #7c858c, f5f5f7);
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff7c858c', endColorstr='#fff5f5f7', GradientType=0);
+	}
+	
+	h1	{
+ 		font-size: 150%;  
+		line-height: 2em; 
+ 		font-family: 'Luckiest Guy';  
+		color: #01286f;
+	}
+	h2{
+		font-size: 150%;  
+		line-height: 2em; 
+		font-family:  Tahoma, Verdana, Segoe, sans-serif;
+		color: #01286f;
+	}
+	h3{
+		font-size: 120%;  
+		line-height: 2em; 
+		font-family:  Tahoma, Verdana, Segoe, sans-serif;
+		color: #01286f;
+	}
+	ul {
+		list-style-type: disc;
+		padding: 0px 0px 0px 20px;
+	}
+	
+	em	{
+		font-size: 110%;  
+	}

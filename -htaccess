@@ -1,0 +1,3 @@
+RewriteEngine On    # Turn on the rewriting engine
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule  ^wwjw.js?$ build_js.php?lib=$1&minify=false 
