@@ -4,15 +4,23 @@
 $response=array();
 $response['succes']=1;
 
+
+$periods=[];
+array_push($periods,[ 'label'=>"week", 'days'=> 7]);
+array_push($periods,[ 'label'=>"maand", 'days'=> 31]);
+array_push($periods,[ 'label'=>"jaar", 'days'=> 366]);
+array_push($periods,[ 'label'=>"alles", 'days'=> 3000000]); // 3 miljoen dagen, da's 8000 jaar. 
+
+
 // clean the variables and echo them:
 $clean=array();
 foreach ($_GET as $key => $value) 
 {
-	$key=preg_replace('/\s+/', '', $key); // only alphanumeric
-	$value=preg_replace('/\s+/', '', strip_tags($value)); // only alphanumeric and NO additional HTML!
+	$key=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$key);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$value=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",strip_tags($value));	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
 	$clean[$key]=strip_tags($value);
-	//echo($key."=".$clean[$key]."<br>");
 }
+
 //echo("<hr>");
 // get to the user progress file!
 
@@ -35,6 +43,8 @@ function addHighscore($label,$id,$current)
 	// user scores will NOT be lost, it's saved in the game.
 	// so the next time, the user scores, we correct the file (unless it's locked again)
 	// but it's going to get REALLY complicated then..
+	// also admins can fix the highscores from the scores.
+	// we might just do this once a day?
 	
 	if(file_exists($filename))
 	{

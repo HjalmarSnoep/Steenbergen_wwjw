@@ -13,7 +13,9 @@
 	map.dragging=-1; // no item being dragged!
 	map.drag_object={}; // store stuff here
 	map.houses=[];
+	map.current_map=-1; // meaning, your own choice.., set in init directly!
 	map.shop=[]; // we want to fill this ONLY once!
+	map.plaats=["null","Steenbergen","De Heen","Nieuw Vossemeer","Kruisland","Dinteloord","Welberg"]; // op volgorde!
 	
 	function initMap()
 	{
@@ -23,15 +25,19 @@
 		data.stat="page";
 		Hybrid.setVars("add_stat.php", data);
 	
+		if(map.current_map==-1)
+		{
+			map.current_map=user.data.plaats; // make sure we show the current map of the user!
+		}
 	
 		Hybrid.playSound("next_question");
-		Hybrid.debugmessage("START map called! Plaats:"+user.data.plaats);
+		Hybrid.debugmessage("START map called! Plaats:"+map.current_map);
 		Hybrid.setCookie("lastpage","map");
 		Hybrid.resizeFunction=handleResizemap;
 		
 		// set the location, can be 6 different ones!
-		map.back_index='location'+user.data.plaats;
-		Hybrid.debugmessage("Hybrid.graphics_manifest['"+map.back_index+"']: ");
+		map.back_index='location'+map.current_map;
+//		Hybrid.debugmessage("Hybrid.graphics_manifest['"+map.back_index+"']: ");
 		//Hybrid.debugmessage(Hybrid.graphics_manifest[map.back_index]); // this way it prints the internal structure as well!
 		
 		
@@ -44,6 +50,10 @@
 		// center it, kind of..
 		map.offset={x:Hybrid.graphics_manifest[map.back_index].w/2-Hybrid.width/2,y:Hybrid.graphics_manifest[map.back_index].h/2-Hybrid.height/2};
 
+		
+		// fix old user.data.gekochtehuizen
+		Hybrid.debugmessage("user.data.gekochtehuizen: "+JSON.stringify(user.data.gekochtehuizen));
+		//user.data.gekochtehuizen
 		
 		map.houses=[];
 		// default houses will be placed in map_fillShop!
@@ -88,7 +98,7 @@
 		map.state="loading";
 		//if(layout.ismap==true) Hybrid.setVisible(layout.loading_anim, true); // index, you get it from the graphics manifest!
 
-		data.city=user.data.plaats;
+		data.city=map.current_map;
 		Hybrid.debugmessage("call get_map_images_per_city.php?city="+data.city);
 		Hybrid.getVars("get_map_images_per_city.php",data,map_ServerCallback,map_ServerFail);
 	}
@@ -435,12 +445,15 @@
 		Hybrid.setBoxColor(layout.bar,palet.pale_blue); // this should be set to cover all, but that's for later!
 
 		// stuff in the bar
-		layout.user_name=Hybrid.createTextBox(layout.bar,60,20,450,100,fonts.head,"#fff","left",fontsz.head,Hybrid.getCookie("user_naam"));
+		var city=map.plaats[map.current_map];
+		layout.user_name=Hybrid.createTextBox(layout.bar,100,20,550,100,fonts.head,"#fff","left",fontsz.head,city); // Hybrid.getCookie("user_naam")+":"
+		
+		
 		
 		// Question Progress
 		w=412;
 		h=30;
-		x=(2048-w)/2;
+		x=(Hybrid.width-1000);
 		y=(quiz.bar_height-h)/2+5;
 		Hybrid.debugmessage("create progress boxes.");
 		layout.progress_total=Hybrid.createBox(layout.bar,x,y,w,h);
@@ -450,7 +463,9 @@
 		Hybrid.setBoxColor(layout.progress,palet.pale_yellow); 
 		
 		Hybrid.debugmessage("create progress text");
-		layout.vraag_nr=Hybrid.createTextBox(layout.bar,440,25,350,100,fonts.body,"#fff","right",fontsz.menu,"Vraag x/x");
+		layout.vraag_nr=Hybrid.createTextBox(layout.bar,x-400,25,350,100,fonts.body,"#fff","right",fontsz.menu,"Vraag x/x");
+
+
 		
 		// SET Question Progress
 		var show_vraag_nr=(parseInt(user.data.progress)+1);
@@ -463,6 +478,18 @@
 		
 		layout.score_label=Hybrid.createTextBox(layout.bar,Hybrid.width-680,25,600,100,fonts.body,"#fff","right",fontsz.menu,"Score <em>"+parseInt(user.data.punten)+"</em> punten / <em>"+parseInt(user.data.stenen)+"</em> stenen");
 
+
+
+		// make the switch city control!
+	
+		
+//		w=Hybrid.graphics_manifest['buttons'].ss['high'][0][2];
+//		h=Hybrid.graphics_manifest['buttons'].ss['high'][0][3];
+//		x=x-w-30;
+//		Hybrid.createSpriteButton(layout.hotspot,x,y,w,h,'buttons',"high","button_high",handleButtonsMap);
+
+		
+		
 		// background and scrollbox of menu buttons
 		w=map.menu_width;//+layout.scrollwidth
 		h=Hybrid.height-map.bar_height;
@@ -626,6 +653,21 @@
 		//Hybrid.setBoxImage(layout.loading_anim, "loading_anim"); // index, you get it from the graphics manifest!
 		//Hybrid.setVisible(layout.loading_anim, false); // index, you get it from the graphics manifest!
 
+		
+		// prev/next button
+		x=10;
+		y=5;
+		w=Hybrid.graphics_manifest['buttons'].ss['prev'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['prev'][0][3];
+		Hybrid.createSpriteButton(layout.hotspot,x,y,w,h,'buttons',"prev","button_prev",handleButtonsMap);
+
+		x=520;
+		y=5;
+		w=Hybrid.graphics_manifest['buttons'].ss['next'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['next'][0][3];
+		Hybrid.createSpriteButton(layout.hotspot,x,y,w,h,'buttons',"next","button_next",handleButtonsMap);
+		
+		
 		Hybrid.startLoop(mapLoop,20);
 		
 		
@@ -665,7 +707,7 @@
 		Hybrid.drawImage(map.shop[nr].canv,map.shop[nr].img,35+(map.menu_width-70)/2,35+320/2,0,f);
 
 		// check if we can actually afford this and if not grey it!
-		Hybrid.debugmessage(map.shop[nr].prijs+" > "+parseInt(user.data.stenen) );
+		//Hybrid.debugmessage(map.shop[nr].prijs+" > "+parseInt(user.data.stenen) );
 		if(map.shop[nr].prijs>parseInt(user.data.stenen) )
 		{
 			// grey the item
@@ -1050,7 +1092,7 @@
 						data.prijs=getPriceFromId(map.drag_object.id);
 						data.naam=Hybrid.getCookie("user_naam");
 						data.wachtwoord=Hybrid.getCookie("user_wachtwoord");
-						Hybrid.debugmessage("buy_house.php?naam="+data.naam+"&wachtwoord="+data.wachtwoord+"&id="+data.id+"&lx="+data.lx+"&ly="+data.ly+"&ly="+data.id+"&prijs="+data.prijs);// we don't want to know about any stuff.
+						//Hybrid.debugmessage("buy_house.php?naam="+data.naam+"&wachtwoord="+data.wachtwoord+"&id="+data.id+"&lx="+data.lx+"&ly="+data.ly+"&ly="+data.id+"&prijs="+data.prijs);// we don't want to know about any stuff.
 						//data.prijs=0; // so you can buy infinite houses.
 						Hybrid.getVars("buy_house.php",data,map_BuyCallback,map_BuyFail);// we don't want to know about any stuff.
 						
@@ -1247,7 +1289,33 @@
 				Hybrid.stopLoop();
 				high.init();
 			break;				
-			
+			case "button_prev":
+				map.current_map--;
+				if(map.current_map==0) map.current_map=6;
+				initMap();
+			break;	
+			case "button_next":
+				map.current_map++;
+				if(map.current_map==7) map.current_map=1;
+				initMap();
+/*				var city=map.plaats[map.current_map];
+				Hybrid.setText(layout.user_name,Hybrid.getCookie("user_naam")+":"+city);
+				// set the location, can be 6 different ones!
+				map.back_index='location'+map.current_map;
+				Hybrid.debugmessage("Hybrid.graphics_manifest['"+map.back_index+"']: ");
+				//Hybrid.debugmessage(Hybrid.graphics_manifest[map.back_index]); // this way it prints the internal structure as well!
+				
+				
+				if(!Hybrid.graphics_manifest.hasOwnProperty(map.back_index))
+				{
+					Hybrid.throwError(map.back_index+" not defined in graphics_manifest");
+				}
+				map.back_w=Hybrid.graphics_manifest[map.back_index].w; // all we need to do is
+				map.back_h=Hybrid.graphics_manifest[map.back_index].h;
+				// center it, kind of..
+				map.offset={x:Hybrid.graphics_manifest[map.back_index].w/2-Hybrid.width/2,y:Hybrid.graphics_manifest[map.back_index].h/2-Hybrid.height/2};*/
+
+			break;	
 			default:
 				Hybrid.debugmessage("handleButtonsStart: "+label);
 		}

@@ -5,13 +5,15 @@ $path_to_root=$_SERVER['DOCUMENT_ROOT'];
 $path_to_data="data/";
 $path_to_cms_data=$path_to_root."/mgcms/data";
 
+// clean the variables and echo them:
 $clean=array();
 foreach ($_GET as $key => $value) 
 {
-	$key=preg_replace('/\s+/', '', $key); // only alphanumeric
-	$value=preg_replace('/\s+/', '', strip_tags($value)); // only alphanumeric and NO additional HTML!
+	$key=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$key);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$value=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",strip_tags($value));	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
 	$clean[$key]=strip_tags($value);
 }
+
 $response=array();
 $response['succes']=0;
 
@@ -37,14 +39,32 @@ if(isset($clean['naam']))
 {
 	$clean['naam']=strtolower($clean['naam']); // lowercase names!!!!
 	$clean['naam']=html_entity_decode($clean['naam']); // if there was a thing like &nbsp; in there it's turned into ' '
-	$clean['naam']=preg_replace('/\s+/', '', $clean['naam']); // only alphanumeric, so any compound html chars are gone now.
+	$clean['naam']=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$clean['naam']);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$clean['naam']=filter_var($clean['naam'], FILTER_SANITIZE_STRING|FILTER_FLAG_STRIP_HIGH);
+	$clean['naam']=substr($clean['naam'],0,32); // no longer names than 32!
 	
 	if(isset($clean['wachtwoord']))
 	{
 		$clean['wachtwoord']=strtolower($clean['wachtwoord']); // lowercase names!!!!
 		$clean['wachtwoord']=html_entity_decode($clean['wachtwoord']); // if there was a thing like &nbsp; in there it's turned into ' '
-		$clean['wachtwoord']=preg_replace('/\s+/', '', $clean['wachtwoord']); // only alphanumeric, so any compound html chars are gone now.
+		$clean['wachtwoord'] = preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$clean['wachtwoord']);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+		$clean['wachtwoord']=substr($clean['wachtwoord'],0,32); // no longer names than 32!
 	}
+	// school can be only a couple of things!
+	$school_ids=["sdiofhoe","sd56pfioei","idfhrs","sd83ls","dfoihsue","78sd3ogosd","98sdyvj","fgf45uh","fgf45uh"];
+	if(!in_array($clean['school'],$school_ids))
+	{
+		$clean['school']="666"; // niet van toepassing.
+	}
+	// school can be only a couple of things!
+	$clean['groep'] = preg_replace("/[^1-8]/","",$clean['groep']);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$clean['groep']=substr($clean['groep'],0,1); // no longer names than 32!
+	$clean['groep']= intval($clean['groep']); // will become 0 if you try to kloot!
+	$clean['plaats'] = preg_replace("/[^1-6]/","",$clean['plaats']);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$clean['plaats']=substr($clean['plaats'],0,1); // no longer names than 32!
+	$clean['plaats']= intval($clean['plaats']); // will become 0 if you try to kloot!
+	
+	
 	$filename=$path_to_data."games/".$clean['naam'].".txt";
 	if(!file_exists($filename))
 	{
@@ -77,6 +97,8 @@ if(isset($clean['naam']))
 			$game['question_order']=$order;
 			$game['punten']=0;
 			$game['stenen']=0;
+			$game['created']=time();
+			$game['last_played']=time();
 			$game['gekochtehuizen']=array();
 			$game['hints']=array(); // keep track of if you have seen the hints!!
 			for($i=0;$i<$max_questions;$i++) // 30 from total number of questions, which must be more than 30!
@@ -204,7 +226,7 @@ for($i=0;$i<$nr_of_response;$i++)
 		}
 	}else
 	{
-		$response['error']="Naam bestaat al!";
+		$response['error']="Naam bestaat al '".$clean['naam']."', kies een andere!";
 		$response['errorcode']=13;
 	}
 }else

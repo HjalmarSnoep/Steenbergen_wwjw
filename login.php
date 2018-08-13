@@ -92,13 +92,15 @@ if(!is_dir($log_filename))
 	mkdir($log_filename);
 }
 
+// clean the variables and echo them:
 $clean=array();
 foreach ($_GET as $key => $value) 
 {
-	$key=preg_replace('/\s+/', '', $key); // only alphanumeric
-	$value=preg_replace('/\s+/', '', strip_tags($value)); // only alphanumeric and NO additional HTML!
-	$clean[$key]=strip_tags(strtolower($value)); // this makes it safe to lowercase all usernames and wws in new_game.php!
+	$key=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$key);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$value=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",strip_tags($value));	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$clean[$key]=strip_tags($value);
 }
+
 
 // make it a little easier to login
 // we found the following: 
@@ -108,15 +110,21 @@ foreach ($_GET as $key => $value)
 // Erik-jan1.txt
 if(isset($clean['naam']))
 {
+	// NOW WE DO THE SAME AS WITH NEW_GAME!
 	$clean['naam']=strtolower($clean['naam']); // lowercase names!!!!
 	$clean['naam']=html_entity_decode($clean['naam']); // if there was a thing like &nbsp; in there it's turned into ' '
-	$clean['naam']=preg_replace('/\s+/', '', $clean['naam']); // only alphanumeric, so any compound html chars are gone now.
+	$clean['naam']=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$clean['naam']);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$clean['naam']=filter_var($clean['naam'], FILTER_SANITIZE_STRING|FILTER_FLAG_STRIP_HIGH);
+	$clean['naam']=substr($clean['naam'],0,32); // no longer names than 32!
+	
 }
 if(isset($clean['wachtwoord']))
 {
+	// NOW WE DO THE SAME AS WITH NEW_GAME!
 	$clean['wachtwoord']=strtolower($clean['wachtwoord']); // lowercase names!!!!
 	$clean['wachtwoord']=html_entity_decode($clean['wachtwoord']); // if there was a thing like &nbsp; in there it's turned into ' '
-	$clean['wachtwoord']=preg_replace('/\s+/', '', $clean['wachtwoord']); // only alphanumeric, so any compound html chars are gone now.
+	$clean['wachtwoord'] = preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$clean['wachtwoord']);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$clean['wachtwoord']=substr($clean['wachtwoord'],0,32); // no longer names than 32!
 }
 
 if(isset($clean['naam']))
@@ -162,7 +170,7 @@ if(isset($clean['naam']))
 	{
 		$response['succes']=0;
 		unset($response['questions']);
-		$response['error']="Naam bestaat niet!";
+		$response['error']="Naam bestaat niet: '".$clean['naam']."'!"; // dit is FOUT, maar in dit geval niet zo heel belangrijk.
 		$response['errorcode']=13;
 		$log_filename=$path_to_data."logs/".gmdate('Y-m-d', time()).".txt";
 		$log_data=$_SERVER['REMOTE_ADDR']." name: '".$clean['naam']."' ww:'".$clean['wachtwoord']."' name doesn't exist\n";

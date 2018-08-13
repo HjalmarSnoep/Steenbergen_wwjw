@@ -1,0 +1,69 @@
+[FIXED]  map: on start sometimes extra house in shop...?
+[FIXED] map: get score and stones and show progress.
+[DONE] quiz: Hints!
+[DONE] quiz: now always 20 stones..?
+[FIXED] NOT POSSIBLE to leave new account now.. (no saving of this page)
+[FIXED] Always login again, don't use cookie values (NEW PRINCIPLE! all directly from server and to server..)
+[FIXED] Answering.
+
+[FIXED]map: greying not right
+[FIXED]MAP: Save placed houses on server. + pay on drop off!
+[FIXED] Sound..
+[FIXED] Highscores -> set highscores in lists: school, plaats, groep, all keep time!
+
+STATS: [DONE] Question Answered: wrong, right.. (pctg)
+	//Time to answer... ???
+	[DONE] hints -> done per question. pctg.
+	[DONE] keep Unique visitors
+	[DONE] Create...
+	[DONE] RElogin
+	[DONE] houses
+	[DONE] //each page?
+
+[FIXED] disclaimer! (on startup!)
+[DONE] stats in mgcms
+
+[FIXED] bug: firefox: back from highscores to map, no more houses! We need to save it to the user as well, not just on the server!
+[FIXED] bug: firefox youtube.. -> just install the plugin for flash, ignore the outdated and you'll be fine!
+
+TODOS:
+[FIXED]quiz: after 5 questions automatically to map. (see doc)
+[FIXED]map: don't pickup grey houses (easy for testing now, not enough questions to get money for houses.)
+
+WishList:
+hint foto optioneel.. toevoegen mgcms..
+-moving / removing houses, but NOT alas in specs and interface not right, meerwerk.!
+
+NEW Todo's
+[FIXED] scrollbar in map. (Test op iPad.. done)
+[FIXED] name input to real (styled) input?
+[FIXED] not via map first time!
+[FIXED] quiz: after 5 questions NOT automatically to map. (see doc)
+[FIXED] new house played free popup, goto map!
+[FIXED]replay possible
+[FIXED]finished game, start again popup..
+[]
+- De lijst met scholen moet worden:
+De Nieuwe Veste
+Maria Regina
+Gumarusschool
+Merijntje
+De Regenboog
+Petrus en Paulusschool
+Groen van Prinsterer
+Pius X
+De Zonneberg
+'t Ravelijn
+niet van toepassing
+
+[FIXED]- In de lijst met groepen ook toevoegen
+niet van toepassing
+
+[NO FIX]- Kun je een voorvertoon knop in de lijst met vragen verwerken, zodat we de vragen ook even kunnen controleren.
+
+[FIXED ]- Er gaat iets mis met de caractersets. Als ik de speciale tekens in het cms goed invoer komt het er in het spel zelf toch verkeerd uit. Kun je dat nakijken?
+
+[] map aan begin
+
+[]canvas in flashcanvas!
+

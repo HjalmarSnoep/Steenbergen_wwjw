@@ -6,53 +6,6 @@
 
 // first get a list of ALL games.
 $path_to_games="data/games";
-$path_to_highscores="data/highscores";
-
-
-
-// start of highscore functions
-function cmp($a, $b)
-{
-	if (intval($a['punten']) > intval($b['punten'])) return -1;
-	if (intval($a['punten']) < intval($b['punten'])) return 1;
-	return 0;
-}                                    
-function addHighscore($add_to,$label,$punten,$naam,$school,$groep,$plaats,$timestamp)
-{
-	$temp=array(
-		"punten" => $punten,
-		 "naam" => $naam,
-		 "groep" => $groep,
-		 "school" => $school,
-		 "plaats" => $plaats,
-		 "time" => $timestamp,
-		);
-	$str="";
-	foreach ($temp as $key => $value)
-	{
-		$str.=$key."=>".$value. "  -  ";
-	}
-	echo($str."<br>");
-
-	// the temp object seems sound!
-	if(isset($add_to[$label]))
-	{
-		//object format: "naam":"test8","punten":2000,"plaats":"6","school":"sdfrr","groep":"2","time":1409816106
-		array_push($add_to[$label],$temp);
-		
-	}else
-	{
-//		echo("creating the table!<br>");
-		$add_to[$label]=array();
-		array_push($add_to[$label],$temp);
-	}
-	return $add_to;
-}
-//end of highscore functions
-
-
-
-//>> OK let's start the script!
 
 $dir_content=array();
 

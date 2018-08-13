@@ -4,11 +4,17 @@
 	high.init=initHigh;
 	high.bar_height=80;
 	high.tabs=["plaats","school","speler"];
+	high.periods=[
+					"week",
+					"maand",
+					"jaar", "alles"
+				 ];
 
 	high.label="all"; // starts on all_all!
 	high.id="all";
 	high.rank=-1;
 	high.selected_tab=2;
+	high.selected_period=0;
 	
 	function initHigh()
 	{
@@ -34,6 +40,8 @@
 		data.label=high.label;
 		data.id=high.id;
 		data.naam=user.data.naam;
+		data.period=high.periods[high.selected_period];
+		Hybrid.debugmessage("get_highscores.php?naam="+data.naam+"&id="+data.id+"&label="+data.label+"&period="+data.period);
 		Hybrid.getVars("get_highscores.php",data,high_LoadSucces,high_LoadFail);// we don't want to know about any stuff.
 		
 		Hybrid.resizeFunction=handleResizehigh;
@@ -69,13 +77,23 @@
 		Hybrid.setBoxColor(layout.back,palet.green); // this should be set to cover all, but that's for later!
 		
 		var w,h,x,y,f,tx,ty,string;
-		w=Hybrid.width;
-		h=343; // little bit different
 		layout.split_y=343;
+		w=Hybrid.width;
+		h=layout.split_y;
 		x=0;
 		y=0;
 		layout.bar=Hybrid.createBox(layout.back,x,y,w,h);
 		Hybrid.setBoxColor(layout.bar,palet.pale_blue); // this should be set to cover all, but that's for later!
+
+		// second blue box down under.
+		layout.split_h2=layout.split_y;
+		layout.split_y2=Hybrid.height-260;
+		x=0;
+		y=layout.split_y2;
+		w=Hybrid.width;
+		h=layout.split_h2; // little bit different
+		layout.bar2=Hybrid.createBox(layout.back,x,y,w,h);
+		Hybrid.setBoxColor(layout.bar2,palet.pale_blue); // this should be set to cover all, but that's for later!
 
 	
 		// it's imperative that layout stays the same, so apart from the bar, we need to set a box in the middle of exactly 2048..
@@ -92,12 +110,11 @@
 		//Hybrid.setBoxImage(layout.high,"snap"); // this should be set to cover all, but that's for later!
 		
 		// tabs
-		layout.split_y=343;
 		layout.tab=[];
 		var i;
 		for(i=0;i<3;i++)
 		{
-			x=2048-(334+60)*(i+1);
+			x=2048-(334+30)*(i+1);
 			y=layout.split_y-76;
 			w=334;
 			h=132;
@@ -116,10 +133,37 @@
 			y=15;
 			w=334;
 			h=132;
-			string="Twee meerminnen";
 			layout.title=Hybrid.createTextBox(layout.tab[i],x,y,w,h,fonts.head,"#fff","center",fontsz.highscores_mid,high.tabs[i]);
 		}
-	
+
+		console.log("show periods!");
+		// periods
+		layout.period=[];
+		var i;
+		for(i=0;i<high.periods.length;i++)
+		{
+			x=(334+30)*(i);
+			y=layout.split_y2-50;
+			w=334;
+			h=132;
+			layout.period[i]=Hybrid.createBox(layout.high,x,y,w,h);
+			if(high.selected_period==i)
+			{
+				Hybrid.setBoxColor(layout.period[i],palet.green); // this should be set to cover all, but that's for later!
+			}else
+			{
+				Hybrid.setBoxColor(layout.period[i],palet.pale_green); // this should be set to cover all, but that's for later!
+			}
+			Hybrid.setBoxRounded(layout.period[i],50);
+			Hybrid.makeButton(layout.period[i],"button_period"+i,handleButtonshigh);
+			// period Title
+			x=0;
+			y=15;
+			w=334;
+			h=132;
+			layout.title=Hybrid.createTextBox(layout.period[i],x,y+132/2-30,w,h,fonts.head,"#fff","center",fontsz.highscores_mid,high.periods[i]);
+		}
+		
 		// green box over tabs
 		x=0;
 		y=layout.split_y; 
@@ -128,6 +172,15 @@
 		layout.tabs_over=Hybrid.createBox(layout.high,x,y,w,h);
 		Hybrid.setBoxColor(layout.tabs_over,palet.green); // this should be set to cover all, but that's for later!
 
+		// green box over periods
+		x=0;
+		y=layout.split_y2-50;
+		w=2048;
+		h=50;
+		layout.tabs_over=Hybrid.createBox(layout.high,x,y,w,h);
+		Hybrid.setBoxColor(layout.tabs_over,palet.green); // this should be set to cover all, but that's for later!
+		
+		
 		// stuff in the bar
 		layout.user_name=Hybrid.createTextBox(layout.high,60,20,450,100,fonts.head,"#fff","left",fontsz.head,user.data.naam);
 		layout.vraag_nr=Hybrid.createTextBox(layout.high,440,25,350,100,fonts.body,"#fff","right",fontsz.menu,"Vraag x/x");
@@ -336,6 +389,7 @@
 		
 		Hybrid.clearCanvas(layout.score_outside_rank);
 		Hybrid.debugmessage("high.rank="+high.rank);
+		high.rank=parseInt(high.rank);
 		if(high.rank!=-1)
 		{
 			ctx=layout.score_outside_rank.context;
@@ -348,6 +402,7 @@
 		if(high.rank>9)
 		{
 			// set to default position and visible!
+			console.log("making it visible bigger than 9");
 			Hybrid.setVisible(layout.score_outside_rank,true);
 			x=0;
 			y=960;
@@ -361,9 +416,11 @@
 				Hybrid.moveBox(layout.score[i].canvas,x,y);
 				y=y+h;
 			}
+
 		}else
 		{
 			// set to position inside list (and doesn't need to be visible!)
+			console.log("making it invisible smaller than 9");
 			Hybrid.setVisible(layout.score_outside_rank,false);
 			h=52;
 			x=148;
@@ -381,7 +438,9 @@
 				}				
 			}
 		}
-		Hybrid.setVisible(layout.own_score,true); // always true, but turned off for loading..
+		if(high.rank!=-1)
+			Hybrid.setVisible(layout.own_score,true); // always true, but turned off for loading..
+
 	}
 	function highSelectTab(nr)
 	{
@@ -402,18 +461,19 @@
 		// we should also show the right data!
 		switch(high.selected_tab)
 		{
-			case 1:
-				high.label="school"; // starts on all_all!
-				high.id=user.data.school;
-			break;
 			case 0:
-				high.label="plaats"; // starts on all_all!
+				high.label=high.tabs[0]; // starts on all_all!
 				high.id=user.data.plaats;
+			break;
+			case 1:
+				high.label=high.tabs[1]; // starts on all_all!
+				high.id=user.data.school;
 			break;
 			default:
 				high.label="all"; // starts on all_all!
 				high.id="all";
 		}
+		
 		high.rank=-1;
 		high.data=empty_list;
 		// erase canvases
@@ -430,7 +490,47 @@
 		data.label=high.label;
 		data.id=high.id;
 		data.naam=user.data.naam;
-		Hybrid.debugmessage("get_highscores.php?naam="+data.naam+"&id="+data.id+"&label="+data.label);
+		data.period=high.periods[high.selected_period];
+		Hybrid.debugmessage("get_highscores.php?naam="+data.naam+"&id="+data.id+"&label="+data.label+"&period="+data.period);
+		Hybrid.getVars("get_highscores.php",data,high_LoadSucces,high_LoadFail);// we don't want to know about any stuff.
+		
+	}
+	function highSelectPeriod(nr)
+	{
+		Hybrid.debugmessage("highSelectPeriod"+nr);
+		high.selected_period=nr;
+		// color the periods
+		var i;
+		for(i=0;i<3;i++)
+		{
+			if(high.selected_period==i)
+			{
+				Hybrid.setBoxColor(layout.period[i],palet.green); // this should be set to cover all, but that's for later!
+			}else
+			{
+				Hybrid.setBoxColor(layout.period[i],palet.pale_green); // this should be set to cover all, but that's for later!
+			}
+		}
+
+		// reload!
+		high.rank=-1;
+		high.data=empty_list;
+		// erase canvases
+		var i;
+		for(i=0;i<10;i++)
+		{
+			Hybrid.clearCanvas(layout.score[i].canvas);
+		}
+		Hybrid.clearCanvas(layout.score_outside_rank);
+		Hybrid.setVisible(layout.own_score,false); // erase all!
+	
+		// now reload the highscores
+		var data={};
+		data.label=high.label;
+		data.id=high.id;
+		data.naam=user.data.naam;
+		data.period=high.periods[high.selected_period];
+		Hybrid.debugmessage("get_highscores.php?naam="+data.naam+"&id="+data.id+"&label="+data.label+"&period="+data.period);
 		Hybrid.getVars("get_highscores.php",data,high_LoadSucces,high_LoadFail);// we don't want to know about any stuff.
 		
 	}
@@ -443,7 +543,14 @@
 			case "button_tab2":
 				var nr=label.substr(10,1);
 				highSelectTab(parseInt(nr));
-			break;				
+			break;		
+			case "button_period0":
+			case "button_period1":
+			case "button_period2":
+			case "button_period3":
+				var nr=label.substr(13,1);
+				highSelectPeriod(parseInt(nr));
+			break;					
 			case "button_continue":
 				var nr=parseInt(user.data.progress);
 				if(nr<quiz.questions.length)
