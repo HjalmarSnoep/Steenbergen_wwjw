@@ -19,6 +19,7 @@ foreach ($_GET as $key => $value)
 	$value=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",strip_tags($value));	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
 	$clean[$key]=strip_tags($value);
 }
+$map=intval($clean["map"]); // we need a map where it's moving!
 
 //echo("<hr>");
 // get to the user progress file!
@@ -36,17 +37,17 @@ if(file_exists($filename))
 		{
 			$response['succes']=1;
 			// get the house that needs to be moved, adjust the position!
-			$len=count($response['gekochtehuizen']);
+			$len=count($response['bought_per_city'][$map]);
 			//unset($response['message']);
 			for($i=0;$i<$len;$i++)
 			{
-				$house=$response['gekochtehuizen'][$i];
+				$house=$response['bought_per_city'][$map][$i];
 				if(intval($house['lx'])==intval($clean['ox']) &&
 				   intval($house['ly'])==intval($clean['oy']) &&
 				   $house['id']==$clean['id'])
 				{
-					$response['gekochtehuizen'][$i]['lx']=intval($clean['lx']);
-					$response['gekochtehuizen'][$i]['ly']=intval($clean['ly']);
+					$response['bought_per_city'][$map][$i]['lx']=intval($clean['lx']);
+					$response['bought_per_city'][$map][$i]['ly']=intval($clean['ly']);
 					//$response['message']="found a house and moved it: (".$clean['ox'].",".$clean['oy'].")->(".$clean['lx'].",".$clean['ly'].")";
 				}
 			}

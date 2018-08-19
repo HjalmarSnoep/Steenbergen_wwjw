@@ -17,6 +17,8 @@ foreach ($_GET as $key => $value)
 $response=array();
 $response['succes']=0;
 
+$game=array();
+
 // get the number of questions
 $dir=$path_to_cms_data.'/questions';
 $nr_of_questions=0;
@@ -33,6 +35,7 @@ if ($handle = opendir($dir))
 $max_questions=30;
 if($nr_of_questions<30)
 	$max_questions=$nr_of_questions;
+
 
 	
 if(isset($clean['naam']))
@@ -58,12 +61,19 @@ if(isset($clean['naam']))
 	}
 	// school can be only a couple of things!
 	$clean['groep'] = preg_replace("/[^1-8]/","",$clean['groep']);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
-	$clean['groep']=substr($clean['groep'],0,1); // no longer names than 32!
+	$clean['groep']=substr($clean['groep'],0,1); // no longer names than 2!
 	$clean['groep']= intval($clean['groep']); // will become 0 if you try to kloot!
 	$clean['plaats'] = preg_replace("/[^1-6]/","",$clean['plaats']);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
-	$clean['plaats']=substr($clean['plaats'],0,1); // no longer names than 32!
+	$clean['plaats']= substr($clean['plaats'],0,1); // no longer names than 2!
 	$clean['plaats']= intval($clean['plaats']); // will become 0 if you try to kloot!
-	
+	if(isset($clean['category']))
+	{
+			
+		$clean['category'] = preg_replace("/[^0-9A-Z-a-z\-]/","",$clean['category']);	// just an id people.. can be -1
+		$clean['category']= substr($clean['category'],0,32); // no longer ids than 32!
+	}else{
+		$clean['category'] = -1; // if not set somehow..
+	}
 	
 	$filename=$path_to_data."games/".$clean['naam'].".txt";
 	if(!file_exists($filename))
@@ -75,16 +85,32 @@ if(isset($clean['naam']))
 		   )
 		{		
 			// creeer een nieuwe user file!
-			$game=array();
+			
 			$game['naam']=$clean['naam'];
 			$game['wachtwoord']=crypt($clean['wachtwoord']."mysalt","zoutjesvancalve");
 			$game['school']=$clean['school'];
 			$game['groep']=$clean['groep'];
 			$game['plaats']=$clean['plaats'];
+			$game['category']=$clean['category'];
 			$game['progress']=0;
 			
 			$total_order=array();
-			for($i=0;$i<$nr_of_questions;$i++) $total_order[$i]=$i;
+			for($i=0;$i<$nr_of_questions;$i++) 
+			{
+				$total_order[$i]=$i;
+			}
+			// if category different than -1
+			// preload ready made question list of tag!
+			if($game['category']!="-1")
+			{
+				$category_file=$path_to_cms_data."/tags/questions_".$game['category'].".json";
+				if(file_exists($category_file))
+				{
+					$total_order=json_decode(file_get_contents($category_file),true);
+				}else{
+					$game['error_message']="category-question-list could not be fount for category: ".$category_file;// $game['category'];
+				}
+			}
 			shuffle($total_order);
 			$order=array();
 			// now copy to a new array for just the first 30!!
@@ -99,14 +125,18 @@ if(isset($clean['naam']))
 			$game['stenen']=0;
 			$game['created']=time();
 			$game['last_played']=time();
-			$game['gekochtehuizen']=array();
+			
+			$bought=[];
+			for($i=0;$i<=6;$i++)array_push($bought,[]); // six empty arrays, because you haven't built anything yet!
+			$game["bought_per_city"]=$bought;
+			
 			$game['hints']=array(); // keep track of if you have seen the hints!!
 			for($i=0;$i<$max_questions;$i++) // 30 from total number of questions, which must be more than 30!
 			{
 				array_push($game['hints'],0);
 			}
 			$fp = fopen($filename, 'w');
-				fwrite($fp, json_encode($game));
+				fwrite($fp, json_encode($game,JSON_PRETTY_PRINT));
 			fclose($fp);
 			$response['succes']=1;	
 			$response['user']=$game; // give all important things to user right now..

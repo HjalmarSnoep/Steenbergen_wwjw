@@ -85,6 +85,19 @@ if ($handle = opendir($dir))
 $max_questions=30;
 $total_order=array();
 for($i=0;$i<$nr_of_questions;$i++) $total_order[$i]=$i;
+// if category different than -1
+// preload ready made question list of tag!
+if($response['user']['category']!="-1")
+{
+		$category_file=$path_to_cms_data."/tags/questions_".$response['user']['category'].".json";
+		if(file_exists($category_file))
+		{
+			$total_order=json_decode(file_get_contents($category_file),true);
+		}else{
+			$game['error_message']="category-question-list could not be fount for category: ".$category_file;// $game['category'];
+		}
+	}
+
 shuffle($total_order);
 $order=array();
 // now copy to a new array for just the first 30!!

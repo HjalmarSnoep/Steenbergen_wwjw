@@ -154,6 +154,8 @@
 			return;
 		}
 		var nr=parseInt(user.data.progress );
+		console.log(user.data.progress+ " of "+quiz.question_order );
+		if(nr>=quiz.questions.length) nr=quiz.questions.length-1;
 		var q=quiz.questions[quiz.question_order[parseInt(user.data.progress)]]; // Q is undefined sometiimes..
 		if(typeof(q)==="undefined")
 		{
@@ -271,6 +273,7 @@
 			//Hybrid.setCookie("user_hints",hints);	
 			// we update the user model
 			user.data.progress=response["progress"];
+			user.data.old_punten=user.data.punten; // we can use this to check if user has just played a new house loose?
 			user.data.punten=response["punten"];
 			user.data.stenen=response["stenen"];
 			user.data.hints=response["hints"];
@@ -423,40 +426,22 @@
 		// we need to find out if there is any new houses available, if so, we need to show this to the user.
 		var i;
 		var new_house_available=-1;
+		var new_score=user.data.punten+100; // act as if you allready have gotten the points, this runs via backend I think, but still..
 		Hybrid.debugmessage("map_CheckNewHouseAvailable :"+map.shop.length+ "houses!");
 		for(i=0;i<map.shop.length;i++)
 		{
-			if(map.shop[i].prijs<user.data.stenen)
+			console.log(new_score+" punten, quick check of the shop: "+map.shop[i].naam+","+map.shop[i].unlock+","+ map.shop[i].unlocked);
+			if(map.shop[i].unlock<=new_score && map.shop[i].unlocked==false)
 			{
+				map.shop[i].unlocked=true; // only once!
 				Hybrid.debugmessage("house available:"+map.shop[i].naam+" id:"+map.shop[i].img);
 				// check if it's placed!
 				var j=0;
 				var placed=false;
-				for(j=0;j<user.data.gekochtehuizen.length;j++)
-				{
-					if(user.data.gekochtehuizen[j].id==map.shop[i].img)
-					{
-						Hybrid.debugmessage("this house is already placed!");
-						placed=true;
-						break;
-					}
-				}
 				if(placed==false)
 				{
 					// you might need to hear about this house.
-					// but you ONLY hear about each available house once!
-					if(typeof(user.data.heard_about)!=="undefined")
-					{
-						if(user.data.heard_about.indexOf(map.shop[i].img)==-1)
-						{
-							user.data.heard_about+=map.shop[i].img+"|";
-							new_house_available=i; // map.shop.nr, never -1!
-						}
-					}else
-					{
-						user.data.heard_about=map.shop[i].img+"|";
-						new_house_available=i;  // map.shop.nr, never -1!
-					}
+					new_house_available=i;  // map.shop.nr, never -1!
 				}
 			}else
 			{
@@ -658,7 +643,12 @@
 	
 	function quiz_ShowQuestion(nr)
 	{
+		if(nr>=quiz.questions.length) nr=quiz.questions.length-1;
 		var q=quiz.questions[nr];
+		if(typeof(q)=="undefined")
+		{
+			console.warn("an exception occured "+JSON.stringify(quiz.questions));
+		}
 	
 		Hybrid.debugmessage("quiz_ShowQuestion "+(nr+1));
 		

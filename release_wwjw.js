@@ -410,12 +410,10 @@ hbc.context.save();hbc.context.translate(x,y);hbc.context.scale(sx,sy);hbc.conte
 _ip._hk=_di;function _di(hbc)
 {hbc.context.clearRect(0,0,hbc.w,hbc.h);hbc.context.clearRect(0,0,hbc.start_w,hbc.start_h);}
 _ip.drawImage=_cu;function _cu(hbc,img_nr,x,y,r,s)
-{{}
-if(r===undefined)r=0;if(s===undefined)s=1;if(x===undefined)x=0;if(y===undefined)y=0;var bw,bh;var sw,sh;var image;if(typeof(_ip._gj[img_nr])==="undefined")
+{if(r===undefined)r=0;if(s===undefined)s=1;if(x===undefined)x=0;if(y===undefined)y=0;var bw,bh;var sw,sh;var image;if(typeof(_ip._gj[img_nr])==="undefined")
 {{}
 return;}
-image=_ip._gj[img_nr].img;bw=_ip._gj[img_nr].w;bh=_ip._gj[img_nr].h;hbc.context.save();hbc.context.translate(x,y);hbc.context.scale(s,s);hbc.context.rotate(r*_ip.TO_RADIANS);bw=Math.floor(bw);bh=Math.floor(bh);bh=Math.floor(bh);{}
-hbc.context.drawImage(image,0,0,bw,bh,-bw/2,-bh/2,bw,bh);hbc.context.restore();}
+image=_ip._gj[img_nr].img;bw=_ip._gj[img_nr].w;bh=_ip._gj[img_nr].h;hbc.context.save();hbc.context.translate(x,y);hbc.context.scale(s,s);hbc.context.rotate(r*_ip.TO_RADIANS);bw=Math.floor(bw);bh=Math.floor(bh);bh=Math.floor(bh);hbc.context.drawImage(image,0,0,bw,bh,-bw/2,-bh/2,bw,bh);hbc.context.restore();}
 _ip.canvasToImageManifest=_dl;function _dl(hbc,label)
 {if(typeof(_ip._gj[label])==="undefined")
 {_ip._gj[label]={};{}
@@ -598,9 +596,7 @@ _ip._gj[i].img.src=_ip._gj[i].src;}else
 {_ip._gj[i].img.src=_ip._fw+_ip._gj[i].src;}
 _ip.currentLoadingUrl=_ip._fw+_ip._gj[i].src;_ip.preload_message+="opening img "+_ip.currentLoadingUrl+"\n";_ip._gj[i].img.onload=_bv;}}};_ip.addToManifest=_ae;function _ae(o,i,sk,cb)
 {if(typeof(_ip._gj[i])!=="undefined")
-{{}
-cb();return;}
-{}
+{cb();return;}
 _ip._gj[i]=o;if(_ip._gj[i].preload)
 {_ip._gj[i].img=new Image();_ip._gj[i].img.onerror=_ci;if(sk=="dataURL")
 {_ip._gj[i].img.src=_ip._gj[i].src;_ip._ha="data-url:"+i;}else
@@ -922,7 +918,10 @@ ori_mm.init();}}
 function _iu(response)
 {var all;if(response.succes=="1")
 {{}
-quiz.questions=response.questions;user.data=response.user;quiz.nr_of_questions=quiz.questions.length;quiz.question_order=response.user.question_order;for(all in response)
+quiz.questions=response.questions;user.data=response.user;quiz.nr_of_questions=quiz.questions.length;quiz.question_order=response.user.question_order;for(var i=0;i<quiz.question_order.length;i++)
+{if(quiz.question_order[i]>=quiz.questions.length)
+{quiz.question_order[i]=quiz.questions.length-1;}}
+for(all in response)
 {{}}
 for(all in response.user)
 {{}}
@@ -982,12 +981,16 @@ _ip._gp();layout={};_iw();layout.buttons=_ip._he();var w,h,x,y,f,tx,ty,string;w=
 function _jg(label)
 {switch(label)
 {case"button_problem":window.open(_ip.supportlink+_ip.app_id,'_blank');break;case"button_admin":window.open("http://spel.kijkopsteenbergen.nl/contact",'_blank');break;case"button_dasklaretaal":window.open("http://www.dasklaretaal.nl",'_blank');break;case"button_shapesandsounds":window.open("http://www.colorsandshapes.nl",'_blank');break;case"button_snoepgames":window.open("http://www.snoepgames.nl",'_blank');break;case"button_back":start.init();break;case"button_continue_game":break;case"button_new_game":break;default:{}}}
-var new_game={};new_game.init=_jh;new_game.framecounter=0;new_game.buttons_Alpha=0;new_game.state="just_started";new_game.form={};new_game.cms_data={};new_game.cms_data.school=[{label:"De Nieuwe Veste",id:"sdif4356srhe"},{label:"Maria Regina",id:"sdiofhoe"},{label:"Gummarusschool",id:"sd56pfioei"},{label:"Merijntje",id:"idfhrs"},{label:"Regenboog, De",id:"sd83ls"},{label:"De zonneberg",id:"dfoihsue"},{label:"Petrus en Paulusschool",id:"78sd3ogosd"},{label:"Groen van Prinsterer",id:"98sdyvj"},{label:"Pius X",id:"fgf45uh"},{label:"niet van toepassing",id:"666"}];new_game.cms_data.groep=[{label:"Groep 1",id:1},{label:"Groep 2",id:2},{label:"Groep 3",id:3},{label:"Groep 4",id:4},{label:"Groep 5",id:5},{label:"Groep 6",id:6},{label:"Groep 7",id:7},{label:"Groep 8",id:8},{label:"niet van toepassing",id:"666"}];new_game.cms_data.plaats=[{label:"Steenbergen",id:1},{label:"De Heen",id:2},{label:"Nieuw Vossemeer",id:3},{label:"Kruisland",id:4},{label:"Dinteloord",id:5},{label:"Welberg",id:6}];function _jh()
+var new_game={};new_game.init=_jh;new_game.framecounter=0;new_game.buttons_Alpha=0;new_game.state="just_started";new_game.form={};new_game.cms_data={};new_game.cms_data.school=[{label:"De Nieuwe Veste",id:"sdif4356srhe"},{label:"Maria Regina",id:"sdiofhoe"},{label:"Gummarusschool",id:"sd56pfioei"},{label:"Merijntje",id:"idfhrs"},{label:"Regenboog, De",id:"sd83ls"},{label:"De zonneberg",id:"dfoihsue"},{label:"Petrus en Paulusschool",id:"78sd3ogosd"},{label:"Groen van Prinsterer",id:"98sdyvj"},{label:"Pius X",id:"fgf45uh"},{label:"niet van toepassing",id:"666"}];new_game.cms_data.groep=[{label:"Groep 1",id:1},{label:"Groep 2",id:2},{label:"Groep 3",id:3},{label:"Groep 4",id:4},{label:"Groep 5",id:5},{label:"Groep 6",id:6},{label:"Groep 7",id:7},{label:"Groep 8",id:8},{label:"niet van toepassing",id:"666"}];new_game.cms_data.category=cms.tags;for(var i=new_game.cms_data.category.length-1;i>=0;i--)
+{if(typeof(new_game.cms_data.category[i].questions)=="undefined")
+{new_game.cms_data.category.splice(i,1);}else{if(new_game.cms_data.category[i].questions<30)
+{new_game.cms_data.category.splice(i,1);}else{new_game.cms_data.category[i].label+=" (30/"+new_game.cms_data.category[i].questions+" vragen)";}}}
+new_game.cms_data.category.push({label:"Alles",id:-1});new_game.cms_data.plaats=[{label:"Steenbergen",id:1},{label:"De Heen",id:2},{label:"Nieuw Vossemeer",id:3},{label:"Kruisland",id:4},{label:"Dinteloord",id:5},{label:"Welberg",id:6}];function _jh()
 {if(_ip._gn("wwjw_disclaimer")!="1")
 {{}
 user.refer_to="new";disclaimer.init();}else
 {var data={};data.page="new_game";data.stat="page";_ip.setVars("add_stat.php",data);_ip._fd("next_question");{}
-_ip._em("lastpage","new_game");new_game.form.naam="";new_game.form.school=-1;new_game.form.groep=-1;new_game.form.plaats=-1;if(_ip._gn("user_naam")!==null)new_game.form.naam=_ip._gn("user_naam");if(_ip._gn("user_school")!==null)new_game.form.school=_ip._gn("user_school");if(_ip._gn("user_groep")!==null)new_game.form.groep=_ip._gn("user_groep");if(_ip._gn("user_plaats")!==null)new_game.form.plaats=_ip._gn("user_plaats");_ip.resizeFunction=new_gameHandleResize;new_gameHandleResize();}}
+_ip._em("lastpage","new_game");new_game.form.naam="";new_game.form.school=-1;new_game.form.groep=-1;new_game.form.plaats=-1;new_game.form.category=-1;if(_ip._gn("user_naam")!==null)new_game.form.naam=_ip._gn("user_naam");if(_ip._gn("user_school")!==null)new_game.form.school=_ip._gn("user_school");if(_ip._gn("user_groep")!==null)new_game.form.groep=_ip._gn("user_groep");if(_ip._gn("user_plaats")!==null)new_game.form.plaats=_ip._gn("user_plaats");_ip.resizeFunction=new_gameHandleResize;new_gameHandleResize();}}
 function _ji()
 {{}
 {}
@@ -1013,7 +1016,10 @@ var label=_jk("groep",new_game.form.groep);_ip.setText(layout.groep_text,label);
 w=_ip._gj['buttons'].ss['dropdown'][0][2];h=_ip._gj['buttons'].ss['dropdown'][0][3];x=_ip.width-w;_ip._hd(layout.buttons,x,y,w,h,'buttons',"dropdown","button_dropdown_groep",new_gameHandleButtons);w=layout.split_w+10;h=94;x=layout.split_x;y=345+4*layout.button_margin_y;layout.plaats=_ip._hi(layout.buttons,x,y,w,h);_ip._es(layout.plaats,palet.pale_green);_ip.setBevel(layout.plaats,5,"rgba(10,23,53,0.5)","rgba(255,255,255,0.5)");layout.plaats_text=_ip._hc(layout.plaats,40,10,w-80,h-20,fonts.head,palet.dark_blue,"left",fontsz.edit,"- plaats -");_ip._fk(layout.plaats_text,"button_dropdown_plaats",new_gameHandleButtons);if(new_game.form.plaats!=-1)
 {{}
 var label=_jk("plaats",new_game.form.plaats);_ip.setText(layout.plaats_text,label);}
-w=_ip._gj['buttons'].ss['dropdown'][0][2];h=_ip._gj['buttons'].ss['dropdown'][0][3];x=_ip.width-w;_ip._hd(layout.buttons,x,y,w,h,'buttons',"dropdown","button_dropdown_plaats",new_gameHandleButtons);x=layout.split_x;y=920;w=layout.split_w+10;h=180;layout.feedback_text=_ip._hc(layout.buttons,x,y,w,h,fonts.head,palet.dark_red,"center",fontsz.edit,"");_ip._es(layout.feedback_text,palet.pale_green);_ip._eg(layout.feedback_text,false);_ip.textChangeListener=_ji;}
+w=_ip._gj['buttons'].ss['dropdown'][0][2];h=_ip._gj['buttons'].ss['dropdown'][0][3];x=_ip.width-w;_ip._hd(layout.buttons,x,y,w,h,'buttons',"dropdown","button_dropdown_plaats",new_gameHandleButtons);w=layout.split_w+10;h=94;x=layout.split_x;y=345+5*layout.button_margin_y;layout.category=_ip._hi(layout.buttons,x,y,w,h);_ip._es(layout.category,palet.pale_green);_ip.setBevel(layout.category,5,"rgba(10,23,53,0.5)","rgba(255,255,255,0.5)");layout.category_text=_ip._hc(layout.category,40,10,w-80,h-20,fonts.head,palet.dark_blue,"left",fontsz.edit,"- Onderwerpen -");_ip._fk(layout.category_text,"button_dropdown_category",new_gameHandleButtons);if(new_game.form.category!=-1)
+{{}
+var label=_jk("category",new_game.form.category);_ip.setText(layout.category_text,label);}
+w=_ip._gj['buttons'].ss['dropdown'][0][2];h=_ip._gj['buttons'].ss['dropdown'][0][3];x=_ip.width-w;_ip._hd(layout.buttons,x,y,w,h,'buttons',"dropdown","button_dropdown_category",new_gameHandleButtons);x=layout.split_x;y=345+6*layout.button_margin_y;w=layout.split_w+10;h=90;layout.feedback_text=_ip._hc(layout.buttons,x,y,w,h,"sans-serif",palet.dark_red,"center",30,"");_ip._es(layout.feedback_text,palet.pale_green);_ip._eg(layout.feedback_text,false);_ip.textChangeListener=_ji;}
 function _jk(datagroep,id)
 {var i;var label="---";for(i=0;i<new_game.cms_data[datagroep].length;i++)
 {if(new_game.cms_data[datagroep][i].id==id)
@@ -1043,6 +1049,7 @@ switch(field)
 {case"school":_ip.setText(layout.school_text,label);new_game.form.school=id;{}
 break;case"groep":_ip.setText(layout.groep_text,label);new_game.form.groep=id;{}
 break;case"plaats":_ip.setText(layout.plaats_text,label);new_game.form.plaats=id;{}
+break;case"category":_ip.setText(layout.category_text,label);new_game.form.category=id;{}
 break;}
 _ip._fa(layout.popup);_ip._ey();}else
 {}}}
@@ -1067,13 +1074,16 @@ if((new_game.form.naam==""&&new_game.form.wachtwoord=="")||(new_game.form.naam.i
 {}
 _ip._em("user_naam",new_game.form.naam);_ip._em("user_wachtwoord",new_game.form.wachtwoord);{}
 _ip._em("user_school",new_game.form.school);_ip._em("user_groep",new_game.form.groep);_ip._em("user_plaats",new_game.form.plaats);if(error=="")
-{var data={};data.naam=new_game.form.naam;data.wachtwoord=new_game.form.wachtwoord;data.school=new_game.form.school;data.groep=new_game.form.groep;data.plaats=new_game.form.plaats;_ip.getVars("new_game.php",data,_jo,_jp)}else
+{var data={};data.naam=new_game.form.naam;data.wachtwoord=new_game.form.wachtwoord;data.school=new_game.form.school;data.groep=new_game.form.groep;data.plaats=new_game.form.plaats;data.category=new_game.form.category;_ip.getVars("new_game.php",data,_jo,_jp)}else
 {_ip.setText(layout.feedback_text,error);_ip._fd("wrong");_ip._eg(layout.feedback_text,true);{}}}
 function _jo(response)
 {var all;if(response.succes=="1")
 {_ip._fd("right");var data={};data.succes=1;data.stat="new_game";data.user=response.user.naam;_ip.setVars("add_stat.php",data);if(typeof(response.questions)==="undefined")
 {_ip.throwError("Server configuration error: wwjw_new_game.js, line 456");}
-quiz.questions=response.questions;user.data=response.user;quiz.nr_of_questions=quiz.questions.length;quiz.question_order=response.user.question_order;for(all in response)
+quiz.questions=response.questions;user.data=response.user;quiz.nr_of_questions=quiz.questions.length;quiz.question_order=response.user.question_order;for(var i=0;i<quiz.question_order.length;i++)
+{if(quiz.question_order[i]>=quiz.questions.length)
+{quiz.question_order[i]=quiz.questions.length-1;}}
+for(all in response)
 {{}}
 for(all in response.user)
 {{}}
@@ -1084,10 +1094,10 @@ switch(parseInt(response.user.plaats))
 quiz.init();}else
 {var data={};data.succes=0;data.stat="new_game";_ip.setVars("add_stat.php",data);_ip.setText(layout.feedback_text,"Mislukt: "+response.error);_ip._eg(layout.feedback_text,true);_ip._fd("wrong");{}}}
 function _jp(response)
-{var data={};data.succes=0;data.stat="new_game";_ip.setVars("add_stat.php",data);_ip.setText(layout.feedback_text,"Communication with the server interupted,<br> try again later.");_ip._eg(layout.feedback_text,true);_ip._fd("wrong");{}}
+{var data={};data.succes=0;data.stat="new_game";_ip.setVars("add_stat.php",data);_ip.setText(layout.feedback_text,"Server bezet, probeer later");_ip._eg(layout.feedback_text,true);_ip._fd("wrong");{}}
 function new_gameHandleButtons(label)
 {switch(label)
-{case"button_continue_new_game":_jn();break;case"button_dropdown_school":_jl("school");break;case"button_dropdown_groep":_jl("groep");break;case"button_dropdown_plaats":_jl("plaats");break;case"button_close_popup":_ip._fa(layout.popup);_ip._ey();break;default:{}}}
+{case"button_continue_new_game":_jn();break;case"button_dropdown_school":_jl("school");break;case"button_dropdown_groep":_jl("groep");break;case"button_dropdown_plaats":_jl("plaats");break;case"button_dropdown_category":_jl("category");break;case"button_close_popup":_ip._fa(layout.popup);_ip._ey();break;default:{}}}
 var resume_game={};resume_game.init=_jr;resume_game.form={};function _jr()
 {if(_ip._gn("wwjw_disclaimer")!="1")
 {{}
@@ -1121,7 +1131,10 @@ var data={};data.naam=resume_game.form.naam;data.wachtwoord=resume_game.form.wac
 function _jv(response)
 {var all;if(response.succes=="1")
 {var data={};data.succes=1;data.stat="login";data.user=response.user.naam;_ip.setVars("add_stat.php",data);{}
-quiz.questions=response.questions;user.data=response.user;quiz.nr_of_questions=quiz.questions.length;quiz.question_order=response.user.question_order;_jz();for(all in response)
+quiz.questions=response.questions;user.data=response.user;quiz.nr_of_questions=quiz.questions.length;quiz.question_order=response.user.question_order;for(var i=0;i<quiz.question_order.length;i++)
+{if(quiz.question_order[i]>=quiz.questions.length)
+{quiz.question_order[i]=quiz.questions.length-1;}}
+_jz();for(all in response)
 {{}}
 for(all in response.user)
 {{}}
@@ -1176,7 +1189,7 @@ function _kb(response)
 function _kc()
 {if(quiz.selected_answer==-1)
 {_ip.showWarning("Selecteer een antwoord.");return;}
-var nr=parseInt(user.data.progress);var q=quiz.questions[quiz.question_order[parseInt(user.data.progress)]];if(typeof(q)==="undefined")
+var nr=parseInt(user.data.progress);console.log(user.data.progress+" of "+quiz.question_order);if(nr>=quiz.questions.length)nr=quiz.questions.length-1;var q=quiz.questions[quiz.question_order[parseInt(user.data.progress)]];if(typeof(q)==="undefined")
 {window.alert("Problem with question order. :"+user.data.progress+"=>"+quiz.question_order[parseInt(user.data.progress)]+">"+quiz.length+"?");}
 var answers=["A","B","C","D"];var selected_answer_text=_ip.getText(layout["a"+quiz.selected_answer+"_text"]);_ip.setText(layout.dummy,q[q.answer]);var right_answer_text=_ip.getText(layout.dummy);{}
 {}
@@ -1203,7 +1216,7 @@ for(all in response)
 return;}else
 {{}
 var hints=response["hints"];{}
-user.data.progress=response["progress"];user.data.punten=response["punten"];user.data.stenen=response["stenen"];user.data.hints=response["hints"];_ip._eg(layout.popup,true);}}
+user.data.progress=response["progress"];user.data.old_punten=user.data.punten;user.data.punten=response["punten"];user.data.stenen=response["stenen"];user.data.hints=response["hints"];_ip._eg(layout.popup,true);}}
 function _ke(failingurl,errordata,thrownError,status)
 {var data={};data.succes=0;data.stat="_ke";data.failingurl=failingurl;data.errordata=errordata;data.thrownError=thrownError;data.status=status;_ip.setVars("add_stat.php",data);_ip.showWarning("Check je internet verbinding: Laadfout.\nHerstel de internet verbinding en ververs de pagina om door te kunnen spelen.");{}}
 function _kf(gekozen,should_be,right_answer_text)
@@ -1216,19 +1229,12 @@ function quiz_showFinishedPopup()
 {var nr=parseInt(user.data.progress);var q=quiz.questions[quiz.question_order[parseInt(user.data.progress)]];layout.popup=_ip._he();_ip._es(layout.popup,"rgba(0,0,0,0.5)");var x,y,w,h;w=985;h=1115;x=_ip.width/2-w/2;y=_ip.height/2-h/2;layout.popup_window=_ip._hi(layout.popup,x,y,w,h);var window_width=w;_ip._es(layout.popup_window,palet.popup_back);_ip._eo(layout.popup_window,0,0,50,"#000");x=88;y=80;w=985-x*2;h=460;var str="";str+="GEFELICITEERD!";_ip._hc(layout.popup_window,x,y,w,h,fonts.head,palet.right_text,"center",fontsz.quiz_mid,str);y=158;var str="";str+="Je hebt het spel uitgespeeld";_ip._hc(layout.popup_window,x,y,w,h,fonts.head,palet.right_text,"center",fontsz.head,str);y+=50;var str="";str+="Je score is "+user.data.punten+" punten!";_ip._hc(layout.popup_window,x,y,w,h,fonts.head,palet.right_text,"center",fontsz.head,str);y+=100;str="Speel het spel nog een keer, bekijk de highscores of bouw nog even in je woonplaats. Je kunt nu natuurlijk ook gewoon stoppen. In dat geval, hopelijk tot ziens!"
 _ip._hc(layout.popup_window,x,y,w,h,fonts.body,palet.body,"left",fontsz.body,str);w=_ip._gj['buttons'].ss['again'][0][2];h=_ip._gj['buttons'].ss['again'][0][3];x=(window_width-w)/2;y=475;_ip._hd(layout.popup_window,x,y,w,h,'buttons',"again","button_again",_kn);w=_ip._gj['buttons'].ss['high'][0][2];h=_ip._gj['buttons'].ss['high'][0][3];x=(window_width-w)/2;y=740;_ip._hd(layout.popup_window,x,y,w,h,'buttons',"high","button_high",_kn);w=_ip._gj['buttons'].ss['city'][0][2];h=_ip._gj['buttons'].ss['city'][0][3];x=(window_width-w)/2;y+=100;_ip._hd(layout.popup_window,x,y,w,h,'buttons',"city","button_city",_kn);w=_ip._gj['buttons'].ss['stop'][0][2];h=_ip._gj['buttons'].ss['stop'][0][3];x=(window_width-w)/2;y+=100;_ip._hd(layout.popup_window,x,y,w,h,'buttons',"stop","button_stop",_kn);}
 function map_CheckNewHouseAvailable()
-{var i;var new_house_available=-1;{}
+{var i;var new_house_available=-1;var new_score=user.data.punten+100;{}
 for(i=0;i<map.shop.length;i++)
-{if(map.shop[i].prijs<user.data.stenen)
-{{}
-var j=0;var placed=false;for(j=0;j<user.data.gekochtehuizen.length;j++)
-{if(user.data.gekochtehuizen[j].id==map.shop[i].img)
-{{}
-placed=true;break;}}
-if(placed==false)
-{if(typeof(user.data.heard_about)!=="undefined")
-{if(user.data.heard_about.indexOf(map.shop[i].img)==-1)
-{user.data.heard_about+=map.shop[i].img+"|";new_house_available=i;}}else
-{user.data.heard_about=map.shop[i].img+"|";new_house_available=i;}}}else
+{console.log(new_score+" punten, quick check of the shop: "+map.shop[i].naam+","+map.shop[i].unlock+","+map.shop[i].unlocked);if(map.shop[i].unlock<=new_score&&map.shop[i].unlocked==false)
+{map.shop[i].unlocked=true;{}
+var j=0;var placed=false;if(placed==false)
+{new_house_available=i;}}else
 {}}
 return new_house_available;}
 function _kg(gekozen)
@@ -1249,7 +1255,9 @@ _ip.getVars("answer_question.php",data,_kd,_ke);layout.popup=_ip._he();_ip._es(l
 y+=th+40;str=q.hint;layout.popup_body=_ip._hc(layout.popup_window,x,y,w,h,fonts.body,palet.body,"left",fontsz.body,str);th=_ip.getTextboxHeight(layout.popup_body);y+=th+40;{}
 w=_ip._gj['buttons'].ss['play'][0][2];h=_ip._gj['buttons'].ss['play'][0][3];x=985/2-w/2;_ip._hd(layout.popup_window,x,y,w,h,'buttons',"continue","button_hint_continue",_kn);w=985;h=y+280;y=_ip.height/2-h/2;x=_ip.width/2-w/2;_ip._ef(layout.popup_window,w,h);_ip._fj(layout.popup_window,x,y);_ip._eg(layout.popup,false);}
 function _ki(nr)
-{var q=quiz.questions[nr];{}
+{if(nr>=quiz.questions.length)nr=quiz.questions.length-1;var q=quiz.questions[nr];if(typeof(q)=="undefined")
+{console.warn("an exception occured "+JSON.stringify(quiz.questions));}
+{}
 {}
 if(parseInt(user.data.progress)==0)
 {{}
@@ -1333,18 +1341,16 @@ _ip._fd("next_question");{}
 _ip._em("lastpage","map");_ip.resizeFunction=_jbmap;map.back_index='location'+map.current_map;if(!_ip._gj.hasOwnProperty(map.back_index))
 {_ip.throwError(map.back_index+" not defined in _gj");}
 map.back_w=_ip._gj[map.back_index].w;map.back_h=_ip._gj[map.back_index].h;map.offset={x:_ip._gj[map.back_index].w/2-_ip.width/2,y:_ip._gj[map.back_index].h/2-_ip.height/2};{}
-map.houses=[];var i=0;for(i=0;i<user.data.gekochtehuizen.length;i++)
-{{}
-map.houses.push({id:"hous_"+user.data.gekochtehuizen[i].id,lx:parseInt(user.data.gekochtehuizen[i].lx),ly:parseInt(user.data.gekochtehuizen[i].ly),moveable:true});}
-map.houses.sort(_ko);_jbmap();if(1)
+map.houses=[];var i=0;for(i=0;i<user.data.bought_per_city[map.current_map].length;i++)
+{map.houses.push({id:"hous_"+user.data.bought_per_city[map.current_map][i].id,lx:parseInt(user.data.bought_per_city[map.current_map][i].lx),ly:parseInt(user.data.bought_per_city[map.current_map][i].ly),moveable:true});}
+console.log("map.current_map: "+map.current_map);console.log("user houses in this city: "+JSON.stringify(map.houses));map.houses.sort(_ko);_jbmap();if(1)
 _kp();else
 {{}
 map.state="displaying";_jbmap();map_UpdateScrollbar();}}
 function _ko(a,b)
 {if(a.ly>b.ly)return 1;if(a.ly<b.ly)return-1;return 0;}
 function _kp()
-{var data={};map.state="loading";data.city=map.current_map;{}
-_ip.getVars("get_map_images_per_city.php",data,_kq,_ks);}
+{var data={};map.state="loading";data.city=map.current_map;_ip.getVars("get_map_images_per_city.php?ck="+(new Date).getTime(),data,_kq,_ks);}
 function _kq(response)
 {{}
 var id;var default_houses_need_to_be_placed="";if(response.succes=="1")
@@ -1356,25 +1362,26 @@ var im=response.images[id];for(var b in im)
 {}}
 var o={};o.src=im.src;o.id=id;o.naam=im.naam;o.w=parseInt(im.w);o.h=parseInt(im.h);o.rx=parseInt(im.rx);o.ry=parseInt(im.ry);if(o.rx>o.w||o.rx<o.w)o.rx=o.w/2;if(o.ry>o.h||o.ry<o.h)o.ry=o.h;o.lx=parseInt(im.lx);o.ly=parseInt(im.ly);o.preload=true;o.kind="sprite";o.ss={};o.ss.house=[[0,0,o.w,o.h,0,o.rx,o.ry]];_ip.addToManifest(o,id,"dataURL",_kr);if(parseInt(im.city)==7)
 {var i;var in_shop=false;for(i=0;i<map.shop.length;i++)
-{{}
-if(map.shop[i].img==id)in_shop=true;}
+{if(map.shop[i].img==id)in_shop=true;}
 if(in_shop==false)
 {{}
-var o={};o.naam=im.naam;o.prijs=parseInt(im.prijs);o.img=id;map.shop.push(o);}}else
+var o={};o.naam=im.naam;o.prijs=parseInt(im.prijs);o.unlock=parseInt(im.unlock);o.unlocked=false;if(user.data.punten>=o.unlock)
+{o.unlocked=true;}
+o.img=id;map.shop.push(o);}}else
 {if(o.lx==0&&o.ly==0)
 {{}
 default_houses_need_to_be_placed+="'"+o.naam+"' ";var o={};o.naam=im.naam;o.prijs=0;o.img=id;o.setpos=true;map.shop.push(o);}else
 {{}
 o.moveable=false;map.houses.push(o);}}}
 {}
-map.shop.sort(byPrice);map.houses.sort(_ko);if(default_houses_need_to_be_placed!="")
+map.shop.sort(byUnlock);map.houses.sort(_ko);if(default_houses_need_to_be_placed!="")
 {_ip.showWarning("Some default houses need to be placed:\n"+default_houses_need_to_be_placed+"\nYou can find these in the shop until you place them.");}}else
 {var all;for(all in response)
 {}}
 if(layout.ismap==true)
 {_kt();}}
-function byPrice(a,b)
-{if(a.prijs>b.prijs)return 1;if(a.prijs<b.prijs)return-1;return 0;}
+function byUnlock(a,b)
+{if(a.unlock>b.unlock)return 1;if(a.unlock<b.unlock)return-1;return 0;}
 function _kr()
 {if(layout.ismap==true)
 {{}
@@ -1444,8 +1451,10 @@ w=_ip.width-map.menu_width;h=_ip.height-map.bar_height;x=map.menu_width;y=map.ba
 layout.popup=_ip._he();_ip._es(layout.popup,"rgba(0,0,0,0.5)");var x,y,w,h;w=985;h=799;x=_ip.width/2-w/2;y=_ip.height/2-h/2;layout.popup_window=_ip._hi(layout.popup,x,y,w,h);_ip._es(layout.popup_window,palet.popup_back);_ip._eo(layout.popup_window,0,0,50,"#000");x=88;y=80;w=985-x*2;h=460;var str="";str+="<h1><center>Welkom thuis</center></h1>";str+="Wat gaat het worden vandaag? Een achtbaan achter de kerk of een manege op de markt? Is jouw voetbalvereniging hoognodig aan een stadion toe? Het is allemaal geen probleem. Je moet alleen de vragen in de game goed beantwoorden. Voor ieder goed antwoord krijg je punten. Heb je genoeg punten verzameld, dan kun je een keuze maken uit een van de gebouwen, attracties of voorzieningen. Een stadion is natuurlijk wel wat duurder dan een speeltuin. Sleep jouw aankoop naar de plek die jij er voor in gedachten hebt en hoppa: het is in één keer een heel stuk prettiger wonen in jouw woonplaats. Succes!";layout.popup_text=_ip._hc(layout.popup_window,x,y,w,h,"sans-serif","#2f2f2f","left",fontsz.body,str);w=_ip._gj['buttons'].ss['play'][0][2];h=_ip._gj['buttons'].ss['play'][0][3];x=985/2-w/2;y=548;_ip._hd(layout.popup_window,x,y,w,h,'buttons',"play","button_play",_le);}
 x=10;y=5;w=_ip._gj['buttons'].ss['prev'][0][2];h=_ip._gj['buttons'].ss['prev'][0][3];_ip._hd(layout.hotspot,x,y,w,h,'buttons',"prev","button_prev",_le);x=520;y=5;w=_ip._gj['buttons'].ss['next'][0][2];h=_ip._gj['buttons'].ss['next'][0][3];_ip._hd(layout.hotspot,x,y,w,h,'buttons',"next","button_next",_le);_ip.startLoop(mapLoop,20);}
 function _kv(nr)
-{_ip._hk(map.shop[nr].canv);var ctx=map.shop[nr].canv.context;ctx.font=fontsz.menu+'px '+fonts.head;ctx.textAlign='left';ctx.fillStyle="#fff";ctx.fillText(nr+" "+map.shop[nr].naam,34,400);ctx.font=fontsz.body+'px '+fonts.body;;ctx.textAlign='right';ctx.fillStyle="#fff";ctx.fillText(map.shop[nr].prijs+" stenen",494,400);ctx.fillStyle="#fff";ctx.fillRect(35,35,map.menu_width-70,320);var fx=(map.menu_width-70)/_ip._gj[map.shop[nr].img].w;var fy=320/_ip._gj[map.shop[nr].img].h;var f=fx;if(fy<fx)f=fy;if(f>0.9&&f<1.1)f=1;else f*=0.9;_ip.drawImage(map.shop[nr].canv,map.shop[nr].img,35+(map.menu_width-70)/2,35+320/2,0,f);if(map.shop[nr].prijs>parseInt(user.data.stenen))
-{ctx.fillStyle="rgba(87,118,135,0.5)";ctx.fillRect(35,35,map.menu_width-70,420);}
+{var w=map.menu_width,h=map.button_height;_ip._hk(map.shop[nr].canv);var ctx=map.shop[nr].canv.context;ctx.font=fontsz.menu+'px '+fonts.head;ctx.textAlign='left';ctx.fillStyle="#fff";ctx.fillText((nr+1)+") "+map.shop[nr].naam,34,400);ctx.font=fontsz.body+'px '+fonts.body;ctx.textAlign='right';ctx.fillStyle="#fff";ctx.fillText(map.shop[nr].prijs+" stenen",494,400);ctx.fillStyle="#fff";ctx.fillRect(35,35,map.menu_width-70,320);var fx=(map.menu_width-70)/_ip._gj[map.shop[nr].img].w;var fy=320/_ip._gj[map.shop[nr].img].h;var f=fx;if(fy<fx)f=fy;if(f>0.9&&f<1.1)f=1;else f*=0.9;_ip.drawImage(map.shop[nr].canv,map.shop[nr].img,35+(map.menu_width-70)/2,35+320/2,0,f);console.log(map.shop[nr].unlock+">"+parseInt(user.data.punten))
+if(map.shop[nr].unlock>parseInt(user.data.punten))
+{ctx.save();ctx.globalCompositeOperation="xor";_ip.drawImage(map.shop[nr].canv,map.shop[nr].img,35+(w-70)/2,35+320/2,0,f);ctx.restore();ctx.fillStyle="rgba(87,118,135,0.9)";ctx.fillRect(0,35,map.menu_width,330);ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.strokeRect(35,35,w-70,320);ctx.strokeRect(35,h-92,w-70,20);ctx.fillStyle="#fff";ctx.font=fontsz.head+'px '+fonts.head;ctx.textAlign='center';var pct=user.data.punten/map.shop[nr].unlock;ctx.fillRect(37,h-90,(w-74)*pct,16);ctx.fillText("beschikbaar bij",w/2,h/2-40);ctx.fillText(map.shop[nr].unlock+" punten",w/2,h/2);}else{if(map.shop[nr].prijs>parseInt(user.data.stenen))
+{ctx.fillStyle="rgba(87,118,135,0.5)";ctx.fillRect(0,35,map.menu_width,420);ctx.fillStyle="#fff";ctx.font=fontsz.head+'px '+fonts.head;ctx.textAlign='center';ctx.fillText("Stenen nodig: "+(map.shop[nr].prijs-user.data.stenen),w/2,h/2);}}
 ctx.fillStyle="#fff";ctx.fillRect(35,map.button_height-3,map.menu_width-70,3);_ip.mouseWheelCallback=map_HandleMousewheel;}
 function map_drawScrollbar()
 {var i;_ip._hk(layout.scroll_canvas);var ctx=layout.scroll_canvas.context;ctx.fillStyle="rgba(255,255,255,0.6)";ctx.fillRect(0,0,layout.scroll.back.w,layout.scroll.back.h);ctx.fillStyle="rgba(255,255,255,0.6)";ctx.fillRect(layout.scroll.track.x,layout.scroll.track.y,layout.scroll.track.w,layout.scroll.track.h);ctx.fillStyle=palet.pale_blue;ctx.fillRect(layout.scroll.track.x,layout.scroll.track.y+layout.scroll.y,layout.scroll.track.w,layout.scroll.size);ctx.beginPath();ctx.moveTo(10,35);ctx.lineTo(25,12);ctx.lineTo(40,35);ctx.closePath();ctx.fill();ctx.beginPath();ctx.moveTo(10,layout.scroll.back.h-35);ctx.lineTo(25,layout.scroll.back.h-12);ctx.lineTo(40,layout.scroll.back.h-35);ctx.closePath();ctx.fill();}
@@ -1466,14 +1475,16 @@ function map_clampScrollbar()
 function map_userControlledScrollbar()
 {map_clampScrollbar();map_drawScrollbar();map.menu_offset=(map.menu_height-layout.menu_viewport)*layout.scroll.y/(layout.scroll.track.h-layout.scroll.size);map.menu_speed=1.1;}
 function map_HandleDown(id,x,y)
-{if(y>map.bar_height)
-if(x<map.menu_width)
+{console.log("map_HandleDown");if(y>map.bar_height)
+{if(x<map.menu_width)
 {map.menudragdir="";{}
 map.down={x:x,y:y};map.button_clicked=Math.floor((y-map.bar_height+map.menu_offset)/map.button_height);map.dragTarget="menu";{}
-var cost=_ky(map.shop[map.button_clicked].img);{}
+var cost=_ky(map.shop[map.button_clicked].img);var unlocked=getUnlockFromId(map.shop[map.button_clicked].img);{}
 {}
 {}
 if(cost>user.data.stenen)
+{map.button_clicked=-1;{}}
+if(unlocked>user.data.punten)
 {map.button_clicked=-1;{}}}else
 {if(x<(layout.scroll.back.x+layout.scroll.back.w))
 {map.down={x:x,y:y};x=x-layout.scroll.back.x;y=y-layout.scroll.back.y;{}
@@ -1508,14 +1519,14 @@ for(var all in map.houses[hit_house])
 {{}}
 map.dragTarget="moveHouse";map.drag_object=map.houses.splice(hit_house,1)[0];refreshMap=false;_kt();_ip._hk(layout.dragitem);layout.dragitem.context.globalAlpha=0.7;map.dragging=1;var im=map.drag_object.id;{}
 map.drag_object.ox=map.drag_object.lx;map.drag_object.oy=map.drag_object.ly;map.drag_object.w=_ip._gj[im].w;map.drag_object.h=_ip._gj[im].h;map.drag_object.gx=(map.drag_object.ox-_ip._gj[im].rx)-(x-map.menu_width+map.offset.x);map.drag_object.gy=(map.drag_object.oy-_ip._gj[im].ry)-(y-map.bar_height+map.offset.y);_ip.drawImage(layout.dragitem,im,map.drag_object.w/2,map.drag_object.h/2,0,1);_ip._fj(layout.dragitem,x+map.drag_object.gx,y+map.drag_object.gy);_ip._eg(layout.dragitem,true);map.button_clicked=-1;}else
-{map.down={x:x,y:y};map.dragTarget="map";}}}}
+{map.down={x:x,y:y};map.dragTarget="map";}}}}else{map.dragTarget="bar";map.dragging=-1;}}
 function map_HandleUp(id,x,y)
 {switch(map.dragTarget)
 {case"scroll":map.dragging=-1;{}
 break;case"moveHouse":{}
 if(map.dragging!=-1)
 {{}
-_ip._fd("place");var map_x=Math.floor(x)+map.offset.x-map.menu_width;var map_y=Math.floor(y)+map.offset.y-map.bar_height;map_x=map_x+map.drag_object.gx+_ip._gj[map.drag_object.id].rx;map_y=map_y+map.drag_object.gy+_ip._gj[map.drag_object.id].ry;map.houses.push({id:map.drag_object.id,lx:map_x,ly:map_y,moveable:true});map.just_changed=true;map.houses.sort(_ko);_kt();var data={};data.id=map.drag_object.id.split("_")[1];data.lx=Math.floor(map_x);data.ly=Math.floor(map_y);data.ox=Math.floor(map.drag_object.ox);data.oy=Math.floor(map.drag_object.oy);data.naam=_ip._gn("user_naam");data.wachtwoord=_ip._gn("user_wachtwoord");{}
+_ip._fd("place");var map_x=Math.floor(x)+map.offset.x-map.menu_width;var map_y=Math.floor(y)+map.offset.y-map.bar_height;map_x=map_x+map.drag_object.gx+_ip._gj[map.drag_object.id].rx;map_y=map_y+map.drag_object.gy+_ip._gj[map.drag_object.id].ry;map.houses.push({id:map.drag_object.id,lx:map_x,ly:map_y,moveable:true});map.just_changed=true;map.houses.sort(_ko);_kt();var data={};data.id=map.drag_object.id.split("_")[1];data.lx=Math.floor(map_x);data.ly=Math.floor(map_y);data.ox=Math.floor(map.drag_object.ox);data.oy=Math.floor(map.drag_object.oy);data.naam=_ip._gn("user_naam");data.map=map.current_map;data.wachtwoord=_ip._gn("user_wachtwoord");{}
 _ip.getVars("move_house.php",data,_kz,_la);_ip._eg(layout.dragitem,false);map.dragging=-1;}
 case"menu":{}
 if(map.dragging!=-1)
@@ -1526,15 +1537,18 @@ _ip._fd("place");var map_x=Math.floor(x)+map.offset.x-map.menu_width;var map_y=M
 {}
 {}
 var data={};data.id=map.drag_object.id.split("_")[1];data.lx=Math.floor(map_x);data.ly=Math.floor(map_y);_ip.getVars("set_default_pos.php",data,_lb,_lc);}else
-{var data={};data.id=map.drag_object.id.split("_")[1];data.lx=Math.floor(map_x);data.ly=Math.floor(map_y);data.prijs=_ky(map.drag_object.id);data.naam=_ip._gn("user_naam");data.wachtwoord=_ip._gn("user_wachtwoord");_ip.getVars("buy_house.php",data,_kz,_la);user.data.gekochtehuizen.push({id:data.id,lx:data.lx,ly:data.ly});user.data.stenen-=parseInt(data.prijs);_ip.setText(layout.score_label,"Score <em>"+parseInt(user.data.punten)+"</em> punten / <em>"+parseInt(user.data.stenen)+"</em> stenen");var i;for(i=0;i<map.shop.length;i++)
+{var data={};data.id=map.drag_object.id.split("_")[1];data.lx=Math.floor(map_x);data.ly=Math.floor(map_y);data.prijs=_ky(map.drag_object.id);data.naam=_ip._gn("user_naam");data.map=map.current_map;data.wachtwoord=_ip._gn("user_wachtwoord");_ip.getVars("buy_house.php",data,_kz,_la);user.data.bought_per_city[map.current_map].push({id:data.id,lx:data.lx,ly:data.ly});user.data.stenen-=parseInt(data.prijs);_ip.setText(layout.score_label,"Score <em>"+parseInt(user.data.punten)+"</em> punten / <em>"+parseInt(user.data.stenen)+"</em> stenen");var i;for(i=0;i<map.shop.length;i++)
 {_kv(i);}
 var data={};data.stat="house";data.id=map.drag_object.id.split("_")[1];data.user=user.data.naam;_ip.setVars("add_stat.php",data);}
 _ip._eg(layout.dragitem,false);map.dragging=-1;}
 break;}}
 function _ky(id)
 {var i;for(i=0;i<map.shop.length;i++)
-{{}
-if(map.shop[i].img==id)return map.shop[i].prijs;}
+{if(map.shop[i].img==id)return map.shop[i].prijs;}
+return-1;}
+function getUnlockFromId(id)
+{var i;for(i=0;i<map.shop.length;i++)
+{if(map.shop[i].img==id)return map.shop[i].unlock;}
 return-1;}
 function _kz(response)
 {var id;if(parseInt(response.succes)==1)
@@ -1549,10 +1563,12 @@ function _lb(response)
 function _lc(response)
 {{}}
 function _ld(id,x,y,dx,dy)
-{switch(map.dragTarget)
+{console.log("_ld "+map.dragTarget);switch(map.dragTarget)
 {case"scroll":if(map.dragging!=-1)
 {x=x-layout.scroll.back.x;y=y-layout.scroll.back.y;y=y-layout.scroll.track.y;layout.scroll.y=(y-layout.scroll.down.y);map_userControlledScrollbar();}
-break;case"moveHouse":_ip._fj(layout.dragitem,x+map.drag_object.gx,y+map.drag_object.gy);break;case"menu":if(map.dragging!=-1)
+break;case"moveHouse":if(map.dragging!=-1)
+{_ip._fj(layout.dragitem,x+map.drag_object.gx,y+map.drag_object.gy);}
+break;case"menu":if(map.dragging!=-1)
 {_ip._fj(layout.dragitem,x+map.drag_object.gx,y+map.drag_object.gy);{}}else
 {var swipe_dx=map.down.x-x;var swipe_dy=map.down.y-y;var swipe_len=Math.sqrt(swipe_dx*swipe_dx+swipe_dy*swipe_dy);if(swipe_len>10||map.menudragdir!="")
 {if(map.menudragdir=="")
@@ -1569,7 +1585,7 @@ map.dragging=map.button_clicked;_ip._hk(layout.dragitem);layout.dragitem.context
 break;case"map":map.offset.dx=dx;map.offset.dy=dy;break;}}
 function _le(label)
 {switch(label)
-{case"button_play":_ip.stopLoop();wwjw.page_extras="";quiz.init();break;case"button_stop":_ip.stopLoop();start.init();break;case"button_continue":_ip.stopLoop();var nr=parseInt(user.data.progress);quiz.init();break;case"button_high":_ip.stopLoop();high.init();break;case"button_prev":map.current_map--;if(map.current_map==0)map.current_map=6;initMap();break;case"button_next":map.current_map++;if(map.current_map==7)map.current_map=1;initMap();break;default:{}}}
+{case"button_play":_ip.stopLoop();wwjw.page_extras="";quiz.init();break;case"button_stop":_ip.stopLoop();start.init();break;case"button_continue":_ip.stopLoop();var nr=parseInt(user.data.progress);quiz.init();break;case"button_high":_ip.stopLoop();high.init();break;case"button_prev":map.dragging=-1;map.dragTarget="none";map.current_map--;if(map.current_map==0)map.current_map=6;initMap();break;case"button_next":map.dragging=-1;map.dragTarget="none";map.current_map++;if(map.current_map==7)map.current_map=1;initMap();break;default:{}}}
 var high={};var empty_list=[];high.init=_lh;high.bar_height=80;high.tabs=["plaats","school","speler"];high.periods=["week","maand","jaar","alles"];high.label="all";high.id="all";high.rank=-1;high.selected_tab=2;high.selected_period=0;function _lh()
 {{}
 _ip._em("lastpage","high");_ip._fd("next_question");var data={};data.page="high";data.user=user.data.naam;data.stat="page";_ip.setVars("add_stat.php",data);var i;empty_list=[];for(i=0;i<12;i++)empty_list.push({naam:"loading",school:0,groep:0,plaats:0,punten:-1});high.data=empty_list;var data={};data.label=high.label;data.id=high.id;data.naam=user.data.naam;data.period=high.periods[high.selected_period];{}
@@ -1583,7 +1599,7 @@ function _lj(response)
 {{}}
 function _jbhigh()
 {{}
-_ip._gp();layout={};layout.back=_ip._he();_ip._es(layout.back,palet.green);var w,h,x,y,f,tx,ty,string;layout.split_y=343;w=_ip.width;h=layout.split_y;x=0;y=0;layout.bar=_ip._hi(layout.back,x,y,w,h);_ip._es(layout.bar,palet.pale_blue);layout.split_h2=layout.split_y;layout.split_y2=_ip.height-260;x=0;y=layout.split_y2;w=_ip.width;h=layout.split_h2;layout.bar2=_ip._hi(layout.back,x,y,w,h);_ip._es(layout.bar2,palet.pale_blue);w=2048;h=1361;x=(_ip.width-2048)/2;y=0;layout.high=_ip._hi(layout.back,x,y,w,h);layout.tab=[];var i;for(i=0;i<3;i++)
+_ip._gp();layout={};layout.back=_ip._he();_ip._es(layout.back,palet.green);var w,h,x,y,f,tx,ty,string;layout.split_y=343;w=_ip.width;h=layout.split_y;x=0;y=0;layout.bar=_ip._hi(layout.back,x,y,w,h);_ip._es(layout.bar,palet.pale_blue);layout.split_h2=layout.split_y;layout.split_y2=_ip.height-260;x=0;y=layout.split_y2;w=_ip.width;h=layout.split_h2;layout.bar2=_ip._hi(layout.back,x,y,w,h);_ip._es(layout.bar2,palet.pale_blue);w=2048;h=1361;x=(_ip.width-2048)/2;y=0;layout.high=_ip._hi(layout.back,x,y,w,h);layout.tab=[];var i;for(i=0;i<high.tabs.length;i++)
 {x=2048-(334+30)*(i+1);y=layout.split_y-76;w=334;h=132;layout.tab[i]=_ip._hi(layout.high,x,y,w,h);if(high.selected_tab==i)
 {_ip._es(layout.tab[i],palet.green);}else
 {_ip._es(layout.tab[i],palet.pale_green);}
@@ -1632,7 +1648,7 @@ if(high.rank!=-1)
 _ip._eg(layout.own_score,true);}
 function _lq(nr)
 {{}
-high.selected_tab=nr;var i;for(i=0;i<3;i++)
+high.selected_tab=nr;var i;for(i=0;i<high.tabs.length;i++)
 {if(high.selected_tab==i)
 {_ip._es(layout.tab[i],palet.green);}else
 {_ip._es(layout.tab[i],palet.pale_green);}}
@@ -1644,7 +1660,7 @@ _ip._hk(layout.score_outside_rank);_ip._eg(layout.own_score,false);var data={};d
 _ip.getVars("get_highscores.php",data,_li,_lj);}
 function highSelectPeriod(nr)
 {{}
-high.selected_period=nr;var i;for(i=0;i<3;i++)
+high.selected_period=nr;var i;for(i=0;i<high.periods.length;i++)
 {if(high.selected_period==i)
 {_ip._es(layout.period[i],palet.green);}else
 {_ip._es(layout.period[i],palet.pale_green);}}

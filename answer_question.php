@@ -68,6 +68,7 @@ if(file_exists($filename))
 		$response['punten']=intval($response['punten'])+intval($clean['punten']);
 		$response['stenen']=intval($response['stenen'])+intval($clean['stenen']);
 		$response['progress']=intval($clean['progress'])+1;
+		$response['last_played']=time(); // keep the last_played in there!
 	}
 	// if he was bad, don't add the points and stones!
 	if($clean['answered']=='b') // bad, bothced

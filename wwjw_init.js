@@ -185,7 +185,15 @@
 			user.data=response.user; // we have this..
 			quiz.nr_of_questions=quiz.questions.length; 
 			quiz.question_order=response.user.question_order; // saved it for later!
+			// check if any of the questions are out of bounds (this happens sometimes when questions get deleted!)
 			
+			for(var i=0;i<quiz.question_order.length;i++)
+			{
+				if(quiz.question_order[i]>=quiz.questions.length)
+				{
+					quiz.question_order[i]=quiz.questions.length-1;
+				}
+			}
 			//Hybrid.setCookie("nr_of_questions", quiz.questions.length); // remember it for on map!
 			
 			// show it for debugging!

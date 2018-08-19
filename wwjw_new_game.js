@@ -42,6 +42,24 @@
 							  {label:"Pius X",id:"fgf45uh"},
 							  {label:"niet van toepassing",id:"666"}];
 	new_game.cms_data.groep=[{label:"Groep 1",id:1},{label:"Groep 2",id:2},{label:"Groep 3",id:3},{label:"Groep 4",id:4},{label:"Groep 5",id:5},{label:"Groep 6",id:6},{label:"Groep 7",id:7},{label:"Groep 8",id:8},{label:"niet van toepassing",id:"666"}];
+	new_game.cms_data.category=cms.tags;
+	for(var i=new_game.cms_data.category.length-1;i>=0;i--)
+	{
+		if(typeof(new_game.cms_data.category[i].questions)=="undefined")
+		{
+			new_game.cms_data.category.splice(i,1); // remove it!
+		}else{
+			if(new_game.cms_data.category[i].questions<30)
+			{
+				new_game.cms_data.category.splice(i,1); // remove it!
+			}else{
+				new_game.cms_data.category[i].label+=" (30/"+new_game.cms_data.category[i].questions+" vragen)";
+			}
+		}
+	}
+	new_game.cms_data.category.push({label:"Alles",id:-1});
+	// copy it from CMS.tags set in script at top of page.php (the gamepage)
+	
 	new_game.cms_data.plaats=[{label:"Steenbergen",id:1},{label:"De Heen",id:2},{label:"Nieuw Vossemeer",id:3},{label:"Kruisland",id:4},{label:"Dinteloord",id:5},{label:"Welberg",id:6}];
 	
 	function initnew_game()
@@ -68,6 +86,7 @@
 			new_game.form.school=-1;
 			new_game.form.groep=-1;
 			new_game.form.plaats=-1;
+			new_game.form.category=-1;
 			if(Hybrid.getCookie("user_naam")!==null) new_game.form.naam=Hybrid.getCookie("user_naam");
 			if(Hybrid.getCookie("user_school")!==null) new_game.form.school=Hybrid.getCookie("user_school");
 			if(Hybrid.getCookie("user_groep")!==null) new_game.form.groep=Hybrid.getCookie("user_groep");
@@ -137,6 +156,7 @@
 		string+="<h1>Weet jij waar je woont?</h1>";
 		string+="Ja, de naam van je stad of dorp, die ken je wel. Maar wat weet je nu echt over jouw plaats? En over de zes kernen die samen de gemeente Steenbergen vormen? In ieder geval weet je lang niet alles. Speel het spel ‘Weet waar je woont’ en dat verandert vanzelf. Beantwoord de vragen en leer alles over de geschiedenis van jouw gemeente. Bovendien krijg je voor ieder goed antwoord punten waarmee je gebouwen of attracties kunt kopen. Plaats die in de plattegrond en bouw jouw ideale woonplaats. Voor je begint, moet je rechts eerst even je gegevens invullen en een wachtwoord aanmaken. Want je wilt toch niet dat iemand met jouw droomstad aan de haal gaat?";
 		Hybrid.createTextBox(layout.wit_vlak,x,y,w,h,"sans-serif","#2f2f2f","left",30,string);
+		 
 		 
 		 // get the split and size of the button bit!!
 		layout.split_x=1040;
@@ -224,12 +244,15 @@
 			var label=new_game_GetLabelFromId("groep",new_game.form.groep);
 			Hybrid.setText(layout.groep_text,label);
 		}
+		
+		
 		// create the listbox button
 		w=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][2];
 		h=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][3];
 		x=Hybrid.width-w;
 		Hybrid.createSpriteButton(layout.buttons,x,y,w,h,'buttons',"dropdown","button_dropdown_groep",new_gameHandleButtons);
-		
+	
+		// plaats
 		w=layout.split_w+10;
 		h=94;
 		x=layout.split_x;
@@ -246,20 +269,42 @@
 			var label=new_game_GetLabelFromId("plaats",new_game.form.plaats);
 			Hybrid.setText(layout.plaats_text,label);
 		}
-
 		// create the listbox button
 		w=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][2];
 		h=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][3];
 		x=Hybrid.width-w;
 		Hybrid.createSpriteButton(layout.buttons,x,y,w,h,'buttons',"dropdown","button_dropdown_plaats",new_gameHandleButtons);
 		
+		// category
+		w=layout.split_w+10;
+		h=94;
+		x=layout.split_x;
+		y=345+5*layout.button_margin_y; //Hybrid.height-h;
+		layout.category=Hybrid.createBox(layout.buttons,x,y,w,h);
+		Hybrid.setBoxColor(layout.category,palet.pale_green); // this should be set to cover all, but that's for later!
+		Hybrid.setBevel(layout.category,5,"rgba(10,23,53,0.5)","rgba(255,255,255,0.5)");
+		layout.category_text=Hybrid.createTextBox(layout.category,40,10,w-80,h-20,fonts.head,palet.dark_blue,"left",fontsz.edit,"- Onderwerpen -");
+		Hybrid.makeButton(layout.category_text, "button_dropdown_category", new_gameHandleButtons); // also right if they hit the text itself!
+		if(new_game.form.category!=-1)
+		{
+			// reflect this in the label!
+			Hybrid.debugmessage("new_game.form.category"+new_game.form.category);
+			var label=new_game_GetLabelFromId("category",new_game.form.category);
+			Hybrid.setText(layout.category_text,label);
+		}
+		// create the listbox button
+		w=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][3];
+		x=Hybrid.width-w;
+		Hybrid.createSpriteButton(layout.buttons,x,y,w,h,'buttons',"dropdown","button_dropdown_category",new_gameHandleButtons);
+		
 		// precreate the feedback..
 		x=layout.split_x;
-		y=920; 
+		y=345+6*layout.button_margin_y; //Hybrid.height-h;
 		w=layout.split_w+10;
-		h=180;
+		h=90;
 //		layout.feedback=Hybrid.createBox(layout.buttons,x,y,w,h);
-		layout.feedback_text=Hybrid.createTextBox(layout.buttons,x,y,w,h,fonts.head,palet.dark_red,"center",fontsz.edit,"");
+		layout.feedback_text=Hybrid.createTextBox(layout.buttons,x,y,w,h,"sans-serif",palet.dark_red,"center",30,"");
 		Hybrid.setBoxColor(layout.feedback_text,palet.pale_green); // this should be set to cover all, but that's for later!
 		Hybrid.setVisible(layout.feedback_text,false); // this should be set to cover all, but that's for later!
 		
@@ -385,6 +430,11 @@
 						new_game.form.plaats=id;
 						Hybrid.debugmessage("plaats set to: "+new_game.form.plaats);
 					break;
+					case "category":
+						Hybrid.setText(layout.category_text,label);
+						new_game.form.category=id;
+						Hybrid.debugmessage("category set to: "+new_game.form.category);
+					break;
 				}
 				Hybrid.removeElement(layout.popup);
 				Hybrid.restoreButtonContext();
@@ -455,6 +505,7 @@
 			data.school=new_game.form.school;
 			data.groep=new_game.form.groep;
 			data.plaats=new_game.form.plaats;
+			data.category=new_game.form.category;
 			Hybrid.getVars("new_game.php",data,new_game_ServerCallback,new_game_ServerFail)
 		}else
 		{
@@ -500,7 +551,13 @@
 			user.data=response.user; // we have this..
 			quiz.nr_of_questions=quiz.questions.length; 
 			quiz.question_order=response.user.question_order; // saved it for later!
-			
+			for(var i=0;i<quiz.question_order.length;i++)
+			{
+				if(quiz.question_order[i]>=quiz.questions.length)
+				{
+					quiz.question_order[i]=quiz.questions.length-1;
+				}
+			}
 			// show it for debugging!
 			for(all in response)
 			{
@@ -521,7 +578,7 @@
 			Hybrid.setCookie("question_order",response.user.question_order.join("_"));
 			Hybrid.setCookie("user_hints",response.user.hints.join("_"));
 			Hybrid.setCookie("user_plaats",response.user.plaats); // this determins what to load in map when we come back unexpectedly (so not via login!)..
-			Hybrid.setCookie("gekochtehuizen",response.user.gekochtehuizen.join("_")); // gekochte huizen, maar daar moeten we misschien nog iets intelligents mee.*/
+			.*/
 
 			// we know the place, so add some houses to the list, we have to load these things dynamically from CMS.
 			Hybrid.debugmessage("user komt uit plaats: "+response.user.plaats+", dus laad de juiste huizen achtergrond..");
@@ -572,7 +629,7 @@
 		Hybrid.setVars("add_stat.php", data);
 			
 		//window.alert("Communication with the server interupted, try again later.");
-		Hybrid.setText(layout.feedback_text,"Communication with the server interupted,<br> try again later.");
+		Hybrid.setText(layout.feedback_text,"Server bezet, probeer later");
 		Hybrid.setVisible(layout.feedback_text,true); // this should be set to cover all, but that's for later!
 		Hybrid.playSound("wrong");
 		Hybrid.debugmessage("Request failed..");
@@ -596,6 +653,9 @@
 			break;				
 			case "button_dropdown_plaats":
 				new_game_createPopupList("plaats");
+			break;				
+			case "button_dropdown_category":
+				new_game_createPopupList("category");
 			break;				
 			case "button_close_popup":
 				// hide popup layer!

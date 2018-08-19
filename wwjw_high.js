@@ -112,7 +112,7 @@
 		// tabs
 		layout.tab=[];
 		var i;
-		for(i=0;i<3;i++)
+		for(i=0;i<high.tabs.length;i++)
 		{
 			x=2048-(334+30)*(i+1);
 			y=layout.split_y-76;
@@ -448,7 +448,7 @@
 		high.selected_tab=nr;
 		// color the tabs
 		var i;
-		for(i=0;i<3;i++)
+		for(i=0;i<high.tabs.length;i++)
 		{
 			if(high.selected_tab==i)
 			{
@@ -501,7 +501,7 @@
 		high.selected_period=nr;
 		// color the periods
 		var i;
-		for(i=0;i<3;i++)
+		for(i=0;i<high.periods.length;i++)
 		{
 			if(high.selected_period==i)
 			{

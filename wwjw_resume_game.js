@@ -235,6 +235,15 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 			user.data=response.user; // we have this..
 			quiz.nr_of_questions=quiz.questions.length; 
 			quiz.question_order=response.user.question_order; // saved it for later!
+			
+			for(var i=0;i<quiz.question_order.length;i++)
+			{
+				if(quiz.question_order[i]>=quiz.questions.length)
+				{
+					quiz.question_order[i]=quiz.questions.length-1;
+				}
+			}
+			
 			quiz_ShowQuestionData();
 			
 			// show it for debugging!
@@ -257,7 +266,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 			Hybrid.setCookie("question_order",response.user.question_order.join("_"));
 			Hybrid.setCookie("user_hints",response.user.hints.join("_"));
 			Hybrid.setCookie("user_plaats",response.user.plaats); // this determins what to load in map when we come back unexpectedly (so not via login!)..
-			Hybrid.setCookie("gekochtehuizen",response.user.gekochtehuizen.join("_")); // gekochte huizen, maar daar moeten we misschien nog iets intelligents mee.*/
+.*/
 
 			// we know the place, so add some houses to the list, we have to load these things dynamically from CMS.
 			Hybrid.debugmessage("user komt uit plaats: "+response.user.plaats+", dus laad de juiste huizen achtergrond..");
