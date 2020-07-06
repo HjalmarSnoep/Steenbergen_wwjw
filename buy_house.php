@@ -11,16 +11,14 @@ $response=array();
 $response['succes']=0;
 
 // clean the variables and echo them:
-// clean the variables and echo them:
 $clean=array();
 foreach ($_GET as $key => $value) 
 {
-	$key=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$key);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
-	$value=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",strip_tags($value));	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$key=preg_replace('/\s+/', '', $key); // only alphanumeric
+	$value=preg_replace('/\s+/', '', strip_tags($value)); // only alphanumeric and NO additional HTML!
 	$clean[$key]=strip_tags($value);
+	//echo($key."=".$clean[$key]."<br>");
 }
-$map=intval($clean["map"]); // we need a map where it's moving!
-
 //echo("<hr>");
 // get to the user progress file!
 $filename="data/games/".$clean['naam'].".txt";
@@ -60,11 +58,11 @@ if(file_exists($filename))
 			$new_house['id']=$clean['id'];
 			$new_house['lx']=intval($clean['lx']);
 			$new_house['ly']=intval($clean['ly']);
-			array_push($response['bought_per_city'][$map],$new_house);
+			array_push($response['gekochtehuizen'],$new_house);
 			
 			
 			// we should save response as well. (means an extra succes=1 is added, I don't care!)
-			file_put_contents($filename,json_encode($response, JSON_PRETTY_PRINT));
+			file_put_contents($filename,json_encode($response));
 		}else
 		{
 			$response['succes']=0;

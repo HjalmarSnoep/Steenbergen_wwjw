@@ -5,15 +5,13 @@ $path_to_root=$_SERVER['DOCUMENT_ROOT'];
 $path_to_data="data/";
 $path_to_cms_data=$path_to_root."/mgcms/data";
 
-// clean the variables and echo them:
 $clean=array();
 foreach ($_GET as $key => $value) 
 {
-	$key=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$key);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
-	$value=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",strip_tags($value));	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$key=preg_replace('/\s+/', '', $key); // only alphanumeric
+	$value=preg_replace('/\s+/', '', strip_tags($value)); // only alphanumeric and NO additional HTML!
 	$clean[$key]=strip_tags($value);
 }
-
 $response=array();
 $response['succes']=0;
 
@@ -85,19 +83,6 @@ if ($handle = opendir($dir))
 $max_questions=30;
 $total_order=array();
 for($i=0;$i<$nr_of_questions;$i++) $total_order[$i]=$i;
-// if category different than -1
-// preload ready made question list of tag!
-if($response['user']['category']!="-1")
-{
-		$category_file=$path_to_cms_data."/tags/questions_".$response['user']['category'].".json";
-		if(file_exists($category_file))
-		{
-			$total_order=json_decode(file_get_contents($category_file),true);
-		}else{
-			$game['error_message']="category-question-list could not be fount for category: ".$category_file;// $game['category'];
-		}
-	}
-
 shuffle($total_order);
 $order=array();
 // now copy to a new array for just the first 30!!

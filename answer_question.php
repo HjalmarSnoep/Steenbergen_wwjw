@@ -11,15 +11,15 @@ $response=array();
 $response['succes']=0;
 
 // clean the variables:
-// clean the variables and echo them:
 $clean=array();
 foreach ($_GET as $key => $value) 
 {
-	$key=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$key);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
-	$value=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",strip_tags($value));	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$key=preg_replace('/\s+/', '', $key); // only alphanumeric
+	$value=preg_replace('/\s+/', '', strip_tags($value)); // only alphanumeric and NO additional HTML!
 	$clean[$key]=strip_tags($value);
+	// debug only
+	//echo($key."=".$clean[$key]."<br>");
 }
-
 // debug only
 //echo("<hr>");
 // get to the user progress file!
@@ -68,7 +68,6 @@ if(file_exists($filename))
 		$response['punten']=intval($response['punten'])+intval($clean['punten']);
 		$response['stenen']=intval($response['stenen'])+intval($clean['stenen']);
 		$response['progress']=intval($clean['progress'])+1;
-		$response['last_played']=time(); // keep the last_played in there!
 	}
 	// if he was bad, don't add the points and stones!
 	if($clean['answered']=='b') // bad, bothced
@@ -89,6 +88,7 @@ if(file_exists($filename))
 		}	
 	}
 	// we should save response as well. (means an extra succes=1 is added, I don't care!)
+	$response['last_played']=time(); // keep a last_played..
 	file_put_contents($filename,json_encode($response));
 	
 	// check if we need to create highscores

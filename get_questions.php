@@ -28,6 +28,7 @@ $path_to_data="data/"; // here you will find games, data etc..
 
 $dir_content=array();
 
+
 $response=array();
 $response['succes']=1; // this will contain 0 or 1
 
@@ -72,6 +73,7 @@ for($i=0;$i<$nr_of_response;$i++)
 	$ext = array_pop( $temp );
 	$id = implode( '.', $temp );
 	$out_str.='{"id":"'.$id.'",'.$lb;// also put in the timestamp!
+	
 	
 	$content=file($dir."/".$dir_content[$i], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 	$response["questions"][$question_counter]=array();

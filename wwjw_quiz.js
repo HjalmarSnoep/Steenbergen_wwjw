@@ -154,8 +154,6 @@
 			return;
 		}
 		var nr=parseInt(user.data.progress );
-		console.log(user.data.progress+ " of "+quiz.question_order );
-		if(nr>=quiz.questions.length) nr=quiz.questions.length-1;
 		var q=quiz.questions[quiz.question_order[parseInt(user.data.progress)]]; // Q is undefined sometiimes..
 		if(typeof(q)==="undefined")
 		{
@@ -273,7 +271,6 @@
 			//Hybrid.setCookie("user_hints",hints);	
 			// we update the user model
 			user.data.progress=response["progress"];
-			user.data.old_punten=user.data.punten; // we can use this to check if user has just played a new house loose?
 			user.data.punten=response["punten"];
 			user.data.stenen=response["stenen"];
 			user.data.hints=response["hints"];
@@ -328,7 +325,7 @@
 		var str="";
 		str+="Dat is Helaas fout!";
 		Hybrid.createTextBox(layout.popup_window,x,y,w,h,fonts.head,palet.wrong_text,"center",fontsz.quiz_mid,str);
-			
+
 		y=236;
 		var str="";
 		str+="Het had moeten zijn antwoord "+should_be+":<br>";
@@ -351,6 +348,12 @@
 		x=985/2-w/2;
 		y=928;
 		Hybrid.createSpriteButton(layout.popup_window,x,y,w,h,'buttons',"play","button_wrong_continue",handleButtonsQuiz);
+		
+		// create button SPEAK
+		w=Hybrid.graphics_manifest['buttons'].ss['speak'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['speak'][0][3];
+		Hybrid.createSpriteButton(layout.popup_window,985-w,0,w,h,'buttons',"speak","button_speak_right",handleButtonsQuiz);
+
 	}
 	
 	function quiz_showFinishedPopup()
@@ -426,22 +429,40 @@
 		// we need to find out if there is any new houses available, if so, we need to show this to the user.
 		var i;
 		var new_house_available=-1;
-		var new_score=user.data.punten+100; // act as if you allready have gotten the points, this runs via backend I think, but still..
 		Hybrid.debugmessage("map_CheckNewHouseAvailable :"+map.shop.length+ "houses!");
 		for(i=0;i<map.shop.length;i++)
 		{
-			console.log(new_score+" punten, quick check of the shop: "+map.shop[i].naam+","+map.shop[i].unlock+","+ map.shop[i].unlocked);
-			if(map.shop[i].unlock<=new_score && map.shop[i].unlocked==false)
+			if(map.shop[i].prijs<user.data.stenen)
 			{
-				map.shop[i].unlocked=true; // only once!
 				Hybrid.debugmessage("house available:"+map.shop[i].naam+" id:"+map.shop[i].img);
 				// check if it's placed!
 				var j=0;
 				var placed=false;
+				for(j=0;j<user.data.gekochtehuizen.length;j++)
+				{
+					if(user.data.gekochtehuizen[j].id==map.shop[i].img)
+					{
+						Hybrid.debugmessage("this house is already placed!");
+						placed=true;
+						break;
+					}
+				}
 				if(placed==false)
 				{
 					// you might need to hear about this house.
-					new_house_available=i;  // map.shop.nr, never -1!
+					// but you ONLY hear about each available house once!
+					if(typeof(user.data.heard_about)!=="undefined")
+					{
+						if(user.data.heard_about.indexOf(map.shop[i].img)==-1)
+						{
+							user.data.heard_about+=map.shop[i].img+"|";
+							new_house_available=i; // map.shop.nr, never -1!
+						}
+					}else
+					{
+						user.data.heard_about=map.shop[i].img+"|";
+						new_house_available=i;  // map.shop.nr, never -1!
+					}
 				}
 			}else
 			{
@@ -545,6 +566,13 @@
 		str=q.right;
 		layout.popup_body=Hybrid.createTextBox(layout.popup_window,x,y,w,h,fonts.body,palet.body,"left",fontsz.body,str);
 		
+		// create button SPEAK
+		w=Hybrid.graphics_manifest['buttons'].ss['speak'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['speak'][0][3];
+		x=985-w;
+		Hybrid.createSpriteButton(layout.popup_window,x,0,w,h,'buttons',"speak","button_speak_right",handleButtonsQuiz);
+		
+		
 		// create button spelen
 		w=Hybrid.graphics_manifest['buttons'].ss['play'][0][2];
 		h=Hybrid.graphics_manifest['buttons'].ss['play'][0][3];
@@ -628,6 +656,12 @@
 		x=985/2-w/2;
 		Hybrid.createSpriteButton(layout.popup_window,x,y,w,h,'buttons',"continue","button_hint_continue",handleButtonsQuiz);
 
+		// create button SPEAK
+		w=Hybrid.graphics_manifest['buttons'].ss['speak'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['speak'][0][3];
+		x=985-w;
+		Hybrid.createSpriteButton(layout.popup_window,x,0,w,h,'buttons',"speak","button_speak_hint",handleButtonsQuiz);
+
 		// set position of window!
 		w=985;
 		h=y+280;
@@ -643,12 +677,7 @@
 	
 	function quiz_ShowQuestion(nr)
 	{
-		if(nr>=quiz.questions.length) nr=quiz.questions.length-1;
 		var q=quiz.questions[nr];
-		if(typeof(q)=="undefined")
-		{
-			console.warn("an exception occured "+JSON.stringify(quiz.questions));
-		}
 	
 		Hybrid.debugmessage("quiz_ShowQuestion "+(nr+1));
 		
@@ -721,6 +750,7 @@
 		
 		
 		var i;
+		q.hussle_antwoorden=hussle_antwoorden; // keep the hussle_antwoorden voor de speak.
 		for(i=0;i<4;i++)
 		{
 			Hybrid.setText(layout["a"+i+"_text"],q[ answers[hussle_antwoorden[i]] ]);
@@ -728,6 +758,7 @@
 			Hybrid.debugmessage("place answers in button: "+th);
 			Hybrid.moveBox(layout["a"+i+"_text"],124,90-th/2);
 		}
+		Hybrid.stopVoice();
 		quizHelperDrawAnswerCanvasses();
 	}
 	
@@ -889,6 +920,21 @@
 		layout.answer_button=Hybrid.createSpriteButton(layout.quiz,x,y,w,h,'buttons',"answer","button_answer",handleButtonsQuiz);
 		Hybrid.setVisible(layout.answer_button,false);
 		
+		// create button SPEAK
+		w=Hybrid.graphics_manifest['buttons'].ss['speak'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['speak'][0][3];
+		x=104;
+		y=137;
+		Hybrid.createSpriteButton(layout.quiz,x,y,w,h,'buttons',"speak","button_speak_question",handleButtonsQuiz);
+		
+		// create button SPEAK Answer
+		for(i=0;i<4;i++)
+		{
+			x=2048-104;
+			y=345+(quiz.button_height-16)*i; // 172 is inner, so  thickness =8
+			Hybrid.createSpriteButton(layout.quiz,x,y,w,h,'buttons',"speak","button_speak_answer_"+i,handleButtonsQuiz);
+		}
+		
 		// create button hint
 		w=Hybrid.graphics_manifest['buttons'].ss['hint'][0][2];
 		h=Hybrid.graphics_manifest['buttons'].ss['hint'][0][3];
@@ -1025,8 +1071,32 @@
 			quizHelperDrawAnswerCanvasses();
 			
 		}
+		var q=quiz.questions[quiz.question_order[parseInt(user.data.progress)]]; // Q is undefined sometiimes..
+		var answer_codes=["A","B","C","D"];
 		switch(label)
 		{
+			case "button_speak_question":
+				Hybrid.playVoice("question_"+q.id+"_body.mp3");
+			break;
+			case "button_speak_right":
+				q=quiz.questions[quiz.question_order[parseInt(user.data.progress)-1]]; // we have just progressed one question, so we have to go back one question..
+				Hybrid.playVoice("question_"+q.id+"_right.mp3");
+			break;
+			case "button_speak_hint":
+				Hybrid.playVoice("question_"+q.id+"_hint.mp3");
+			break;
+			case "button_speak_answer_0":
+				Hybrid.playVoice("question_"+q.id+"_"+answer_codes[q.hussle_antwoorden[0]]+".mp3");
+			break;
+			case "button_speak_answer_1":
+				Hybrid.playVoice("question_"+q.id+"_"+answer_codes[q.hussle_antwoorden[1]]+".mp3");
+			break;
+			case "button_speak_answer_2":
+				Hybrid.playVoice("question_"+q.id+"_"+answer_codes[q.hussle_antwoorden[2]]+".mp3");
+			break;
+			case "button_speak_answer_3":
+				Hybrid.playVoice("question_"+q.id+"_"+answer_codes[q.hussle_antwoorden[3]]+".mp3");
+			break;
 			case "button_place_on_map":
 				map.init();
 			break;
