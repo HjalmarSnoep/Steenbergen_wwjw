@@ -13,9 +13,9 @@
 	map.dragging = -1; // no item being dragged!
 	map.drag_object = {}; // store stuff here
 	map.houses = [];
-	map.current_map = -1; // meaning, your own choice.., set in init directly!
+	map.current_map = -1;
 	map.shop = []; // we want to fill this ONLY once!
-	map.plaats = ["null", "Steenbergen", "De Heen", "Nieuw Vossemeer", "Kruisland", "Dinteloord", "Welberg"]; // op volgorde!
+	map.plaats = ["null", "Steenbergen", "De Heen", "Nieuw Vossemeer", "Kruisland", "Dinteloord", "Welberg"]; // merge
 
 	function initMap() {
 	    var data = {};
@@ -25,17 +25,17 @@
 	    Hybrid.setVars("add_stat.php", data);
 
 	    if (map.current_map == -1) {
-	        map.current_map = user.data.plaats; // make sure we show the current map of the user!
-	    }
+	        map.current_map = user.data.plaats;
+	    } // merge!
 
 	    Hybrid.playSound("next_question");
-	    Hybrid.debugmessage("START map called! Plaats:" + map.current_map);
+	    Hybrid.debugmessage("START map called! Plaats:" + user.data.plaats);
 	    Hybrid.setCookie("lastpage", "map");
 	    Hybrid.resizeFunction = handleResizemap;
 
 	    // set the location, can be 6 different ones!
 	    map.back_index = 'location' + map.current_map;
-	    //		Hybrid.debugmessage("Hybrid.graphics_manifest['"+map.back_index+"']: ");
+	    Hybrid.debugmessage("Hybrid.graphics_manifest['" + map.back_index + "']: ");
 	    //Hybrid.debugmessage(Hybrid.graphics_manifest[map.back_index]); // this way it prints the internal structure as well!
 
 
@@ -51,16 +51,16 @@
 	    };
 
 
-	    // fix old user.data.bought_per_city[map.current_map]
+		// fix old user.data.bought_per_city[map.current_map]
 	    Hybrid.debugmessage("user.data.bought_per_city[map.current_map]: " + JSON.stringify(user.data.bought_per_city));
 	    //user.data.bought_per_city[map.current_map]
-
+		
 	    map.houses = [];
 	    // default houses will be placed in map_fillShop!
 	    // place the user houses from the server (user.data.bought_per_city[map.current_map])!
 	    var i = 0;
 	    for (i = 0; i < user.data.bought_per_city[map.current_map].length; i++) {
-	        //			Hybrid.debugmessage("plaats gekochte huizen: "+user.data.bought_per_city[map.current_map][i].id+" ->"+user.data.bought_per_city[map.current_map][i].lx+","+user.data.bought_per_city[map.current_map][i].ly);
+	        Hybrid.debugmessage("plaats gekochte huizen: " + user.data.bought_per_city[map.current_map][i].id + " ->" + user.data.bought_per_city[map.current_map][i].lx + "," + user.data.bought_per_city[map.current_map][i].ly);
 	        map.houses.push({
 	            id: "hous_" + user.data.bought_per_city[map.current_map][i].id,
 	            lx: parseInt(user.data.bought_per_city[map.current_map][i].lx),
@@ -68,10 +68,9 @@
 	            moveable: true
 	        });
 	    }
-
+		
 	    console.log("map.current_map: " + map.current_map);
 	    console.log("user houses in this city: " + JSON.stringify(map.houses));
-
 
 	    // generate some random houses for testing..
 	    //var i;
@@ -104,13 +103,13 @@
 	    map.state = "loading";
 	    //if(layout.ismap==true) Hybrid.setVisible(layout.loading_anim, true); // index, you get it from the graphics manifest!
 
-	    data.city = map.current_map;
-	    //Hybrid.debugmessage("call get_map_images_per_city.php?city="+data.city);
-	    Hybrid.getVars("get_map_images_per_city.php?ck=" + (new Date).getTime(), data, map_ServerCallback, map_ServerFail); // cachekiller, this is kind of important!
+	    data.city = map.current_map; // merge update..
+	    Hybrid.debugmessage("call get_map_images_per_city.php?city=" + data.city);
+	    Hybrid.getVars("get_map_images_per_city.php?ck=" + (new Date).getTime(), data, map_ServerCallback, map_ServerFail);
 	}
 
 	function map_ServerCallback(response) {
-	    Hybrid.debugmessage("map_fillShop got data!" + JSON.stringify(response));
+	    Hybrid.debugmessage("map_fillShop got data!");
 	    var id;
 	    var default_houses_need_to_be_placed = "";
 	    if (response.succes == "1") {
@@ -123,21 +122,21 @@
 	                    Hybrid.debugmessage(b + "=" + im[b]);
 	            }
 	            /*
-			 "images": {
-				"hous_fOC1afuLwj": {
-					"src": "data: ;base64-Csdfry4",
-					"w": "287",
-					"h": "221",
-					"rx": "160",
-					"ry": "216",
-					"lx": "0",
-					"ly": "0",
-					"preload": true,
-					"city": "7",
-					"prijs": "250",
-					"naam": "stadion.png",
-					"kind": "sprite"
-				}
+	 "images": {
+        "hous_fOC1afuLwj": {
+            "src": "data: ;base64-Csdfry4",
+            "w": "287",
+            "h": "221",
+            "rx": "160",
+            "ry": "216",
+            "lx": "0",
+            "ly": "0",
+            "preload": true,
+            "city": "7",
+            "prijs": "250",
+            "naam": "stadion.png",
+            "kind": "sprite"
+        }
 				*/
 	            // always add it to the manifest, it will only REALLY add it to the manifest if it's not already got an equivalent!!!
 	            var o = {};
@@ -169,13 +168,13 @@
 	                var i;
 	                var in_shop = false;
 	                for (i = 0; i < map.shop.length; i++) {
-	                    //						Hybrid.debugmessage("getPriceFromId  "+map.shop[i].img+"=="+id);
+	                    Hybrid.debugmessage("getPriceFromId  " + map.shop[i].img + "==" + id);
 	                    if (map.shop[i].img == id) in_shop = true;
 	                }
 	                if (in_shop == false) {
 	                    // add this to the shop!
 	                    // if not present yet!
-	                    Hybrid.debugmessage("add House to shop: " + im.naam);
+	                   Hybrid.debugmessage("add House to shop: " + im.naam);
 	                    var o = {};
 	                    o.naam = im.naam;
 	                    o.prijs = parseInt(im.prijs);
@@ -240,7 +239,7 @@
 	    if (a.unlock < b.unlock) return -1;
 	    return 0;
 	}
-
+	
 	function map_ImageLoadedCallback() {
 	    // this can be called from the map, OR ANY other page.
 	    // if the last page wasn't map, we shouldn't resize and rebuild!)
@@ -356,7 +355,6 @@
 	    }
 	    var ctx = layout.map_canvas.context;
 	    Hybrid.clearCanvas(layout.map_canvas);
-	    //		console.log("redrawing: "+map.houses.length+ " houses");
 	    for (i = 0; i < map.houses.length; i++) {
 	        if (map.houses[i].id == "house") {
 	            ctx.fillStyle = "#f00";
@@ -397,7 +395,7 @@
 	    }
 
 	    Hybrid.debugmessage("page map build up:" + Hybrid.width + "x" + Hybrid.height);
-	    Hybrid.erasePage(); // this would remove the old canvas.
+	    Hybrid.erasePage();
 
 	    layout = {}; // erase any old layout!
 	    layout.ismap = true; // this makes it possible to determin if we have to draw on loading the houses, dirty hack, but will work!
@@ -419,9 +417,7 @@
 
 	    // stuff in the bar
 	    var city = map.plaats[map.current_map];
-	    layout.user_name = Hybrid.createTextBox(layout.bar, 100, 20, 550, 100, fonts.head, "#fff", "left", fontsz.head, city); // Hybrid.getCookie("user_naam")+":"
-
-
+	    layout.city_name = Hybrid.createTextBox(layout.bar, 100, 20, 550, 100, fonts.head, "#fff", "left", fontsz.head, city);
 
 	    // Question Progress
 	    w = 412;
@@ -439,7 +435,6 @@
 	    layout.vraag_nr = Hybrid.createTextBox(layout.bar, x - 400, 25, 350, 100, fonts.body, "#fff", "right", fontsz.menu, "Vraag x/x");
 
 
-
 	    // SET Question Progress
 	    var show_vraag_nr = (parseInt(user.data.progress) + 1);
 	    if (show_vraag_nr > quiz.questions.length) show_vraag_nr = quiz.question_order.length;
@@ -452,7 +447,6 @@
 	    layout.score_label = Hybrid.createTextBox(layout.bar, Hybrid.width - 680, 25, 600, 100, fonts.body, "#fff", "right", fontsz.menu, "Score <em>" + parseInt(user.data.punten) + "</em> punten / <em>" + parseInt(user.data.stenen) + "</em> stenen");
 
 
-
 	    // make the switch city control!
 
 
@@ -460,7 +454,6 @@
 	    //		h=Hybrid.graphics_manifest['buttons'].ss['high'][0][3];
 	    //		x=x-w-30;
 	    //		Hybrid.createSpriteButton(layout.hotspot,x,y,w,h,'buttons',"high","button_high",handleButtonsMap);
-
 
 
 	    // background and scrollbox of menu buttons
@@ -618,14 +611,20 @@
 	        Hybrid.createSpriteButton(layout.popup_window, x, y, w, h, 'buttons', "play", "button_play", handleButtonsMap);
 
 	    }
-	    // resize the scrollbar!
+		// resize the scrollbar!
 
 	    //layout.loading_anim=Hybrid.createBox(layout.hotspot,Hybrid.width/2-265/2,Hybrid.height/2-200/2,265,200);
 	    //Hybrid.setBoxImage(layout.loading_anim, "loading_anim"); // index, you get it from the graphics manifest!
 	    //Hybrid.setVisible(layout.loading_anim, false); // index, you get it from the graphics manifest!
 
 
-	    // prev/next button
+	    // resize the scrollbar!
+
+	    //layout.loading_anim=Hybrid.createBox(layout.hotspot,Hybrid.width/2-265/2,Hybrid.height/2-200/2,265,200);
+	    //Hybrid.setBoxImage(layout.loading_anim, "loading_anim"); // index, you get it from the graphics manifest!
+	    //Hybrid.setVisible(layout.loading_anim, false); // index, you get it from the graphics manifest!
+
+	    // prev/next button merge
 	    x = 10;
 	    y = 5;
 	    w = Hybrid.graphics_manifest['buttons'].ss['prev'][0][2];
@@ -637,7 +636,6 @@
 	    w = Hybrid.graphics_manifest['buttons'].ss['next'][0][2];
 	    h = Hybrid.graphics_manifest['buttons'].ss['next'][0][3];
 	    Hybrid.createSpriteButton(layout.hotspot, x, y, w, h, 'buttons', "next", "button_next", handleButtonsMap);
-
 
 	    Hybrid.startLoop(mapLoop, 20);
 
@@ -670,7 +668,6 @@
 	    if (fy < fx) f = fy;
 	    if (f > 0.9 && f < 1.1) f = 1;
 	    else f *= 0.9;
-
 	    // this drawImage sometimes fails.. Don't know why
 	    // image is HIAuD1bArm (Dolfinarium) which is reported to be: 589x303 
 	    // _hybridDrawImage: [object Object],hous_HIAuD1bArm,265,195,0,0.702886247877759
@@ -792,8 +789,8 @@
 	// scrollbar functions!
 
 	function map_HandleDown(id, x, y) {
-	    console.log("map_HandleDown");
-	    if (y > map.bar_height) {
+		 console.log("map_HandleDown");
+	    if (y > map.bar_height){
 	        if (x < map.menu_width) {
 	            // controlling menu
 	            map.menudragdir = ""; // needs to be determined when first dragging!
@@ -818,7 +815,7 @@
 	                map.button_clicked = -1;
 	                Hybrid.debugmessage("Sorry, you don't have: " + cost);
 	            }
-	            if (unlocked > user.data.punten) {
+				if (unlocked > user.data.punten) {
 	                map.button_clicked = -1;
 	                Hybrid.debugmessage("not unlocked yet: " + unlocked);
 	            }
@@ -971,7 +968,7 @@
 	                }
 	            } // end control map!
 	        }
-	    } else {
+		} else {
 	        // you clicked in the bar, so:
 	        map.dragTarget = "bar";
 	        map.dragging = -1;
@@ -1024,9 +1021,9 @@
 	                data.ox = Math.floor(map.drag_object.ox);
 	                data.oy = Math.floor(map.drag_object.oy);
 	                data.naam = Hybrid.getCookie("user_naam");
-	                data.map = map.current_map;
+	                data.map = map.current_map; // map prev and next merge.
 	                data.wachtwoord = Hybrid.getCookie("user_wachtwoord");
-	                Hybrid.debugmessage("move_house.php?naam=" + data.naam + "&wachtwoord=" + data.wachtwoord + "&id=" + data.id + "&map=" + data.map + "&lx=" + data.lx + "&ly=" + data.ly + "&ly=" + data.id + "&ox=" + data.ox + "&oy=" + data.oy);
+	                Hybrid.debugmessage("move_house.php?naam=" + data.naam + "&wachtwoord=" + data.wachtwoord + "&id=" + data.id + "&lx=" + data.lx + "&ly=" + data.ly + "&ly=" + data.id + "&ox=" + data.ox + "&oy=" + data.oy);
 	                Hybrid.getVars("move_house.php", data, map_BuyCallback, map_BuyFail); // we don't want to know about any stuff.
 
 	                // remove drag item
@@ -1083,9 +1080,9 @@
 	                    data.ly = Math.floor(map_y);
 	                    data.prijs = getPriceFromId(map.drag_object.id);
 	                    data.naam = Hybrid.getCookie("user_naam");
-	                    data.map = map.current_map;
+						data.map = map.current_map;
 	                    data.wachtwoord = Hybrid.getCookie("user_wachtwoord");
-	                    //Hybrid.debugmessage("buy_house.php?naam="+data.naam+"&wachtwoord="+data.wachtwoord+"&id="+data.id+"&lx="+data.lx+"&ly="+data.ly+"&ly="+data.id+"&prijs="+data.prijs);// we don't want to know about any stuff.
+	                    Hybrid.debugmessage("buy_house.php?naam=" + data.naam + "&wachtwoord=" + data.wachtwoord + "&id=" + data.id + "&lx=" + data.lx + "&ly=" + data.ly + "&ly=" + data.id + "&prijs=" + data.prijs); // we don't want to know about any stuff.
 	                    //data.prijs=0; // so you can buy infinite houses.
 	                    Hybrid.getVars("buy_house.php", data, map_BuyCallback, map_BuyFail); // we don't want to know about any stuff.
 
@@ -1122,25 +1119,28 @@
 	    }
 	}
 
-	function getPriceFromId(id) {
+	function getPriceFromId(id) 
+	{
 	    var i;
-	    for (i = 0; i < map.shop.length; i++) {
-	        //			Hybrid.debugmessage("getPriceFromId  "+map.shop[i].img+"=="+id);
+	    for (i = 0; i < map.shop.length; i++) 
+		{
+	        Hybrid.debugmessage("getPriceFromId  " + map.shop[i].img + "==" + id);
 	        if (map.shop[i].img == id) return map.shop[i].prijs;
 	    }
 	    return -1;
 	}
-
-	function getUnlockFromId(id) {
-	    var i;
-	    for (i = 0; i < map.shop.length; i++) {
-	        //			Hybrid.debugmessage("getUnlockFromId  "+map.shop[i].img+"=="+id);
-	        if (map.shop[i].img == id) return map.shop[i].unlock;
-	    }
-	    return -1;
+	function getUnlockFromId(id)
+	{
+		var i;
+		for(i=0;i<map.shop.length;i++)
+		{
+//			Hybrid.debugmessage("getUnlockFromId  "+map.shop[i].img+"=="+id);
+			if(map.shop[i].img==id) return map.shop[i].unlock;
+		}
+		return -1;
 	}
-
-	function map_BuyCallback(response) {
+	function map_BuyCallback(response) 
+	{
 	    var id;
 	    if (parseInt(response.succes) == 1) {
 	        Hybrid.debugmessage("position saved");
@@ -1170,7 +1170,7 @@
 	}
 
 	function handleDrag(id, x, y, dx, dy) {
-	    console.log("handleDrag " + map.dragTarget);
+		 console.log("handleDrag " + map.dragTarget);
 	    switch (map.dragTarget) {
 	        case "scroll":
 	            if (map.dragging != -1) {
@@ -1183,7 +1183,8 @@
 	            }
 	            break;
 	        case "moveHouse":
-	            if (map.dragging != -1) {
+	            // show the dragItem in the right position!
+	              if (map.dragging != -1) {
 	                // show the dragItem in the right position!
 	                Hybrid.moveBox(layout.dragitem, x + map.drag_object.gx, y + map.drag_object.gy);
 	            }
@@ -1281,34 +1282,17 @@
 	            break;
 	        case "button_prev":
 	            map.dragging = -1;
-	            map.dragTarget = "none"; // make sure this doesn't count as a click!
+	            map.dragTarget = "none";
 	            map.current_map--;
 	            if (map.current_map == 0) map.current_map = 6;
 	            initMap();
 	            break;
 	        case "button_next":
 	            map.dragging = -1;
-	            map.dragTarget = "none"; // make sure this doesn't count as a click!
+	            map.dragTarget = "none";
 	            map.current_map++;
 	            if (map.current_map == 7) map.current_map = 1;
 	            initMap();
-	            /*				var city=map.plaats[map.current_map];
-	            				Hybrid.setText(layout.user_name,Hybrid.getCookie("user_naam")+":"+city);
-	            				// set the location, can be 6 different ones!
-	            				map.back_index='location'+map.current_map;
-	            				Hybrid.debugmessage("Hybrid.graphics_manifest['"+map.back_index+"']: ");
-	            				//Hybrid.debugmessage(Hybrid.graphics_manifest[map.back_index]); // this way it prints the internal structure as well!
-	            				
-	            				
-	            				if(!Hybrid.graphics_manifest.hasOwnProperty(map.back_index))
-	            				{
-	            					Hybrid.throwError(map.back_index+" not defined in graphics_manifest");
-	            				}
-	            				map.back_w=Hybrid.graphics_manifest[map.back_index].w; // all we need to do is
-	            				map.back_h=Hybrid.graphics_manifest[map.back_index].h;
-	            				// center it, kind of..
-	            				map.offset={x:Hybrid.graphics_manifest[map.back_index].w/2-Hybrid.width/2,y:Hybrid.graphics_manifest[map.back_index].h/2-Hybrid.height/2};*/
-
 	            break;
 	        default:
 	            Hybrid.debugmessage("handleButtonsStart: " + label);

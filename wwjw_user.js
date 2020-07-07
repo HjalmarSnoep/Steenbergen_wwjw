@@ -21,8 +21,7 @@
 			"question_order": [0, 3, 2, 4, 1],
 			"punten": 100,
 			"stenen": 20,
-			"bought_per_city": [
-				[
+			"gekochtehuizen": [
 				{
 					"id": "1GOpJsU130",
 					"lx": 937,
@@ -32,8 +31,7 @@
 					"id": "fOC1afuLwj",
 					"lx": 1286,
 					"ly": 1198
-				}],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
-				],
+				}],
 			"hints": [0, 0, 1, 0, 0],
 			"succes": 1
 		}

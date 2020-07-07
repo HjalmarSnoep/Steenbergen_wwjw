@@ -44,7 +44,7 @@
 	Hybrid.graphics_manifest['loading_anim']={src:"loading_anim.gif",w:265,h:200,preload: false}; // we don't preload the loading anim, that would be dumb!
 	Hybrid.graphics_manifest['snap']={src:"snap.png",w:2048,h:1361,preload: false}; // we don't preload the loading anim, that would be dumb!
 	Hybrid.graphics_manifest['buttons']={src:"buttons.png",w:2048,h:2048,preload: true,kind:"sprite",ss:{}}; // we don't preload the loading anim, that would be dumb!
-	a=[[4,4,398,72,0,0,0],[406,4,398,72,0,0,0],[808,4,287,72,0,0,0],[1099,4,287,72,0,0,0],[1390,4,236,72,0,0,0],[1630,4,236,72,0,0,0],[4,80,236,72,0,0,0],[244,80,236,72,0,0,0],[484,80,645,182,0,0,0],[1133,80,645,182,0,0,0],[4,266,855,182,0,0,0],[863,266,855,182,0,0,0],[4,452,435,182,0,0,0],[443,452,435,182,0,0,0],[882,452,146,145,0,0,0],[1032,452,146,145,0,0,0],[1182,452,515,182,0,0,0],[4,638,515,182,0,0,0],[523,638,435,182,0,0,0],[962,638,435,182,0,0,0],[1401,638,435,182,0,0,0],[4,824,435,182,0,0,0],[443,824,103,95,0,0,0],[550,824,103,95,0,0,0],[657,824,8,25,0,0,0],[669,824,599,179,0,-1,2],[1272,824,599,179,0,-1,2],[4,1010,401,80,0,2,2],[409,1010,401,80,0,2,2],[814,1010,780,180,0,2,2],[4,1194,780,180,0,2,2],[788,1194,198,29,0,0,0],[990,1194,198,29,0,0,0],[1192,1194,381,29,0,0,0],[1577,1194,381,29,0,0,0],[4,1378,315,29,0,0,0],[323,1378,315,29,0,0,0],[642,1378,301,29,0,0,0],[947,1378,301,29,0,0,0],[1252,1378,401,80,0,2,2],[4,1462,401,80,0,2,2],[4,156,72,72,0,0,0],[79,156,72,72,0,0,0],[155,156,72,72,0,0,0],[231,156,72,72,0,0,0]];
+	a=[[4,4,398,72,0,0,0],[406,4,398,72,0,0,0],[808,4,287,72,0,0,0],[1099,4,287,72,0,0,0],[1390,4,236,72,0,0,0],[1630,4,236,72,0,0,0],[4,80,236,72,0,0,0],[244,80,236,72,0,0,0],[484,80,645,182,0,0,0],[1133,80,645,182,0,0,0],[4,266,855,182,0,0,0],[863,266,855,182,0,0,0],[4,452,435,182,0,0,0],[443,452,435,182,0,0,0],[882,452,146,145,0,0,0],[1032,452,146,145,0,0,0],[1182,452,515,182,0,0,0],[4,638,515,182,0,0,0],[523,638,435,182,0,0,0],[962,638,435,182,0,0,0],[1401,638,435,182,0,0,0],[4,824,435,182,0,0,0],[443,824,103,95,0,0,0],[550,824,103,95,0,0,0],[657,824,8,25,0,0,0],[669,824,599,179,0,-1,2],[1272,824,599,179,0,-1,2],[4,1010,401,80,0,2,2],[409,1010,401,80,0,2,2],[814,1010,780,180,0,2,2],[4,1194,780,180,0,2,2],[788,1194,198,29,0,0,0],[990,1194,198,29,0,0,0],[1192,1194,381,29,0,0,0],[1577,1194,381,29,0,0,0],[4,1378,256,29,0,0,0],[264,1378,256,29,0,0,0],[524,1378,301,29,0,0,0],[829,1378,301,29,0,0,0],[1134,1378,401,80,0,2,2],[1539,1378,401,80,0,2,2],[1944,1378,94,97,0,0,0],[4,1479,94,97,0,0,0],[4,156,72,72,0,0,0],[79,156,72,72,0,0,0],[155,156,72,72,0,0,0],[231,156,72,72,0,0,0]];
 		Hybrid.graphics_manifest['buttons'].ss['city']=[a[0],a[1]];// reg x and y =0 for buttons!
 		Hybrid.graphics_manifest['buttons'].ss['high']=[a[2],a[3]];// reg x and y =0 for buttons!
 		Hybrid.graphics_manifest['buttons'].ss['stop']=[a[4],a[5]];// reg x and y =0 for buttons!
@@ -66,9 +66,9 @@
 		Hybrid.graphics_manifest['buttons'].ss['snoepgames']=[a[35],a[36]];// reg x and y =0 for buttons!
 		Hybrid.graphics_manifest['buttons'].ss['admin']=[a[37],a[38]];// reg x and y =0 for buttons!
 		Hybrid.graphics_manifest['buttons'].ss['problem']=[a[39],a[40]];// reg x and y =0 for buttons!
-		Hybrid.graphics_manifest['buttons'].ss['prev']=[a[41],a[42]];// reg x and y =0 for buttons!
-		Hybrid.graphics_manifest['buttons'].ss['next']=[a[43],a[44]];// reg x and y =0 for buttons!
-	
+		Hybrid.graphics_manifest['buttons'].ss['speak']=[a[41],a[42]];// reg x and y =0 for buttons!
+		Hybrid.graphics_manifest['buttons'].ss['prev'] = [a[43], a[44]]; // speak and prev next disappeared with the merge, damn!!
+		Hybrid.graphics_manifest['buttons'].ss['next'] = [a[45], a[46]]; // reg x and y =0 for buttons!
 	Hybrid.graphics_manifest['rotate_device']={src:"rotate_device.jpg",w:480,h:640,preload: false}; // we don't preload the loading anim, that would be dumb!
 	Hybrid.graphics_manifest['location1']={src:"getCMSImage.php?id=map&img=steenbergen",w:4904,h:2048,preload: false}; // we don't preload the map back, that's just a bit heavy.
 	Hybrid.graphics_manifest['location2']={src:"getCMSImage.php?id=map&img=deheen",w:4400,h:2052,preload: false}; // we don't preload the map back, that's just a bit heavy.

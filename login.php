@@ -43,6 +43,17 @@ for($i=0;$i<$nr_of_response;$i++)
 	$temp = explode( '.', $dir_content[$i] );
 	$ext = array_pop( $temp );
 	$id = implode( '.', $temp );
+	
+	if($i==0)
+	{
+		/* debug */
+		if(1)
+		{
+			// voor de test wil ik dat vraag 0 altijd wordt toegevoegd aan de vragen (als 0):)
+			$id="03ds5z";
+		}
+	}
+	
 	$out_str.='{"id":"'.$id.'",'.$lb;// also put in the timestamp!
 	
 	$content=file($dir."/".$dir_content[$i], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -92,15 +103,13 @@ if(!is_dir($log_filename))
 	mkdir($log_filename);
 }
 
-// clean the variables and echo them:
 $clean=array();
 foreach ($_GET as $key => $value) 
 {
-	$key=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$key);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
-	$value=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",strip_tags($value));	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
-	$clean[$key]=strip_tags($value);
+	$key=preg_replace('/\s+/', '', $key); // only alphanumeric
+	$value=preg_replace('/\s+/', '', strip_tags($value)); // only alphanumeric and NO additional HTML!
+	$clean[$key]=strip_tags(strtolower($value)); // this makes it safe to lowercase all usernames and wws in new_game.php!
 }
-
 
 // make it a little easier to login
 // we found the following: 

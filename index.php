@@ -12,7 +12,7 @@
 	<link rel="apple-touch-icon" sizes="120x120" href="img/touch-icon-iphone-120x120.png">
 	<link rel="apple-touch-icon" sizes="152x152" href="img/touch-icon-ipad-152x152.png">		
 	<link rel="apple-touch-startup-image" href="img/offline_startup.jpg">
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
     <script>
 		$(function() {
 		function fixHeightBugOnIOS7() {

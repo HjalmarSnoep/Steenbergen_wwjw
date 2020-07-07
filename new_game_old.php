@@ -5,19 +5,15 @@ $path_to_root=$_SERVER['DOCUMENT_ROOT'];
 $path_to_data="data/";
 $path_to_cms_data=$path_to_root."/mgcms/data";
 
-// clean the variables and echo them:
 $clean=array();
 foreach ($_GET as $key => $value) 
 {
-	$key=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$key);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
-	$value=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",strip_tags($value));	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$key=preg_replace('/\s+/', '', $key); // only alphanumeric
+	$value=preg_replace('/\s+/', '', strip_tags($value)); // only alphanumeric and NO additional HTML!
 	$clean[$key]=strip_tags($value);
 }
-
 $response=array();
 $response['succes']=0;
-
-$game=array();
 
 // get the number of questions
 $dir=$path_to_cms_data.'/questions';
@@ -32,49 +28,9 @@ if ($handle = opendir($dir))
     }
     closedir($handle);
 }
-$max_questions=30;
-if($nr_of_questions<30)
-	$max_questions=$nr_of_questions;
 
-
-	
 if(isset($clean['naam']))
 {
-	$clean['naam']=strtolower($clean['naam']); // lowercase names!!!!
-	$clean['naam']=html_entity_decode($clean['naam']); // if there was a thing like &nbsp; in there it's turned into ' '
-	$clean['naam']=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$clean['naam']);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
-	$clean['naam']=filter_var($clean['naam'], FILTER_SANITIZE_STRING|FILTER_FLAG_STRIP_HIGH);
-	$clean['naam']=substr($clean['naam'],0,32); // no longer names than 32!
-	
-	if(isset($clean['wachtwoord']))
-	{
-		$clean['wachtwoord']=strtolower($clean['wachtwoord']); // lowercase names!!!!
-		$clean['wachtwoord']=html_entity_decode($clean['wachtwoord']); // if there was a thing like &nbsp; in there it's turned into ' '
-		$clean['wachtwoord'] = preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$clean['wachtwoord']);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
-		$clean['wachtwoord']=substr($clean['wachtwoord'],0,32); // no longer names than 32!
-	}
-	// school can be only a couple of things!
-	$school_ids=["sdiofhoe","sd56pfioei","idfhrs","sd83ls","dfoihsue","78sd3ogosd","98sdyvj","fgf45uh","fgf45uh"];
-	if(!in_array($clean['school'],$school_ids))
-	{
-		$clean['school']="666"; // niet van toepassing.
-	}
-	// school can be only a couple of things!
-	$clean['groep'] = preg_replace("/[^1-8]/","",$clean['groep']);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
-	$clean['groep']=substr($clean['groep'],0,1); // no longer names than 2!
-	$clean['groep']= intval($clean['groep']); // will become 0 if you try to kloot!
-	$clean['plaats'] = preg_replace("/[^1-6]/","",$clean['plaats']);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
-	$clean['plaats']= substr($clean['plaats'],0,1); // no longer names than 2!
-	$clean['plaats']= intval($clean['plaats']); // will become 0 if you try to kloot!
-	if(isset($clean['category']))
-	{
-			
-		$clean['category'] = preg_replace("/[^0-9A-Z-a-z\-]/","",$clean['category']);	// just an id people.. can be -1
-		$clean['category']= substr($clean['category'],0,32); // no longer ids than 32!
-	}else{
-		$clean['category'] = -1; // if not set somehow..
-	}
-	
 	$filename=$path_to_data."games/".$clean['naam'].".txt";
 	if(!file_exists($filename))
 	{
@@ -85,58 +41,28 @@ if(isset($clean['naam']))
 		   )
 		{		
 			// creeer een nieuwe user file!
-			
+			$game=array();
 			$game['naam']=$clean['naam'];
 			$game['wachtwoord']=crypt($clean['wachtwoord']."mysalt","zoutjesvancalve");
 			$game['school']=$clean['school'];
 			$game['groep']=$clean['groep'];
 			$game['plaats']=$clean['plaats'];
-			$game['category']=$clean['category'];
 			$game['progress']=0;
 			
-			$total_order=array();
-			for($i=0;$i<$nr_of_questions;$i++) 
-			{
-				$total_order[$i]=$i;
-			}
-			// if category different than -1
-			// preload ready made question list of tag!
-			if($game['category']!="-1")
-			{
-				$category_file=$path_to_cms_data."/tags/questions_".$game['category'].".json";
-				if(file_exists($category_file))
-				{
-					$total_order=json_decode(file_get_contents($category_file),true);
-				}else{
-					$game['error_message']="category-question-list could not be fount for category: ".$category_file;// $game['category'];
-				}
-			}
-			shuffle($total_order);
 			$order=array();
-			// now copy to a new array for just the first 30!!
-			for($i=0;$i<$max_questions;$i++) // 30 from total number of questions, which must be more than 30!
-			{
-				array_push($order,$total_order[$i]);
-			}
-			
-			// now we take the first 
+			for($i=0;$i<$nr_of_questions;$i++) $order[$i]=$i;
+			shuffle($order);
 			$game['question_order']=$order;
 			$game['punten']=0;
 			$game['stenen']=0;
-			$game['created']=time();
-			$game['last_played']=time();
-			
-			$bought=[];
-			for($i=0;$i<=6;$i++)array_push($bought,[]); // six empty arrays, because you haven't built anything yet!
-			$game["bought_per_city"]=$bought;
-			
+			$game['gekochtehuizen']=array();
 			$game['hints']=array(); // keep track of if you have seen the hints!!
-			for($i=0;$i<$max_questions;$i++) // 30 from total number of questions, which must be more than 30!
+			for($i=0;$i<$nr_of_questions;$i++)
 			{
 				array_push($game['hints'],0);
 			}
 			$fp = fopen($filename, 'w');
-				fwrite($fp, json_encode($game,JSON_PRETTY_PRINT));
+				fwrite($fp, json_encode($game));
 			fclose($fp);
 			$response['succes']=1;	
 			$response['user']=$game; // give all important things to user right now..
@@ -149,14 +75,6 @@ if(isset($clean['naam']))
 $path_to_root=$_SERVER['DOCUMENT_ROOT'];
 $path_to_cms_data=$path_to_root."/mgcms/data";
 $path_to_data="data/"; // here you will find games, data etc..
-
-$new_dirname=$path_to_data."games";// create that dir!
-if(!is_dir($new_dirname))
-{
-	mkdir($new_dirname);
-}
-
-
 
 $dir_content=array();
 
@@ -230,6 +148,11 @@ for($i=0;$i<$nr_of_response;$i++)
 	$question_counter++;
 }
 // this concludes getting the questions!			
+
+
+			
+			
+			
 			
 		}else
 		{
@@ -256,7 +179,7 @@ for($i=0;$i<$nr_of_response;$i++)
 		}
 	}else
 	{
-		$response['error']="Naam bestaat al '".$clean['naam']."', kies een andere!";
+		$response['error']="Naam bestaat al!";
 		$response['errorcode']=13;
 	}
 }else

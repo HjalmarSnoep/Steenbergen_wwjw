@@ -1,4 +1,25 @@
 <?php
+// creates valid json file of all response from CMS
+// structure:
+/*[
+	{
+		"title": "Sint Corneliuskerk",
+		"body": "In Welberg staat de Sint Corneliuskerk. Deze is sinds november 2014 niet meer in gebruik als kerk. Hoe heet de straat waar het kerkgebouw staat?",
+		"points": 100,
+		"bricks": 20,
+		"media": "1uEpyM31X0",
+		"A": "Kapelaan Kockstraat.",
+		"B": "Corneliusstraat.",
+		"C": "Pastoor Kerckerstraat.",
+		"D": "Kerkstraat.",
+		"hint": "De straat is vernoemd naar een welbergenaar die in de tweede wereldoorlog door de duitsers werd vermoord.",
+		"right": "De straat is genoemd naar de Welbergse Kapelaan Kock die tijdens de Tweede Wereldoorlog dood ging. De kapelaan (een soort hulppastoor) werd op 1 november 1944 vermoord door de Duitsers. Van 29 oktober tot en met 4 november 1944 vond er rond Welberg en Steenbergen een keiharde strijd plaats tussen de bezetters en de bevrijders. Veel mensen vluchtten of doken onder. Kapelaan Kock dook samen met nog 20 andere mensen onder in de kelder van het hoofd van de school van Welberg. Op 1 november verschenen er ineens een paar Canadezen op het dorp. De mensen dachten dat zij bevrijd waren. Maar de Canadezen waren alleen maar op verkenning en gingen weer weg. Later die dag kwamen de Duitsers terug. Zij dachten dat de kapelaan informatie aan de Canadezen had gegeven. Zij takelden de kapelaan zo erg toe dat hij niet meer overeind kon komen. Uiteindelijk is hij aan de kant van de weg aan zijn verwondingen gestorven.",
+		"wrong": "",
+		"answer": "A"
+	}	
+]*/
+
+
 
 // to get the list, we must travel into the dir data/response
 $path_to_root=$_SERVER['DOCUMENT_ROOT'];
@@ -6,6 +27,7 @@ $path_to_cms_data=$path_to_root."/mgcms/data";
 $path_to_data="data/"; // here you will find games, data etc..
 
 $dir_content=array();
+
 
 $response=array();
 $response['succes']=1; // this will contain 0 or 1
@@ -51,6 +73,7 @@ for($i=0;$i<$nr_of_response;$i++)
 	$ext = array_pop( $temp );
 	$id = implode( '.', $temp );
 	$out_str.='{"id":"'.$id.'",'.$lb;// also put in the timestamp!
+	
 	
 	$content=file($dir."/".$dir_content[$i], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 	$response["questions"][$question_counter]=array();
@@ -108,11 +131,6 @@ for($i=0;$i<$nr_of_response;$i++)
 // get user info as well!
 if(isset($clean['naam']))
 {
-	$clean['naam']=strtolower($clean['naam']); // lowercase names!!!!
-	$clean['naam']=html_entity_decode($clean['naam']); // if there was a thing like &nbsp; in there it's turned into ' '
-	$clean['naam']=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$clean['naam']);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
-	$clean['naam']=filter_var($clean['naam'], FILTER_SANITIZE_STRING|FILTER_FLAG_STRIP_HIGH);
-	$clean['naam']=substr($clean['naam'],0,32); // no longer names than 32!
 	$filename="data/games/".$clean['naam'].".txt";
 	if(file_exists($filename))
 	{
