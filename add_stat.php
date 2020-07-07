@@ -4,14 +4,15 @@ $path_to_root=$_SERVER['DOCUMENT_ROOT'];
 $path_to_cms_data=$path_to_root."/mgcms/data";
 $path_to_data="data/"; // here you will find games, data etc..
 
+// clean the variables and echo them:
 $clean=array();
 foreach ($_GET as $key => $value) 
 {
-	$key=preg_replace('/\s+/', '', $key); // only alphanumeric
-	$value=preg_replace('/\s+/', '', strip_tags($value)); // only alphanumeric and NO additional HTML!
+	$key=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$key);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$value=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",strip_tags($value));	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
 	$clean[$key]=strip_tags($value);
-	//echo($key."=".$clean[$key]."<br>");
 }
+
 
 $dateObject = new DateTime;
 

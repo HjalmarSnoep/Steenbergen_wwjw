@@ -113,6 +113,11 @@ for($i=0;$i<$nr_of_response;$i++)
 // get user info as well!
 if(isset($clean['naam']))
 {
+		$clean['naam']=strtolower($clean['naam']); // lowercase names!!!!
+	$clean['naam']=html_entity_decode($clean['naam']); // if there was a thing like &nbsp; in there it's turned into ' '
+	$clean['naam']=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$clean['naam']);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$clean['naam']=filter_var($clean['naam'], FILTER_SANITIZE_STRING|FILTER_FLAG_STRIP_HIGH);
+	$clean['naam']=substr($clean['naam'],0,32); // no longer names than 32!
 	$filename="data/games/".$clean['naam'].".txt";
 	if(file_exists($filename))
 	{

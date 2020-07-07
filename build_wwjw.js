@@ -615,9 +615,6 @@ Hybrid.switches.music = true;  // if we have a small sound on first touch, it is
 Hybrid.audio_preloaded = 0; // progress counters!
 Hybrid.nr_of_audio_files_to_preload = 0; // total of audio files to be preloaded, not always the whole manifest!
 
-Hybrid.voice_dom=document.createElement("audio");
-
-
 //Hybrid.audio_manifest['init_sound']={preload: true};// this is contained in the library itself it's a default.
 
 function _hybridSwitchSound(value)
@@ -1149,21 +1146,6 @@ function _hybridGetSoundDuration(nr)
 	{
 		Hybrid.debugmessage("no sound support for this device")
 	}
-}
-Hybrid.stopVoice=_hybridStopVoice;
-function _hybridStopVoice()
-{
-	Hybrid.debugmessage("stop voice");
-	Hybrid.voice_dom.pause();
-}
-Hybrid.playVoice=_hybridPlayVoice;
-function _hybridPlayVoice(file)
-{
-	document.body.appendChild(Hybrid.voice_dom);
-	Hybrid.debugmessage("start voice with:"+file);
-	Hybrid.voice_dom.src="voice/"+file;
-	Hybrid.voice_dom.play();
-//	Hybrid.voice_dom=document.createElement("audio");
 }
 Hybrid.playSound=_hybridPlaySound;
 function _hybridPlaySound(nr)
@@ -4750,7 +4732,7 @@ Hybrid.styleWebview=function (o,co){
 	Hybrid.graphics_manifest['loading_anim']={src:"loading_anim.gif",w:265,h:200,preload: false}; // we don't preload the loading anim, that would be dumb!
 	Hybrid.graphics_manifest['snap']={src:"snap.png",w:2048,h:1361,preload: false}; // we don't preload the loading anim, that would be dumb!
 	Hybrid.graphics_manifest['buttons']={src:"buttons.png",w:2048,h:2048,preload: true,kind:"sprite",ss:{}}; // we don't preload the loading anim, that would be dumb!
-	a=[[4,4,398,72,0,0,0],[406,4,398,72,0,0,0],[808,4,287,72,0,0,0],[1099,4,287,72,0,0,0],[1390,4,236,72,0,0,0],[1630,4,236,72,0,0,0],[4,80,236,72,0,0,0],[244,80,236,72,0,0,0],[484,80,645,182,0,0,0],[1133,80,645,182,0,0,0],[4,266,855,182,0,0,0],[863,266,855,182,0,0,0],[4,452,435,182,0,0,0],[443,452,435,182,0,0,0],[882,452,146,145,0,0,0],[1032,452,146,145,0,0,0],[1182,452,515,182,0,0,0],[4,638,515,182,0,0,0],[523,638,435,182,0,0,0],[962,638,435,182,0,0,0],[1401,638,435,182,0,0,0],[4,824,435,182,0,0,0],[443,824,103,95,0,0,0],[550,824,103,95,0,0,0],[657,824,8,25,0,0,0],[669,824,599,179,0,-1,2],[1272,824,599,179,0,-1,2],[4,1010,401,80,0,2,2],[409,1010,401,80,0,2,2],[814,1010,780,180,0,2,2],[4,1194,780,180,0,2,2],[788,1194,198,29,0,0,0],[990,1194,198,29,0,0,0],[1192,1194,381,29,0,0,0],[1577,1194,381,29,0,0,0],[4,1378,256,29,0,0,0],[264,1378,256,29,0,0,0],[524,1378,301,29,0,0,0],[829,1378,301,29,0,0,0],[1134,1378,401,80,0,2,2],[1539,1378,401,80,0,2,2],[1944,1378,94,97,0,0,0],[4,1479,94,97,0,0,0]];
+	a=[[4,4,398,72,0,0,0],[406,4,398,72,0,0,0],[808,4,287,72,0,0,0],[1099,4,287,72,0,0,0],[1390,4,236,72,0,0,0],[1630,4,236,72,0,0,0],[4,80,236,72,0,0,0],[244,80,236,72,0,0,0],[484,80,645,182,0,0,0],[1133,80,645,182,0,0,0],[4,266,855,182,0,0,0],[863,266,855,182,0,0,0],[4,452,435,182,0,0,0],[443,452,435,182,0,0,0],[882,452,146,145,0,0,0],[1032,452,146,145,0,0,0],[1182,452,515,182,0,0,0],[4,638,515,182,0,0,0],[523,638,435,182,0,0,0],[962,638,435,182,0,0,0],[1401,638,435,182,0,0,0],[4,824,435,182,0,0,0],[443,824,103,95,0,0,0],[550,824,103,95,0,0,0],[657,824,8,25,0,0,0],[669,824,599,179,0,-1,2],[1272,824,599,179,0,-1,2],[4,1010,401,80,0,2,2],[409,1010,401,80,0,2,2],[814,1010,780,180,0,2,2],[4,1194,780,180,0,2,2],[788,1194,198,29,0,0,0],[990,1194,198,29,0,0,0],[1192,1194,381,29,0,0,0],[1577,1194,381,29,0,0,0],[4,1378,315,29,0,0,0],[323,1378,315,29,0,0,0],[642,1378,301,29,0,0,0],[947,1378,301,29,0,0,0],[1252,1378,401,80,0,2,2],[4,1462,401,80,0,2,2],[4,156,72,72,0,0,0],[79,156,72,72,0,0,0],[155,156,72,72,0,0,0],[231,156,72,72,0,0,0]];
 		Hybrid.graphics_manifest['buttons'].ss['city']=[a[0],a[1]];// reg x and y =0 for buttons!
 		Hybrid.graphics_manifest['buttons'].ss['high']=[a[2],a[3]];// reg x and y =0 for buttons!
 		Hybrid.graphics_manifest['buttons'].ss['stop']=[a[4],a[5]];// reg x and y =0 for buttons!
@@ -4772,7 +4754,9 @@ Hybrid.styleWebview=function (o,co){
 		Hybrid.graphics_manifest['buttons'].ss['snoepgames']=[a[35],a[36]];// reg x and y =0 for buttons!
 		Hybrid.graphics_manifest['buttons'].ss['admin']=[a[37],a[38]];// reg x and y =0 for buttons!
 		Hybrid.graphics_manifest['buttons'].ss['problem']=[a[39],a[40]];// reg x and y =0 for buttons!
-		Hybrid.graphics_manifest['buttons'].ss['speak']=[a[41],a[42]];// reg x and y =0 for buttons!
+		Hybrid.graphics_manifest['buttons'].ss['prev']=[a[41],a[42]];// reg x and y =0 for buttons!
+		Hybrid.graphics_manifest['buttons'].ss['next']=[a[43],a[44]];// reg x and y =0 for buttons!
+	
 	Hybrid.graphics_manifest['rotate_device']={src:"rotate_device.jpg",w:480,h:640,preload: false}; // we don't preload the loading anim, that would be dumb!
 	Hybrid.graphics_manifest['location1']={src:"getCMSImage.php?id=map&img=steenbergen",w:4904,h:2048,preload: false}; // we don't preload the map back, that's just a bit heavy.
 	Hybrid.graphics_manifest['location2']={src:"getCMSImage.php?id=map&img=deheen",w:4400,h:2052,preload: false}; // we don't preload the map back, that's just a bit heavy.
@@ -4889,7 +4873,15 @@ Hybrid.styleWebview=function (o,co){
 			user.data=response.user; // we have this..
 			quiz.nr_of_questions=quiz.questions.length; 
 			quiz.question_order=response.user.question_order; // saved it for later!
+			// check if any of the questions are out of bounds (this happens sometimes when questions get deleted!)
 			
+			for(var i=0;i<quiz.question_order.length;i++)
+			{
+				if(quiz.question_order[i]>=quiz.questions.length)
+				{
+					quiz.question_order[i]=quiz.questions.length-1;
+				}
+			}
 			//Hybrid.setCookie("nr_of_questions", quiz.questions.length); // remember it for on map!
 			
 			// show it for debugging!
@@ -5318,7 +5310,8 @@ Hybrid.styleWebview=function (o,co){
 			"question_order": [0, 3, 2, 4, 1],
 			"punten": 100,
 			"stenen": 20,
-			"gekochtehuizen": [
+			"bought_per_city": [
+				[
 				{
 					"id": "1GOpJsU130",
 					"lx": 937,
@@ -5328,7 +5321,8 @@ Hybrid.styleWebview=function (o,co){
 					"id": "fOC1afuLwj",
 					"lx": 1286,
 					"ly": 1198
-				}],
+				}],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
+				],
 			"hints": [0, 0, 1, 0, 0],
 			"succes": 1
 		}
@@ -5661,7 +5655,7 @@ Hybrid.styleWebview=function (o,co){
 	new_game.framecounter=0;
 	new_game.buttons_Alpha=0;
 	new_game.state="just_started";
-	new_game.form={};
+	new_game.form={naam:"",wachtwoord:"",school:-1,groep:-1,plaats:-1,category:-1};
 	new_game.cms_data={};
 	
 	// moet zijn
@@ -5699,6 +5693,68 @@ Hybrid.styleWebview=function (o,co){
 							  {label:"Pius X",id:"fgf45uh"},
 							  {label:"niet van toepassing",id:"666"}];
 	new_game.cms_data.groep=[{label:"Groep 1",id:1},{label:"Groep 2",id:2},{label:"Groep 3",id:3},{label:"Groep 4",id:4},{label:"Groep 5",id:5},{label:"Groep 6",id:6},{label:"Groep 7",id:7},{label:"Groep 8",id:8},{label:"niet van toepassing",id:"666"}];
+	new_game.cms_data.category=cms.tags;
+	console.log("CMS.tags="+JSON.stringify(cms.tags));
+	/* 
+	https://github.com/HjalmarSnoep/MGCMS-steenbergen-/issues/17
+		CMS.tags=
+		{
+			"0":{"id":"4","label":"Natuur","questions":80},
+			"1":{"id":"2","label":"Bedrijven","questions":97},
+			"2":{"id":"1","label":"Historie","questions":124},
+			"3":{"id":"3","label":"Maatschappij","questions":111},
+			"4":{"id":"5","label":"Kruisland","questions":0},
+			"5":{"id":"6","label":"Steenbergen","questions":0},
+			"6":{"id":"7","label":"Dinteloord","questions":0},
+			"7":{"id":"8","label":"De Heen","questions":0},
+			"8":{"id":"9","label":"Nieuw-Vossemeer","questions":0},
+			"9":{"id":"10","label":"Welberg","questions":1},
+			"10":{"id":"ambachten","label":"ambachten","questions":10},
+			"11":{"id":"tweedewereldoorlog","label":"Tweede Wereldoorlog","questions":0},
+			"12":{"questions":0},
+			"13":{"id":"sport","label":"Sport","questions":0},
+			"14":{"id":"middeleeuwen","label":"Middeleeuwen","questions":0},
+			"15":{"id":"westbrabantsewaterlinie","label":"West-Brabantse Waterlinie","questions":0},
+			"16":{"id":"industrilerevolutie","label":"Industriële Revolutie","questions":0},
+			"17":{"id":"watersnoodramp","label":"Watersnoodramp","questions":0},
+			"18":{"id":"1950totnu","label":"1950 tot nu","questions":0},
+			"19":{"id":"geschiedenis","label":"Geschiedenis"},
+			"20":{"id":"geschiedenis","label":"Geschiedenis"}
+		}
+	
+	// but SHOULD be (with release data):
+		[
+		{"id":"4","label":"Natuur","questions":76},
+		{"id":"2","label":"Bedrijven","questions":95},
+		{"id":"1","label":"Historie","questions":111},
+		{"id":"3","label":"Maatschappij","questions":102},
+		{"id":"5","label":"Kruisland","questions":1},
+		{"id":"6","label":"Steenbergen","questions":0},
+		{"id":"7","label":"Dinteloord","questions":0},
+		{"id":"8","label":"De Heen","questions":0},
+		{"id":"9","label":"Nieuw-Vossemeer","questions":0},
+		{"id":"10","label":"Welberg","questions":0}
+		]
+	*/
+	
+	for(var i=new_game.cms_data.category.length-1;i>=0;i--)
+	{
+		console.log("new_game.cms_data.category["+i+"]="+JSON.stringify(new_game.cms_data.category[i]));
+		if(typeof(new_game.cms_data.category[i].questions)=="undefined")
+		{
+			new_game.cms_data.category.splice(i,1); // remove it!
+		}else{
+			if(new_game.cms_data.category[i].questions<30)
+			{
+				new_game.cms_data.category.splice(i,1); // remove it!
+			}else{
+				new_game.cms_data.category[i].label+=" (30/"+new_game.cms_data.category[i].questions+" vragen)";
+			}
+		}
+	}
+	new_game.cms_data.category.push({label:"Alles",id:-1});
+	// copy it from CMS.tags set in script at top of page.php (the gamepage)
+	
 	new_game.cms_data.plaats=[{label:"Steenbergen",id:1},{label:"De Heen",id:2},{label:"Nieuw Vossemeer",id:3},{label:"Kruisland",id:4},{label:"Dinteloord",id:5},{label:"Welberg",id:6}];
 	
 	function initnew_game()
@@ -5725,6 +5781,7 @@ Hybrid.styleWebview=function (o,co){
 			new_game.form.school=-1;
 			new_game.form.groep=-1;
 			new_game.form.plaats=-1;
+			new_game.form.category=-1;
 			if(Hybrid.getCookie("user_naam")!==null) new_game.form.naam=Hybrid.getCookie("user_naam");
 			if(Hybrid.getCookie("user_school")!==null) new_game.form.school=Hybrid.getCookie("user_school");
 			if(Hybrid.getCookie("user_groep")!==null) new_game.form.groep=Hybrid.getCookie("user_groep");
@@ -5732,39 +5789,22 @@ Hybrid.styleWebview=function (o,co){
 			
 			Hybrid.resizeFunction=new_gameHandleResize;
 			new_gameHandleResize(); // this builds the page 
+			new_game_TextChangeListener();
 		}
 	}
 	function new_game_TextChangeListener()
 	{
-		Hybrid.debugmessage("NEW GAME TEXTCHANGE LISTENER : "+Hybrid.lastTextboxChange);
-		Hybrid.debugmessage("NEW GAME TEXTCHANGE LISTENER textbox changed: "+Hybrid.lastTextboxToChange);
-		Hybrid.debugmessage("NEW GAME TEXTCHANGE LISTENER textbox changed to: "+Hybrid.lastTextboxChangedTo);
-		
-		
-		switch(Hybrid.lastTextboxChange)
+		var on_page=true;
+		if(typeof(layout.naam_text)!="undefined" && typeof(layout.wachtwoord_text)!="undefined")
 		{
-
-			case "focus":
-					if(Hybrid.lastTextboxChangedTo==Hybrid.lastTextboxToChange.initialText)
-					{
-						Hybrid.setText(Hybrid.lastTextboxToChange,"");
-					}
-					Hybrid.setTextBoxColor(Hybrid.lastTextboxToChange,palet.dark_blue);
-			break;
-			case "blur":
-				Hybrid.debugmessage("blur value:"+Hybrid.lastTextboxChangedTo);
-				if(Hybrid.lastTextboxChangedTo==Hybrid.lastTextboxToChange.initialText || Hybrid.lastTextboxChangedTo=="" )
-				{
-					Hybrid.setText(Hybrid.lastTextboxToChange,Hybrid.lastTextboxToChange.initialText);
-					Hybrid.setTextBoxColor(Hybrid.lastTextboxToChange,palet.pale_grey);
-				}
-			break;
-			case "change":
-					Hybrid.setVisible(layout.feedback_text,false); 
-			break;
-			default:
-			 Hybrid.debugmessage("unknown textChange:"+Hybrid.lastTextboxChange);
+			new_game.form.naam=Hybrid.getText(layout.naam_text);
+			new_game.form.wachtwoord=Hybrid.getText(layout.wachtwoord_text);
+			//Hybrid.debugmessage("NEW GAME TEXTCHANGE LISTENER : "+new_game.form.naam+","+new_game.form.wachtwoord);
+		}else{
+			on_page=false;
 		}
+		if(on_page)
+			window.requestAnimationFrame(new_game_TextChangeListener);
 	}
 	function new_gameHandleResize()
 	{
@@ -5794,6 +5834,7 @@ Hybrid.styleWebview=function (o,co){
 		string+="<h1>Weet jij waar je woont?</h1>";
 		string+="Ja, de naam van je stad of dorp, die ken je wel. Maar wat weet je nu echt over jouw plaats? En over de zes kernen die samen de gemeente Steenbergen vormen? In ieder geval weet je lang niet alles. Speel het spel ‘Weet waar je woont’ en dat verandert vanzelf. Beantwoord de vragen en leer alles over de geschiedenis van jouw gemeente. Bovendien krijg je voor ieder goed antwoord punten waarmee je gebouwen of attracties kunt kopen. Plaats die in de plattegrond en bouw jouw ideale woonplaats. Voor je begint, moet je rechts eerst even je gegevens invullen en een wachtwoord aanmaken. Want je wilt toch niet dat iemand met jouw droomstad aan de haal gaat?";
 		Hybrid.createTextBox(layout.wit_vlak,x,y,w,h,"sans-serif","#2f2f2f","left",30,string);
+		 
 		 
 		 // get the split and size of the button bit!!
 		layout.split_x=1040;
@@ -5842,6 +5883,11 @@ Hybrid.styleWebview=function (o,co){
 		Hybrid.setBevel(layout.wachtwoord,5,"rgba(10,23,53,0.5)","rgba(255,255,255,0.5)");
 		layout.wachtwoord_text=Hybrid.createTextInput(layout.wachtwoord,40,10,w-80,h-20,fonts.head,palet.pale_grey,"left",fontsz.edit,"wachtwoord");
 //		Hybrid.setTextEditable(layout.wachtwoord_text,true);// hoeft niet voor textinput
+		if(new_game.form.wachtwoord!="")
+		{
+			Hybrid.setText(layout.wachtwoord_text,new_game.form.wachtwoord);
+			Hybrid.setTextBoxColor(layout.wachtwoord_text,palet.dark_blue);
+		}
 		
 		w=layout.split_w+10;
 		h=94;
@@ -5881,12 +5927,15 @@ Hybrid.styleWebview=function (o,co){
 			var label=new_game_GetLabelFromId("groep",new_game.form.groep);
 			Hybrid.setText(layout.groep_text,label);
 		}
+		
+		
 		// create the listbox button
 		w=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][2];
 		h=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][3];
 		x=Hybrid.width-w;
 		Hybrid.createSpriteButton(layout.buttons,x,y,w,h,'buttons',"dropdown","button_dropdown_groep",new_gameHandleButtons);
-		
+	
+		// plaats
 		w=layout.split_w+10;
 		h=94;
 		x=layout.split_x;
@@ -5903,25 +5952,46 @@ Hybrid.styleWebview=function (o,co){
 			var label=new_game_GetLabelFromId("plaats",new_game.form.plaats);
 			Hybrid.setText(layout.plaats_text,label);
 		}
-
 		// create the listbox button
 		w=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][2];
 		h=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][3];
 		x=Hybrid.width-w;
 		Hybrid.createSpriteButton(layout.buttons,x,y,w,h,'buttons',"dropdown","button_dropdown_plaats",new_gameHandleButtons);
 		
+		// category
+		w=layout.split_w+10;
+		h=94;
+		x=layout.split_x;
+		y=345+5*layout.button_margin_y; //Hybrid.height-h;
+		layout.category=Hybrid.createBox(layout.buttons,x,y,w,h);
+		Hybrid.setBoxColor(layout.category,palet.pale_green); // this should be set to cover all, but that's for later!
+		Hybrid.setBevel(layout.category,5,"rgba(10,23,53,0.5)","rgba(255,255,255,0.5)");
+		layout.category_text=Hybrid.createTextBox(layout.category,40,10,w-80,h-20,fonts.head,palet.dark_blue,"left",fontsz.edit,"- Onderwerpen -");
+		Hybrid.makeButton(layout.category_text, "button_dropdown_category", new_gameHandleButtons); // also right if they hit the text itself!
+		if(new_game.form.category!=-1)
+		{
+			// reflect this in the label!
+			Hybrid.debugmessage("new_game.form.category"+new_game.form.category);
+			var label=new_game_GetLabelFromId("category",new_game.form.category);
+			Hybrid.setText(layout.category_text,label);
+		}
+		// create the listbox button
+		w=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][3];
+		x=Hybrid.width-w;
+		Hybrid.createSpriteButton(layout.buttons,x,y,w,h,'buttons',"dropdown","button_dropdown_category",new_gameHandleButtons);
+		
 		// precreate the feedback..
 		x=layout.split_x;
-		y=920; 
+		y=345+6*layout.button_margin_y; //Hybrid.height-h;
 		w=layout.split_w+10;
-		h=180;
+		h=90;
 //		layout.feedback=Hybrid.createBox(layout.buttons,x,y,w,h);
-		layout.feedback_text=Hybrid.createTextBox(layout.buttons,x,y,w,h,fonts.head,palet.dark_red,"center",fontsz.edit,"");
+		layout.feedback_text=Hybrid.createTextBox(layout.buttons,x,y,w,h,"sans-serif",palet.dark_red,"center",30,"");
 		Hybrid.setBoxColor(layout.feedback_text,palet.pale_green); // this should be set to cover all, but that's for later!
 		Hybrid.setVisible(layout.feedback_text,false); // this should be set to cover all, but that's for later!
 		
-		// we created everything, now set the listener for changes!
-		Hybrid.textChangeListener=new_game_TextChangeListener;
+
 	}
 	function new_game_GetLabelFromId(datagroep,id)
 	{
@@ -6042,6 +6112,11 @@ Hybrid.styleWebview=function (o,co){
 						new_game.form.plaats=id;
 						Hybrid.debugmessage("plaats set to: "+new_game.form.plaats);
 					break;
+					case "category":
+						Hybrid.setText(layout.category_text,label);
+						new_game.form.category=id;
+						Hybrid.debugmessage("category set to: "+new_game.form.category);
+					break;
 				}
 				Hybrid.removeElement(layout.popup);
 				Hybrid.restoreButtonContext();
@@ -6112,6 +6187,7 @@ Hybrid.styleWebview=function (o,co){
 			data.school=new_game.form.school;
 			data.groep=new_game.form.groep;
 			data.plaats=new_game.form.plaats;
+			data.category=new_game.form.category;
 			Hybrid.getVars("new_game.php",data,new_game_ServerCallback,new_game_ServerFail)
 		}else
 		{
@@ -6157,7 +6233,13 @@ Hybrid.styleWebview=function (o,co){
 			user.data=response.user; // we have this..
 			quiz.nr_of_questions=quiz.questions.length; 
 			quiz.question_order=response.user.question_order; // saved it for later!
-			
+			for(var i=0;i<quiz.question_order.length;i++)
+			{
+				if(quiz.question_order[i]>=quiz.questions.length)
+				{
+					quiz.question_order[i]=quiz.questions.length-1;
+				}
+			}
 			// show it for debugging!
 			for(all in response)
 			{
@@ -6178,7 +6260,7 @@ Hybrid.styleWebview=function (o,co){
 			Hybrid.setCookie("question_order",response.user.question_order.join("_"));
 			Hybrid.setCookie("user_hints",response.user.hints.join("_"));
 			Hybrid.setCookie("user_plaats",response.user.plaats); // this determins what to load in map when we come back unexpectedly (so not via login!)..
-			Hybrid.setCookie("gekochtehuizen",response.user.gekochtehuizen.join("_")); // gekochte huizen, maar daar moeten we misschien nog iets intelligents mee.*/
+			.*/
 
 			// we know the place, so add some houses to the list, we have to load these things dynamically from CMS.
 			Hybrid.debugmessage("user komt uit plaats: "+response.user.plaats+", dus laad de juiste huizen achtergrond..");
@@ -6229,7 +6311,7 @@ Hybrid.styleWebview=function (o,co){
 		Hybrid.setVars("add_stat.php", data);
 			
 		//window.alert("Communication with the server interupted, try again later.");
-		Hybrid.setText(layout.feedback_text,"Communication with the server interupted,<br> try again later.");
+		Hybrid.setText(layout.feedback_text,"Server bezet, probeer later");
 		Hybrid.setVisible(layout.feedback_text,true); // this should be set to cover all, but that's for later!
 		Hybrid.playSound("wrong");
 		Hybrid.debugmessage("Request failed..");
@@ -6254,6 +6336,9 @@ Hybrid.styleWebview=function (o,co){
 			case "button_dropdown_plaats":
 				new_game_createPopupList("plaats");
 			break;				
+			case "button_dropdown_category":
+				new_game_createPopupList("category");
+			break;				
 			case "button_close_popup":
 				// hide popup layer!
 				Hybrid.removeElement(layout.popup);
@@ -6268,7 +6353,7 @@ Hybrid.styleWebview=function (o,co){
 	//resume_game----------------------------------
 	var resume_game={};
 	resume_game.init=initresume_game;
-	resume_game.form={};
+	resume_game.form={naam:"",wachtwoord:""}; // this will be refreshed, as soon as the user does anything..
 	
 	function initresume_game()
 	{
@@ -6296,83 +6381,32 @@ Hybrid.styleWebview=function (o,co){
 			handleResizeresume_game(); // this builds the page 
 //			Hybrid.listenToKeys(resume_KeyHandler)
 		}
+		// this listens periodically for changes
+		resume_game_TextChangeListener(); // hoeft niet input type!
+
 	}
 	
-//	function resume_KeyHandler(key, down)
-//	{
-		//Hybrid.debugmessage("key "+key+" down "+down);
-		// listen for 13 to close on enter!
-    //}
-	
-	/*
-	Endless loop:
-	
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER : blur
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object Object]
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed to: vossemeer<div><br></div>
-wwjw.js?ck=1417534790:422 user pressed enter!
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER : blur
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object Object]
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed to: vossemeer
-wwjw.js?ck=1417534790:422 blur value:vossemeer
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER : blur
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object Object]
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed to: vossemeer<div><br></div>
-wwjw.js?ck=1417534790:422 user pressed enter!
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER : blur
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object Object]
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed to: vossemeer
-wwjw.js?ck=1417534790:422 blur value:vossemeer
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER : blur
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object Object]
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed to: vossemeer<div><br></div>
-wwjw.js?ck=1417534790:422 user pressed enter!
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER : blur
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object Object]
-	*/
-	
-
 	function resume_game_TextChangeListener()
 	{
-		Hybrid.debugmessage("NEW GAME TEXTCHANGE LISTENER : "+Hybrid.lastTextboxChange);
-		Hybrid.debugmessage("NEW GAME TEXTCHANGE LISTENER textbox changed: "+Hybrid.lastTextboxToChange);
-		Hybrid.debugmessage("NEW GAME TEXTCHANGE LISTENER textbox changed to: "+Hybrid.lastTextboxChangedTo);
+		// check if we are still on this page!
 		
 		
 		
-		switch(Hybrid.lastTextboxChange)
+		// this fills the form periodically to NOT loose data on resize.
+		// resize happens when closing keyboard on android, this results in blocking bug.
+		
+		var on_page=true;
+		
+		if(typeof(layout.naam_text)!="undefined" && typeof(layout.wachtwoord_text)!="undefined")
 		{
-
-			case "focus":
-					if(Hybrid.lastTextboxChangedTo==Hybrid.lastTextboxToChange.initialText)
-					{
-						Hybrid.setText(Hybrid.lastTextboxToChange,"");
-					}
-					Hybrid.setTextBoxColor(Hybrid.lastTextboxToChange,palet.dark_blue);
-			break;
-			case "blur":
-				Hybrid.debugmessage("blur value:"+Hybrid.lastTextboxChangedTo);
-				if(Hybrid.lastTextboxChangedTo==Hybrid.lastTextboxToChange.initialText || Hybrid.lastTextboxChangedTo=="" )
-				{
-					Hybrid.setText(Hybrid.lastTextboxToChange,Hybrid.lastTextboxToChange.initialText);
-					Hybrid.setTextBoxColor(Hybrid.lastTextboxToChange,palet.pale_grey);
-				}
-			break;
-			case "change":
-				if(Hybrid.lastTextboxChangedTo.indexOf("<div>")!==-1 || Hybrid.lastTextboxChangedTo.indexOf("<br>")!==-1)
-				{
-					// user pressed enter!
-					Hybrid.debugmessage("user pressed enter!");
-					// we want to erase any div stuff out of it!
-					// we might need to set focus to a dummy textbox, to kill any softkeyboard
-					Hybrid.blurTextField(Hybrid.lastTextboxToChange);
-					//Hybrid.blurTextField(layout.wachtwoord_text);
-					handleButtonsresume_game("button_continue"); // press button manually.
-				}
-			break;
-			default:
-			 Hybrid.debugmessage("unknown textChange:"+Hybrid.lastTextboxChange);
+			resume_game.form.naam=Hybrid.getText(layout.naam_text);
+			resume_game.form.wachtwoord=Hybrid.getText(layout.wachtwoord_text);
+			//Hybrid.debugmessage("NEW GAME TEXTCHANGE LISTENER : "+resume_game.form.naam+","+resume_game.form.wachtwoord);
+		}else{
+			on_page=false;
 		}
+		if(on_page)
+			window.requestAnimationFrame(resume_game_TextChangeListener);
 	}
 	function handleResizeresume_game()
 	{
@@ -6435,6 +6469,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		// auto fill met restored values;
 		if(resume_game.form.naam!="")
 		{
+			console.log("setting naam on resize");
 			Hybrid.setText(layout.naam_text,resume_game.form.naam);
 			Hybrid.setTextBoxColor(layout.naam_text,palet.dark_blue);
 		}
@@ -6451,7 +6486,12 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		Hybrid.setBevel(layout.wachtwoord,5,"rgba(10,23,53,0.5)","rgba(255,255,255,0.5)");
 		layout.wachtwoord_text=Hybrid.createTextInput(layout.wachtwoord,40,10,w-80,h-20,fonts.head,palet.pale_grey,"left",fontsz.edit,"wachtwoord","password");
 		//Hybrid.setTextEditable(layout.wachtwoord_text,true);// hoeft niet input type!
-		
+		if(resume_game.form.wachtwoord!="")
+		{
+			console.log("setting wachtewoord");
+			Hybrid.setText(layout.wachtwoord_text,resume_game.form.wachtwoord);
+			Hybrid.setTextBoxColor(layout.wachtwoord_text,palet.dark_blue);
+		}
 		
 		x=layout.split_x;
 		y=900; 
@@ -6462,8 +6502,6 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		Hybrid.setBoxColor(layout.feedback_text,palet.pale_green); // this should be set to cover all, but that's for later!
 		Hybrid.setVisible(layout.feedback_text,false); // this should be set to cover all, but that's for later!
 		
-		// we created everything, now set the listener for changes!
-		//Hybrid.textChangeListener=resume_game_TextChangeListener; // hoeft niet input type!
 	}
 	
 	
@@ -6502,6 +6540,15 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 			user.data=response.user; // we have this..
 			quiz.nr_of_questions=quiz.questions.length; 
 			quiz.question_order=response.user.question_order; // saved it for later!
+			
+			for(var i=0;i<quiz.question_order.length;i++)
+			{
+				if(quiz.question_order[i]>=quiz.questions.length)
+				{
+					quiz.question_order[i]=quiz.questions.length-1;
+				}
+			}
+			
 			quiz_ShowQuestionData();
 			
 			// show it for debugging!
@@ -6524,7 +6571,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 			Hybrid.setCookie("question_order",response.user.question_order.join("_"));
 			Hybrid.setCookie("user_hints",response.user.hints.join("_"));
 			Hybrid.setCookie("user_plaats",response.user.plaats); // this determins what to load in map when we come back unexpectedly (so not via login!)..
-			Hybrid.setCookie("gekochtehuizen",response.user.gekochtehuizen.join("_")); // gekochte huizen, maar daar moeten we misschien nog iets intelligents mee.*/
+.*/
 
 			// we know the place, so add some houses to the list, we have to load these things dynamically from CMS.
 			Hybrid.debugmessage("user komt uit plaats: "+response.user.plaats+", dus laad de juiste huizen achtergrond..");
@@ -6609,6 +6656,641 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 			break;
 			default:
 				Hybrid.debugmessage("handleButtonsresume_game: "+label);
+		}
+	}
+	
+
+	//reset_game----------------------------------
+	var reset_game={};
+	reset_game.init=initreset_game;
+	reset_game.framecounter=0;
+	reset_game.state="just_started";
+	reset_game.form={};
+	reset_game.cms_data={};
+	
+	// extra pagina om te kunnen kiezen welke game categorie je wilt.
+	reset_game.cms_data.school=[
+							  {label:"De Nieuwe Veste",id:"sdif4356srhe"},
+							  {label:"Maria Regina",id:"sdiofhoe"},
+							  {label:"Gummarusschool",id:"sd56pfioei"},
+							  {label:"Merijntje",id:"idfhrs"},
+							  {label:"Regenboog, De",id:"sd83ls"},
+							  {label:"De zonneberg",id:"dfoihsue"},
+							  {label:"Petrus en Paulusschool",id:"78sd3ogosd"},
+							  {label:"Groen van Prinsterer",id:"98sdyvj"},
+							  {label:"Pius X",id:"fgf45uh"},
+							  {label:"niet van toepassing",id:"666"}];
+	reset_game.cms_data.groep=[{label:"Groep 1",id:1},{label:"Groep 2",id:2},{label:"Groep 3",id:3},{label:"Groep 4",id:4},{label:"Groep 5",id:5},{label:"Groep 6",id:6},{label:"Groep 7",id:7},{label:"Groep 8",id:8},{label:"niet van toepassing",id:"666"}];
+	reset_game.cms_data.category=cms.tags;
+	for(var i=reset_game.cms_data.category.length-1;i>=0;i--)
+	{
+		if(typeof(reset_game.cms_data.category[i].questions)=="undefined")
+		{
+			reset_game.cms_data.category.splice(i,1); // remove it!
+		}else{
+			if(reset_game.cms_data.category[i].questions<30)
+			{
+				reset_game.cms_data.category.splice(i,1); // remove it!
+			}else{
+				reset_game.cms_data.category[i].label=reset_game.cms_data.category[i].label.split(" (")[0];
+				reset_game.cms_data.category[i].label+=" (30/"+reset_game.cms_data.category[i].questions+" vragen)";
+			}
+		}
+	}
+	reset_game.cms_data.category.push({label:"Alles",id:-1});
+	// copy it from CMS.tags set in script at top of page.php (the gamepage)
+	
+	reset_game.cms_data.plaats=[{label:"Steenbergen",id:1},{label:"De Heen",id:2},{label:"Nieuw Vossemeer",id:3},{label:"Kruisland",id:4},{label:"Dinteloord",id:5},{label:"Welberg",id:6}];
+	
+	function initreset_game()
+	{
+		
+				Hybrid.debugmessage("user.data.naam:"+user.data.naam);
+		Hybrid.debugmessage("user.data.wachtwoord:"+user.data.wachtwoord);
+
+		
+		//Hybrid.setCookie("wwjw_disclaimer","0"); // I want to see it to debug it, uncomment this!
+		if(Hybrid.getCookie("wwjw_disclaimer")!="1")
+		{
+			Hybrid.debugmessage("you have not seen the disclaimer yet!");
+			user.refer_to="new";
+			disclaimer.init();
+		}else
+		{
+			var data={};
+			data.page="reset_game";
+			data.stat="page";
+			Hybrid.setVars("add_stat.php", data);
+		
+			Hybrid.playSound("next_question");
+			Hybrid.debugmessage("START  called!");
+			Hybrid.setCookie("lastpage","reset_game");
+			
+			// get some stuff from the cookie!
+			reset_game.form.school=user.data.school;
+			reset_game.form.groep=user.data.groep;
+			reset_game.form.plaats=user.data.plaats;
+			reset_game.form.category=user.data.category;
+			
+			Hybrid.resizeFunction=reset_gameHandleResize;
+			reset_gameHandleResize(); // this builds the page 
+		}
+	}
+	function reset_game_TextChangeListener()
+	{
+		Hybrid.debugmessage("NEW GAME TEXTCHANGE LISTENER : "+Hybrid.lastTextboxChange);
+		Hybrid.debugmessage("NEW GAME TEXTCHANGE LISTENER textbox changed: "+Hybrid.lastTextboxToChange);
+		Hybrid.debugmessage("NEW GAME TEXTCHANGE LISTENER textbox changed to: "+Hybrid.lastTextboxChangedTo);
+		
+		
+		switch(Hybrid.lastTextboxChange)
+		{
+
+			case "focus":
+					if(Hybrid.lastTextboxChangedTo==Hybrid.lastTextboxToChange.initialText)
+					{
+						Hybrid.setText(Hybrid.lastTextboxToChange,"");
+					}
+					Hybrid.setTextBoxColor(Hybrid.lastTextboxToChange,palet.dark_blue);
+			break;
+			case "blur":
+				Hybrid.debugmessage("blur value:"+Hybrid.lastTextboxChangedTo);
+				if(Hybrid.lastTextboxChangedTo==Hybrid.lastTextboxToChange.initialText || Hybrid.lastTextboxChangedTo=="" )
+				{
+					Hybrid.setText(Hybrid.lastTextboxToChange,Hybrid.lastTextboxToChange.initialText);
+					Hybrid.setTextBoxColor(Hybrid.lastTextboxToChange,palet.pale_grey);
+				}
+			break;
+			case "change":
+					Hybrid.setVisible(layout.feedback_text,false); 
+			break;
+			default:
+			 Hybrid.debugmessage("unknown textChange:"+Hybrid.lastTextboxChange);
+		}
+	}
+	function reset_gameHandleResize()
+	{
+		Hybrid.debugmessage("pagereset_game build up:"+Hybrid.width+"x"+Hybrid.height);
+		Hybrid.erasePage();
+		layout={}; // erase any old layout!
+		helpers_createStartSchermBack(); // cerateas a layer layout.back!
+
+		
+		// now create all buttons and elements
+		layout.buttons=Hybrid.createLayer();
+		
+		var w,h,x,y,f,tx,ty,string;
+		w=900;
+		h=1020;
+		x=100;
+		y=345; //Hybrid.height-h;
+		layout.wit_vlak=Hybrid.createBox(layout.buttons,x,y,w,h);
+		Hybrid.setBoxColor(layout.wit_vlak,palet.pale_green); // this should be set to cover all, but that's for later!
+		Hybrid.setBoxAlpha(layout.wit_vlak,0.80); // alpha added		
+		
+		x=100;
+		y=779/2; // measured 779 in psd. // why divided by two is a little mystery here..
+		w=w-200;
+		h=700;
+		string="";
+		string+="<h1>Weet waar je woont!</h1>";
+		string+="Hier kun je kiezen een andere categorie te spelen. Kun je niet beslissen? Dan kies je toch gewoon 'alles'!<br><br>Ook kun je eventueel je plaats, school of groep wijzigen. Voor als je over gaat of verhuisd.";
+		Hybrid.createTextBox(layout.wit_vlak,x,y,w,h,"sans-serif","#2f2f2f","left",30,string);
+		 
+		 
+		 // get the split and size of the button bit!!
+		layout.split_x=1040;
+		layout.split_w=Hybrid.width-layout.split_x;
+		layout.button_margin_y=114;
+		 
+		// create button verder
+		w=Hybrid.graphics_manifest['buttons'].ss['continue'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['continue'][0][3];
+		x=layout.split_x+layout.split_w/2-w/2;
+		y=Hybrid.height-h-60;
+		Hybrid.createSpriteButton(layout.buttons,x,y,w,h,'buttons',"continue","button_continue_reset_game",reset_gameHandleButtons);
+
+		x=148;
+		y=78; // position to left.
+		w=810;
+		h=617; 
+		layout.logo=Hybrid.createBox(layout.buttons,x,y,w,h);
+		Hybrid.setBoxImage(layout.logo,"start_logo"); // this should be set to cover all, but that's for later!
+		Hybrid.setBoxAlpha(layout.logo,0.85); // alpha added
+
+	
+		// now create the controls for new game..
+		w=layout.split_w+10; // we want the bevel to look right!
+		h=94;
+		x=layout.split_x;
+		y=345; //Hybrid.height-h;
+
+		layout.naam=Hybrid.createBox(layout.buttons,x,y,w,h);
+		Hybrid.setBoxColor(layout.naam,palet.pale_green); // this should be set to cover all, but that's for later!
+		layout.naam_text=Hybrid.createTextBox(layout.naam,40,10,w-80,h-20,fonts.head,palet.dark_blue,"left",fontsz.edit-3,"naam: "+user.data.naam);
+		Hybrid.setBoxColor(layout.naam_text,palet.pale_green); // this should be set to cover all, but that's for later!
+
+		w=layout.split_w+10;
+		h=94;
+		x=layout.split_x;
+		y=345+1*layout.button_margin_y; //Hybrid.height-h;
+		layout.wachtwoord=Hybrid.createBox(layout.buttons,x,y,w,h);
+		Hybrid.setBoxColor(layout.wachtwoord,palet.pale_green); // this should be set to cover all, but that's for later!
+		Hybrid.setBevel(layout.wachtwoord,5,"rgba(10,23,53,0.5)","rgba(255,255,255,0.5)");
+		layout.wachtwoord_text=Hybrid.createTextInput(layout.wachtwoord,40,10,w-80,h-20,fonts.head,palet.pale_grey,"left",fontsz.edit,"wachtwoord");
+
+		w=layout.split_w+10;
+		h=94;
+		x=layout.split_x;
+		y=345+2*layout.button_margin_y; //Hybrid.height-h;
+		layout.school=Hybrid.createBox(layout.buttons,x,y,w,h);
+		Hybrid.setBoxColor(layout.school,palet.pale_green); // this should be set to cover all, but that's for later!
+		Hybrid.setBevel(layout.school,5,"rgba(10,23,53,0.5)","rgba(255,255,255,0.5)");
+		layout.school_text=Hybrid.createTextBox(layout.school,40,10,w-80,h-20,fonts.head,palet.dark_blue,"left",fontsz.edit,"- school -");
+		Hybrid.makeButton(layout.school_text, "button_dropdown_school", reset_gameHandleButtons); // also right if they hit the text itself!
+		if(reset_game.form.school!=-1)
+		{
+			// reflect this in the label!
+			Hybrid.debugmessage("reset_game.form.school"+reset_game.form.school);
+			var label=reset_game_GetLabelFromId("school",reset_game.form.school);
+			Hybrid.setText(layout.school_text,label);
+		}
+		// create the listbox button
+		w=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][3];
+		x=Hybrid.width-w;
+		Hybrid.createSpriteButton(layout.buttons,x,y,w,h,'buttons',"dropdown","button_dropdown_school",reset_gameHandleButtons);
+		
+		w=layout.split_w+10;
+		h=94;
+		x=layout.split_x;
+		y=345+3*layout.button_margin_y; //Hybrid.height-h;
+		layout.groep=Hybrid.createBox(layout.buttons,x,y,w,h);
+		Hybrid.setBoxColor(layout.groep,palet.pale_green); // this should be set to cover all, but that's for later!
+		Hybrid.setBevel(layout.groep,5,"rgba(10,23,53,0.5)","rgba(255,255,255,0.5)");
+		layout.groep_text=Hybrid.createTextBox(layout.groep,40,10,w-80,h-20,fonts.head,palet.dark_blue,"left",fontsz.edit,"- groep -");
+		Hybrid.makeButton(layout.groep_text, "button_dropdown_groep", reset_gameHandleButtons); // also right if they hit the text itself!
+		if(reset_game.form.groep!=-1)
+		{
+			// reflect this in the label!
+			Hybrid.debugmessage("reset_game.form.groep"+reset_game.form.groep);
+			var label=reset_game_GetLabelFromId("groep",reset_game.form.groep);
+			Hybrid.setText(layout.groep_text,label);
+		}
+		
+		
+		// create the listbox button
+		w=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][3];
+		x=Hybrid.width-w;
+		Hybrid.createSpriteButton(layout.buttons,x,y,w,h,'buttons',"dropdown","button_dropdown_groep",reset_gameHandleButtons);
+	
+		// plaats
+		w=layout.split_w+10;
+		h=94;
+		x=layout.split_x;
+		y=345+4*layout.button_margin_y; //Hybrid.height-h;
+		layout.plaats=Hybrid.createBox(layout.buttons,x,y,w,h);
+		Hybrid.setBoxColor(layout.plaats,palet.pale_green); // this should be set to cover all, but that's for later!
+		Hybrid.setBevel(layout.plaats,5,"rgba(10,23,53,0.5)","rgba(255,255,255,0.5)");
+		layout.plaats_text=Hybrid.createTextBox(layout.plaats,40,10,w-80,h-20,fonts.head,palet.dark_blue,"left",fontsz.edit,"- plaats -");
+		Hybrid.makeButton(layout.plaats_text, "button_dropdown_plaats", reset_gameHandleButtons); // also right if they hit the text itself!
+		if(reset_game.form.plaats!=-1)
+		{
+			// reflect this in the label!
+			Hybrid.debugmessage("reset_game.form.plaats"+reset_game.form.plaats);
+			var label=reset_game_GetLabelFromId("plaats",reset_game.form.plaats);
+			Hybrid.setText(layout.plaats_text,label);
+		}
+		// create the listbox button
+		w=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][3];
+		x=Hybrid.width-w;
+		Hybrid.createSpriteButton(layout.buttons,x,y,w,h,'buttons',"dropdown","button_dropdown_plaats",reset_gameHandleButtons);
+		
+		// category
+		w=layout.split_w+10;
+		h=94;
+		x=layout.split_x;
+		y=345+5*layout.button_margin_y; //Hybrid.height-h;
+		layout.category=Hybrid.createBox(layout.buttons,x,y,w,h);
+		Hybrid.setBoxColor(layout.category,palet.pale_green); // this should be set to cover all, but that's for later!
+		Hybrid.setBevel(layout.category,5,"rgba(10,23,53,0.5)","rgba(255,255,255,0.5)");
+		layout.category_text=Hybrid.createTextBox(layout.category,40,10,w-80,h-20,fonts.head,palet.dark_blue,"left",fontsz.edit,"- Onderwerpen -");
+		Hybrid.makeButton(layout.category_text, "button_dropdown_category", reset_gameHandleButtons); // also right if they hit the text itself!
+		if(reset_game.form.category!=-1)
+		{
+			// reflect this in the label!
+			Hybrid.debugmessage("reset_game.form.category"+reset_game.form.category);
+			var label=reset_game_GetLabelFromId("category",reset_game.form.category);
+			Hybrid.setText(layout.category_text,label);
+		}
+		// create the listbox button
+		w=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][3];
+		x=Hybrid.width-w;
+		Hybrid.createSpriteButton(layout.buttons,x,y,w,h,'buttons',"dropdown","button_dropdown_category",reset_gameHandleButtons);
+		
+		// precreate the feedback..
+		x=layout.split_x;
+		y=345+6*layout.button_margin_y; //Hybrid.height-h;
+		w=layout.split_w+10;
+		h=90;
+//		layout.feedback=Hybrid.createBox(layout.buttons,x,y,w,h);
+		layout.feedback_text=Hybrid.createTextBox(layout.buttons,x,y,w,h,"sans-serif",palet.dark_red,"center",30,"");
+		Hybrid.setBoxColor(layout.feedback_text,palet.pale_green); // this should be set to cover all, but that's for later!
+		Hybrid.setVisible(layout.feedback_text,false); // this should be set to cover all, but that's for later!
+		
+		// we created everything, now set the listener for changes!
+		Hybrid.textChangeListener=reset_game_TextChangeListener;
+	}
+	function reset_game_GetLabelFromId(datagroep,id)
+	{
+		var i;
+		var label="---";
+		for(i=0;i<reset_game.cms_data[datagroep].length;i++)
+		{
+			if(reset_game.cms_data[datagroep][i].id==id)
+			{
+				return reset_game.cms_data[datagroep][i].label;
+			}
+		}
+	}
+	function reset_game_createPopupList(label)
+	{
+		Hybrid.saveButtonContext(); // we are going to need a seperate callback!
+		var dataprovider=reset_game.cms_data[label];
+		Hybrid.debugmessage("createPopupList"+label+" "+dataprovider.length);
+		
+		layout.popup=Hybrid.createLayer();
+		Hybrid.setBoxColor(layout.popup,palet.pale_grey);
+		
+		// create a title box for the popup!
+		var w=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][2];
+		var h=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][3];
+		var x=Hybrid.width-w;
+		var y=0;
+		layout.viewport_y=h;
+		layout.viewport_h=Hybrid.height-layout.viewport_y;
+		
+		layout.popup_title=Hybrid.createBox(layout.popup,0,0,Hybrid.width,h);
+		Hybrid.setBoxColor(layout.popup_title,palet.dark_blue);
+		
+		w=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['dropdown'][0][3];
+		x=Hybrid.width-w;
+		y=0;
+		Hybrid.createSpriteButton(layout.popup_title,x,y,w,h,'buttons',"dropdown","button_close_popup",reset_gameHandleButtons_popup);
+		// create a scrollable box inside the layer!
+		layout.popup_scroll=Hybrid.createBox(layout.popup,0,layout.viewport_y,Hybrid.width,layout.viewport_h);
+		Hybrid.setBoxColor(layout.popup_scroll,palet.pale_grey);
+		//Hybrid.setBoxScrollable(layout.popup_scroll,false,true);
+		// make it closable!
+		
+//		Hybrid.debugmessage("height of viewport: "+layout.viewport_h); // 1265
+		
+		var i,margin=150,rows=1,w=Hybrid.width,row_len=9;
+		if(dataprovider.length<row_len)
+		{
+			margin=layout.viewport_h/dataprovider.length;
+		}else
+		{
+			// there's more than one row needed!
+			margin=layout.viewport_h/row_len;
+			if(Math.floor(dataprovider.length/row_len)==(dataprovider.length/row_len))
+			{
+				rows=Math.floor(dataprovider.length/row_len);
+			}else
+			{
+				rows=Math.floor(dataprovider.length/row_len)+1;
+			}
+			w=Hybrid.width/rows;
+			Hybrid.debugmessage("button width:"+w);
+			
+		}
+		for(i=0;i<dataprovider.length;i++)
+		{
+			// create the list!
+			//layer,x,y,w,h,tekst,label,cb,fontsz)
+			var x=Math.floor(i/row_len)*w;
+			var y=(i%row_len)*margin;
+
+			Hybrid.createTextButton(layout.popup_scroll,x,y,w,margin,dataprovider[i].label,"list_"+label+"_"+dataprovider[i].id,reset_gameHandleButtons_popup,50);
+		}
+	}
+	function reset_gameHandleButtons_popup(label)
+	{
+		//Hybrid.makePageSelectable();
+		//window.alert("We zijn bezig met de ontwikkeling van dit educatieve spel.");
+		if(label=="button_close_popup")
+		{
+			Hybrid.removeElement(layout.popup);
+			Hybrid.restoreButtonContext();
+		}else
+		{
+			if(label.substr(0,4)=="list")
+			{
+				Hybrid.debugmessage("total label:"+label);
+				var parts=label.split("_");
+				var field=parts[1];
+				var id=parts[2];
+				Hybrid.debugmessage("field:"+field+" , "+reset_game.cms_data[field].length);
+				var i;
+				for(i=0;i<reset_game.cms_data[field].length;i++)
+				{
+					if(reset_game.cms_data[field][i].id==id)
+					{
+						label=reset_game.cms_data[field][i].label;
+					}
+				}
+				Hybrid.debugmessage("id:"+id);
+				Hybrid.debugmessage("label:"+label);
+				// set it!
+				switch(field)
+				{
+					case "school":
+						Hybrid.setText(layout.school_text,label);
+						reset_game.form.school=id;
+						Hybrid.debugmessage("school set to: "+reset_game.form.school);
+					break;
+					case "groep":
+						Hybrid.setText(layout.groep_text,label);
+						reset_game.form.groep=id;
+						Hybrid.debugmessage("groep set to: "+reset_game.form.groep);
+					break;
+					case "plaats":
+						Hybrid.setText(layout.plaats_text,label);
+						reset_game.form.plaats=id;
+						Hybrid.debugmessage("plaats set to: "+reset_game.form.plaats);
+					break;
+					case "category":
+						Hybrid.setText(layout.category_text,label);
+						reset_game.form.category=id;
+						Hybrid.debugmessage("category set to: "+reset_game.form.category);
+					break;
+				}
+				Hybrid.removeElement(layout.popup);
+				Hybrid.restoreButtonContext();
+			}else
+			{
+				// ignore the buttonpress, iPad does that sometimes..
+				// fire multiple events for one press.
+				
+			}
+		}
+	}
+	function reset_game_storeStuff()
+	{
+		Hybrid.debugmessage("validate Form");
+		Hybrid.setVisible(layout.feedback_text,false); // hide to show processing... 
+		
+		reset_game.form.wachtwoord=Hybrid.getText(layout.wachtwoord_text);
+		
+		var error="";
+		if(reset_game.form.plaats=="undefined" || reset_game.form.plaats==-1)
+		{
+			error="Vul een plaats in!";
+		}
+		if(reset_game.form.groep=="undefined" || reset_game.form.groep==-1)
+		{
+			error="Vul een groep in!";
+		}
+		if(reset_game.form.school=="undefined" || reset_game.form.school==-1)
+		{
+			error="Vul een school in!";
+		}
+
+		if(reset_game.form.school=="undefined" || reset_game.form.school==-1)
+		{
+			error="Vul een school in!";
+		}
+		if(reset_game.form.wachtwoord=="undefined" || reset_game.form.wachtwoord==-1)
+		{
+			error="Vul een wachtwoord in!";
+		}
+
+		Hybrid.debugmessage("reset_game.form.groep (id):"+reset_game.form.groep);
+		Hybrid.debugmessage("reset_game.form.school (id):"+reset_game.form.school);
+		Hybrid.debugmessage("reset_game.form.groep (id):"+reset_game.form.groep);
+		Hybrid.debugmessage("reset_game.form.plaats (id):"+reset_game.form.plaats);
+
+		Hybrid.debugmessage("stored user name: "+user.data.naam);
+		Hybrid.setCookie("user_school",reset_game.form.school);
+		Hybrid.setCookie("user_groep",reset_game.form.groep);
+		Hybrid.setCookie("user_plaats",reset_game.form.plaats); // this determins what to load in map!
+		
+		if(error=="")
+		{
+			
+			// also get a request to the server to create a new user....?
+			// we might want to tell them something about that, but we'll do it with a window.alert.
+			// do ajax call!
+			var data={};
+			data.naam=user.data.naam;
+			data.wachtwoord=reset_game.form.wachtwoord;
+			data.school=reset_game.form.school;
+			data.groep=reset_game.form.groep;
+			data.plaats=reset_game.form.plaats;
+			data.category=reset_game.form.category;
+			console.log(JSON.stringify(data));
+			Hybrid.getVars("reset_game.php",data,reset_game_ServerCallback,reset_game_ServerFail)
+		}else
+		{
+			// validation failed..
+			Hybrid.setText(layout.feedback_text,error);
+			Hybrid.playSound("wrong");
+			Hybrid.setVisible(layout.feedback_text,true); 
+			Hybrid.debugmessage("Validation failed..");
+		}
+		
+//		window.alert("Communication with the server interupted, try again later.");
+	}
+	function reset_game_ServerCallback(response)
+	{
+		var all;
+		if(response.succes=="1")
+		{
+			Hybrid.playSound("right");
+
+			
+			var data={};
+			data.succes=1;
+			data.stat="reset_game";
+			data.user=response.user.naam;
+			Hybrid.setVars("add_stat.php", data);
+
+			//Hybrid.setCookie("user_naam",user.data.naam);
+			//Hybrid.setCookie("user_school",reset_game.form.school);
+			//Hybrid.setCookie("user_punten",0);
+			//Hybrid.setCookie("user_stenen",0);
+			//Hybrid.setCookie("user_progress",0);
+			//Hybrid.setCookie("user_plaats",reset_game.form.plaats);			
+			
+			// we also get the questions
+			// AND we get the question_order..
+			// AND the houses and stuff.
+
+//			if(typeof(response.questions)==="undefined")
+//			{
+//				Hybrid.throwError("Server configuration error: wwjw_reset_game.js, line 456");
+//			}
+//			quiz.questions=response.questions; // we have that!
+			user.data=response.user; // we have this..
+			quiz.nr_of_questions=quiz.questions.length; 
+			quiz.question_order=response.user.question_order; // saved it for later!
+			for(var i=0;i<quiz.question_order.length;i++)
+			{
+				if(quiz.question_order[i]>=quiz.questions.length)
+				{
+					quiz.question_order[i]=quiz.questions.length-1;
+				}
+			}
+			// show it for debugging!
+			for(all in response)
+			{
+				Hybrid.debugmessage("server response to new game: "+all+"="+response[all]);
+			}
+			for(all in response.user)
+			{
+				Hybrid.debugmessage("server response.user to new game "+all+"="+response.user[all]);
+			}
+			// keep stuff for next time..
+			Hybrid.debugmessage("keep wachtwoord and name: "+response.user.naam);
+			Hybrid.setCookie("user_wachtwoord",user.data.wachtwoord);
+			Hybrid.setCookie("user_naam",response.user.naam); // keep thw cleaned name for autologin via init!
+			/*Hybrid.debugmessage("cleaned username: "+response.user.naam);
+			Hybrid.setCookie("user_progress",response.user.progress);
+			Hybrid.setCookie("user_punten",response.user.punten);
+			Hybrid.setCookie("user_stenen",response.user.stenen);
+			Hybrid.setCookie("question_order",response.user.question_order.join("_"));
+			Hybrid.setCookie("user_hints",response.user.hints.join("_"));
+			Hybrid.setCookie("user_plaats",response.user.plaats); // this determins what to load in map when we come back unexpectedly (so not via login!)..
+			.*/
+
+			// we know the place, so add some houses to the list, we have to load these things dynamically from CMS.
+			Hybrid.debugmessage("user komt uit plaats: "+response.user.plaats+", dus laad de juiste huizen achtergrond..");
+			switch(parseInt(response.user.plaats))
+			{
+				case 1:
+					Hybrid.graphics_manifest['houses1']={src:"getCMSImage.php?id=houses&img=steenbergen",w:4904,h:2048,preload: false}; // we don't preload the map back, that's just a bit heavy.
+				break;
+				case 2:
+					Hybrid.graphics_manifest['houses2']={src:"getCMSImage.php?id=houses&img=deheen",w:4400,h:2052,preload: false}; // we don't preload the map back, that's just a bit heavy.
+				break;
+				case 2:
+					Hybrid.graphics_manifest['houses3']={src:"getCMSImage.php?id=houses&img=nieuwvossemeer",w:3200,h:2048,preload: false}; // we don't preload the map back, that's just a bit heavy.
+				break;
+				case 2:
+					Hybrid.graphics_manifest['houses4']={src:"getCMSImage.php?id=houses&img=kruisland",w:2672,h:1708,preload: false}; // we don't preload the map back, that's just a bit heavy.
+				break;
+				case 2:
+					Hybrid.graphics_manifest['houses5']={src:"getCMSImage.php?id=houses&img=dinteloord",w:3665,h:2868,preload: false}; // we don't preload the map back, that's just a bit heavy.
+				break;
+				case 2:
+					Hybrid.graphics_manifest['houses6']={src:"getCMSImage.php?id=houses&img=welberg",w:2461,h:1231,preload: false}; // we don't preload the map back, that's just a bit heavy.
+				break;
+			}
+			//wwjw.page_extras="show_welcome"; // defined in globals, means show popup on top of map!
+			//map.init();
+			quiz.init();
+			
+		}else
+		{
+		
+			var data={};
+			data.succes=0;
+			data.stat="reset_game";
+			Hybrid.setVars("add_stat.php", data);
+
+			Hybrid.setText(layout.feedback_text,"Mislukt: "+response.error);
+			Hybrid.setVisible(layout.feedback_text,true); // this should be set to cover all, but that's for later!
+			Hybrid.playSound("wrong");
+			Hybrid.debugmessage("Server reports errorcode:"+response.errorcode+" "+response.error);
+		}
+	}
+	function reset_game_ServerFail(response)
+	{
+		var data={};
+		data.succes=0;
+		data.stat="reset_game";
+		Hybrid.setVars("add_stat.php", data);
+			
+		//window.alert("Communication with the server interupted, try again later.");
+		Hybrid.setText(layout.feedback_text,"Server bezet, probeer later");
+		Hybrid.setVisible(layout.feedback_text,true); // this should be set to cover all, but that's for later!
+		Hybrid.playSound("wrong");
+		Hybrid.debugmessage("Request failed..");
+		
+	}	
+	function reset_gameHandleButtons(label)
+	{
+		//window.alert("We zijn bezig met de ontwikkeling van dit educatieve spel.");
+		switch(label)
+		{
+			case "button_continue_reset_game":
+				reset_game_storeStuff();
+			break;				
+			case "button_dropdown_school":
+//				setTimeout(reset_game_createPopupList,500,"school");
+				reset_game_createPopupList("school");
+			break;				
+			case "button_dropdown_groep":
+//				setTimeout(reset_game_createPopupList,500,"groep");
+				reset_game_createPopupList("groep");
+			break;				
+			case "button_dropdown_plaats":
+				reset_game_createPopupList("plaats");
+			break;				
+			case "button_dropdown_category":
+				reset_game_createPopupList("category");
+			break;				
+			case "button_close_popup":
+				// hide popup layer!
+				Hybrid.removeElement(layout.popup);
+				Hybrid.restoreButtonContext();
+			break;
+			default:
+				Hybrid.debugmessage("reset_gameHandleButtons: "+label);
 		}
 	}
 	
@@ -6769,6 +7451,8 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 			return;
 		}
 		var nr=parseInt(user.data.progress );
+		console.log(user.data.progress+ " of "+quiz.question_order );
+		if(nr>=quiz.questions.length) nr=quiz.questions.length-1;
 		var q=quiz.questions[quiz.question_order[parseInt(user.data.progress)]]; // Q is undefined sometiimes..
 		if(typeof(q)==="undefined")
 		{
@@ -6886,6 +7570,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 			//Hybrid.setCookie("user_hints",hints);	
 			// we update the user model
 			user.data.progress=response["progress"];
+			user.data.old_punten=user.data.punten; // we can use this to check if user has just played a new house loose?
 			user.data.punten=response["punten"];
 			user.data.stenen=response["stenen"];
 			user.data.hints=response["hints"];
@@ -6940,7 +7625,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		var str="";
 		str+="Dat is Helaas fout!";
 		Hybrid.createTextBox(layout.popup_window,x,y,w,h,fonts.head,palet.wrong_text,"center",fontsz.quiz_mid,str);
-
+			
 		y=236;
 		var str="";
 		str+="Het had moeten zijn antwoord "+should_be+":<br>";
@@ -6963,12 +7648,6 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		x=985/2-w/2;
 		y=928;
 		Hybrid.createSpriteButton(layout.popup_window,x,y,w,h,'buttons',"play","button_wrong_continue",handleButtonsQuiz);
-		
-		// create button SPEAK
-		w=Hybrid.graphics_manifest['buttons'].ss['speak'][0][2];
-		h=Hybrid.graphics_manifest['buttons'].ss['speak'][0][3];
-		Hybrid.createSpriteButton(layout.popup_window,985-w,0,w,h,'buttons',"speak","button_speak_right",handleButtonsQuiz);
-
 	}
 	
 	function quiz_showFinishedPopup()
@@ -7017,7 +7696,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		x=(window_width-w)/2;
 		y=475;
 		Hybrid.createSpriteButton(layout.popup_window,x,y,w,h,'buttons',"again","button_again",handleButtonsQuiz);
-
+	
 		// create other buttons
 		w=Hybrid.graphics_manifest['buttons'].ss['high'][0][2];
 		h=Hybrid.graphics_manifest['buttons'].ss['high'][0][3];
@@ -7044,40 +7723,22 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		// we need to find out if there is any new houses available, if so, we need to show this to the user.
 		var i;
 		var new_house_available=-1;
+		var new_score=user.data.punten+100; // act as if you allready have gotten the points, this runs via backend I think, but still..
 		Hybrid.debugmessage("map_CheckNewHouseAvailable :"+map.shop.length+ "houses!");
 		for(i=0;i<map.shop.length;i++)
 		{
-			if(map.shop[i].prijs<user.data.stenen)
+			console.log(new_score+" punten, quick check of the shop: "+map.shop[i].naam+","+map.shop[i].unlock+","+ map.shop[i].unlocked);
+			if(map.shop[i].unlock<=new_score && map.shop[i].unlocked==false)
 			{
+				map.shop[i].unlocked=true; // only once!
 				Hybrid.debugmessage("house available:"+map.shop[i].naam+" id:"+map.shop[i].img);
 				// check if it's placed!
 				var j=0;
 				var placed=false;
-				for(j=0;j<user.data.gekochtehuizen.length;j++)
-				{
-					if(user.data.gekochtehuizen[j].id==map.shop[i].img)
-					{
-						Hybrid.debugmessage("this house is already placed!");
-						placed=true;
-						break;
-					}
-				}
 				if(placed==false)
 				{
 					// you might need to hear about this house.
-					// but you ONLY hear about each available house once!
-					if(typeof(user.data.heard_about)!=="undefined")
-					{
-						if(user.data.heard_about.indexOf(map.shop[i].img)==-1)
-						{
-							user.data.heard_about+=map.shop[i].img+"|";
-							new_house_available=i; // map.shop.nr, never -1!
-						}
-					}else
-					{
-						user.data.heard_about=map.shop[i].img+"|";
-						new_house_available=i;  // map.shop.nr, never -1!
-					}
+					new_house_available=i;  // map.shop.nr, never -1!
 				}
 			}else
 			{
@@ -7181,13 +7842,6 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		str=q.right;
 		layout.popup_body=Hybrid.createTextBox(layout.popup_window,x,y,w,h,fonts.body,palet.body,"left",fontsz.body,str);
 		
-		// create button SPEAK
-		w=Hybrid.graphics_manifest['buttons'].ss['speak'][0][2];
-		h=Hybrid.graphics_manifest['buttons'].ss['speak'][0][3];
-		x=985-w;
-		Hybrid.createSpriteButton(layout.popup_window,x,0,w,h,'buttons',"speak","button_speak_right",handleButtonsQuiz);
-		
-		
 		// create button spelen
 		w=Hybrid.graphics_manifest['buttons'].ss['play'][0][2];
 		h=Hybrid.graphics_manifest['buttons'].ss['play'][0][3];
@@ -7271,12 +7925,6 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		x=985/2-w/2;
 		Hybrid.createSpriteButton(layout.popup_window,x,y,w,h,'buttons',"continue","button_hint_continue",handleButtonsQuiz);
 
-		// create button SPEAK
-		w=Hybrid.graphics_manifest['buttons'].ss['speak'][0][2];
-		h=Hybrid.graphics_manifest['buttons'].ss['speak'][0][3];
-		x=985-w;
-		Hybrid.createSpriteButton(layout.popup_window,x,0,w,h,'buttons',"speak","button_speak_hint",handleButtonsQuiz);
-
 		// set position of window!
 		w=985;
 		h=y+280;
@@ -7292,7 +7940,12 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 	
 	function quiz_ShowQuestion(nr)
 	{
+		if(nr>=quiz.questions.length) nr=quiz.questions.length-1;
 		var q=quiz.questions[nr];
+		if(typeof(q)=="undefined")
+		{
+			console.warn("an exception occured "+JSON.stringify(quiz.questions));
+		}
 	
 		Hybrid.debugmessage("quiz_ShowQuestion "+(nr+1));
 		
@@ -7365,7 +8018,6 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		
 		
 		var i;
-		q.hussle_antwoorden=hussle_antwoorden; // keep the hussle_antwoorden voor de speak.
 		for(i=0;i<4;i++)
 		{
 			Hybrid.setText(layout["a"+i+"_text"],q[ answers[hussle_antwoorden[i]] ]);
@@ -7373,7 +8025,6 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 			Hybrid.debugmessage("place answers in button: "+th);
 			Hybrid.moveBox(layout["a"+i+"_text"],124,90-th/2);
 		}
-		Hybrid.stopVoice();
 		quizHelperDrawAnswerCanvasses();
 	}
 	
@@ -7535,21 +8186,6 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		layout.answer_button=Hybrid.createSpriteButton(layout.quiz,x,y,w,h,'buttons',"answer","button_answer",handleButtonsQuiz);
 		Hybrid.setVisible(layout.answer_button,false);
 		
-		// create button SPEAK
-		w=Hybrid.graphics_manifest['buttons'].ss['speak'][0][2];
-		h=Hybrid.graphics_manifest['buttons'].ss['speak'][0][3];
-		x=104;
-		y=137;
-		Hybrid.createSpriteButton(layout.quiz,x,y,w,h,'buttons',"speak","button_speak_question",handleButtonsQuiz);
-		
-		// create button SPEAK Answer
-		for(i=0;i<4;i++)
-		{
-			x=2048-104;
-			y=345+(quiz.button_height-16)*i; // 172 is inner, so  thickness =8
-			Hybrid.createSpriteButton(layout.quiz,x,y,w,h,'buttons',"speak","button_speak_answer_"+i,handleButtonsQuiz);
-		}
-		
 		// create button hint
 		w=Hybrid.graphics_manifest['buttons'].ss['hint'][0][2];
 		h=Hybrid.graphics_manifest['buttons'].ss['hint'][0][3];
@@ -7686,32 +8322,8 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 			quizHelperDrawAnswerCanvasses();
 			
 		}
-		var q=quiz.questions[quiz.question_order[parseInt(user.data.progress)]]; // Q is undefined sometiimes..
-		var answer_codes=["A","B","C","D"];
 		switch(label)
 		{
-			case "button_speak_question":
-				Hybrid.playVoice("question_"+q.id+"_body.mp3");
-			break;
-			case "button_speak_right":
-				q=quiz.questions[quiz.question_order[parseInt(user.data.progress)-1]]; // we have just progressed one question, so we have to go back one question..
-				Hybrid.playVoice("question_"+q.id+"_right.mp3");
-			break;
-			case "button_speak_hint":
-				Hybrid.playVoice("question_"+q.id+"_hint.mp3");
-			break;
-			case "button_speak_answer_0":
-				Hybrid.playVoice("question_"+q.id+"_"+answer_codes[q.hussle_antwoorden[0]]+".mp3");
-			break;
-			case "button_speak_answer_1":
-				Hybrid.playVoice("question_"+q.id+"_"+answer_codes[q.hussle_antwoorden[1]]+".mp3");
-			break;
-			case "button_speak_answer_2":
-				Hybrid.playVoice("question_"+q.id+"_"+answer_codes[q.hussle_antwoorden[2]]+".mp3");
-			break;
-			case "button_speak_answer_3":
-				Hybrid.playVoice("question_"+q.id+"_"+answer_codes[q.hussle_antwoorden[3]]+".mp3");
-			break;
 			case "button_place_on_map":
 				map.init();
 			break;
@@ -7773,7 +8385,8 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 			case "button_again":
 					// now it means START over, check if that's what they want with a prompt..
 					//var user_answer=window.confirm("Weet je zeker dat je opnieuw wilt beginnen met de vragen om meer punten en stenen te verdienen?");
-					if(1)
+					reset_game.init();
+					if(0)
 					{
 						// we do a call to the server to reset the game, 
 						// we reset all values in javascript
@@ -7868,7 +8481,9 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 	map.dragging=-1; // no item being dragged!
 	map.drag_object={}; // store stuff here
 	map.houses=[];
+	map.current_map=-1; // meaning, your own choice.., set in init directly!
 	map.shop=[]; // we want to fill this ONLY once!
+	map.plaats=["null","Steenbergen","De Heen","Nieuw Vossemeer","Kruisland","Dinteloord","Welberg"]; // op volgorde!
 	
 	function initMap()
 	{
@@ -7878,15 +8493,19 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		data.stat="page";
 		Hybrid.setVars("add_stat.php", data);
 	
+		if(map.current_map==-1)
+		{
+			map.current_map=user.data.plaats; // make sure we show the current map of the user!
+		}
 	
 		Hybrid.playSound("next_question");
-		Hybrid.debugmessage("START map called! Plaats:"+user.data.plaats);
+		Hybrid.debugmessage("START map called! Plaats:"+map.current_map);
 		Hybrid.setCookie("lastpage","map");
 		Hybrid.resizeFunction=handleResizemap;
 		
 		// set the location, can be 6 different ones!
-		map.back_index='location'+user.data.plaats;
-		Hybrid.debugmessage("Hybrid.graphics_manifest['"+map.back_index+"']: ");
+		map.back_index='location'+map.current_map;
+//		Hybrid.debugmessage("Hybrid.graphics_manifest['"+map.back_index+"']: ");
 		//Hybrid.debugmessage(Hybrid.graphics_manifest[map.back_index]); // this way it prints the internal structure as well!
 		
 		
@@ -7900,15 +8519,22 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		map.offset={x:Hybrid.graphics_manifest[map.back_index].w/2-Hybrid.width/2,y:Hybrid.graphics_manifest[map.back_index].h/2-Hybrid.height/2};
 
 		
+		// fix old user.data.bought_per_city[map.current_map]
+		Hybrid.debugmessage("user.data.bought_per_city[map.current_map]: "+JSON.stringify(user.data.bought_per_city));
+		//user.data.bought_per_city[map.current_map]
+		
 		map.houses=[];
 		// default houses will be placed in map_fillShop!
-		// place the user houses from the server (user.data.gekochtehuizen)!
+		// place the user houses from the server (user.data.bought_per_city[map.current_map])!
 		var i=0;
-		for(i=0;i<user.data.gekochtehuizen.length;i++)
+		for(i=0;i<user.data.bought_per_city[map.current_map].length;i++)
 		{
-			Hybrid.debugmessage("plaats gekochte huizen: "+user.data.gekochtehuizen[i].id+" ->"+user.data.gekochtehuizen[i].lx+","+user.data.gekochtehuizen[i].ly);
-			map.houses.push({id:"hous_"+user.data.gekochtehuizen[i].id,lx:parseInt(user.data.gekochtehuizen[i].lx),ly:parseInt(user.data.gekochtehuizen[i].ly),moveable:true});
+//			Hybrid.debugmessage("plaats gekochte huizen: "+user.data.bought_per_city[map.current_map][i].id+" ->"+user.data.bought_per_city[map.current_map][i].lx+","+user.data.bought_per_city[map.current_map][i].ly);
+			map.houses.push({id:"hous_"+user.data.bought_per_city[map.current_map][i].id,lx:parseInt(user.data.bought_per_city[map.current_map][i].lx),ly:parseInt(user.data.bought_per_city[map.current_map][i].ly),moveable:true});
 		}
+
+		console.log("map.current_map: "+map.current_map);
+		console.log("user houses in this city: "+JSON.stringify (map.houses));
 		
 		
 		// generate some random houses for testing..
@@ -7943,13 +8569,13 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		map.state="loading";
 		//if(layout.ismap==true) Hybrid.setVisible(layout.loading_anim, true); // index, you get it from the graphics manifest!
 
-		data.city=user.data.plaats;
-		Hybrid.debugmessage("call get_map_images_per_city.php?city="+data.city);
-		Hybrid.getVars("get_map_images_per_city.php",data,map_ServerCallback,map_ServerFail);
+		data.city=map.current_map;
+		//Hybrid.debugmessage("call get_map_images_per_city.php?city="+data.city);
+		Hybrid.getVars("get_map_images_per_city.php?ck="+(new Date).getTime(),data,map_ServerCallback,map_ServerFail); // cachekiller, this is kind of important!
 	}
 	function map_ServerCallback(response)
 	{
-		Hybrid.debugmessage("map_fillShop got data!");
+		Hybrid.debugmessage("map_fillShop got data!"+JSON.stringify(response));
 		var id;
 		var default_houses_need_to_be_placed="";
 		if(response.succes=="1")
@@ -7965,21 +8591,21 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 						Hybrid.debugmessage(b+"="+im[b]);
 				}
 				/*
-	 "images": {
-        "hous_fOC1afuLwj": {
-            "src": "data: ;base64-Csdfry4",
-            "w": "287",
-            "h": "221",
-            "rx": "160",
-            "ry": "216",
-            "lx": "0",
-            "ly": "0",
-            "preload": true,
-            "city": "7",
-            "prijs": "250",
-            "naam": "stadion.png",
-            "kind": "sprite"
-        }
+			 "images": {
+				"hous_fOC1afuLwj": {
+					"src": "data: ;base64-Csdfry4",
+					"w": "287",
+					"h": "221",
+					"rx": "160",
+					"ry": "216",
+					"lx": "0",
+					"ly": "0",
+					"preload": true,
+					"city": "7",
+					"prijs": "250",
+					"naam": "stadion.png",
+					"kind": "sprite"
+				}
 				*/
 				// always add it to the manifest, it will only REALLY add it to the manifest if it's not already got an equivalent!!!
 				var o={};
@@ -8011,7 +8637,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 					var in_shop=false;
 					for(i=0;i<map.shop.length;i++)
 					{
-						Hybrid.debugmessage("getPriceFromId  "+map.shop[i].img+"=="+id);
+//						Hybrid.debugmessage("getPriceFromId  "+map.shop[i].img+"=="+id);
 						if(map.shop[i].img==id) in_shop=true;
 					}
 					if(in_shop==false)
@@ -8022,6 +8648,12 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 						var o={};
 						o.naam=im.naam;
 						o.prijs=parseInt(im.prijs);
+						o.unlock=parseInt(im.unlock);
+						o.unlocked=false; // (except if you HAVE more points allready.
+						if(user.data.punten>=o.unlock)
+						{
+							o.unlocked=true; // we need to know the status, so we can see if something NEW is unlocked in the game!
+						}
 						o.img=id;
 						map.shop.push(o);
 					}
@@ -8052,7 +8684,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 			Hybrid.debugmessage("End of add houses!");
 			
 			// now we sort the houses according to price!
-			map.shop.sort(byPrice);
+			map.shop.sort(byUnlock);
 			// after this it might be handy to redraw the shop???
 			
 			map.houses.sort(map_sortOnY); // sort the on map houses as well!
@@ -8078,10 +8710,10 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 			map_drawHouses();// to show the new sorting, even if it wasn't the first visit!
 		}
 	}
-	function byPrice(a,b)
+	function byUnlock(a,b)
 	{
-		if(a.prijs>b.prijs) return 1;
-		if(a.prijs<b.prijs) return -1;
+		if(a.unlock>b.unlock) return 1;
+		if(a.unlock<b.unlock) return -1;
 		return 0;
 	}
 	function map_ImageLoadedCallback()
@@ -8219,6 +8851,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		}
 		var ctx=layout.map_canvas.context;
 		Hybrid.clearCanvas(layout.map_canvas);
+//		console.log("redrawing: "+map.houses.length+ " houses");
 		for(i=0;i<map.houses.length;i++)
 		{
 			if(map.houses[i].id=="house")
@@ -8269,7 +8902,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		}
 		
 		Hybrid.debugmessage("page map build up:"+Hybrid.width+"x"+Hybrid.height);
-		Hybrid.erasePage();
+		Hybrid.erasePage(); // this would remove the old canvas.
 		
 		layout={}; // erase any old layout!
 		layout.ismap=true; // this makes it possible to determin if we have to draw on loading the houses, dirty hack, but will work!
@@ -8290,12 +8923,15 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		Hybrid.setBoxColor(layout.bar,palet.pale_blue); // this should be set to cover all, but that's for later!
 
 		// stuff in the bar
-		layout.user_name=Hybrid.createTextBox(layout.bar,60,20,450,100,fonts.head,"#fff","left",fontsz.head,Hybrid.getCookie("user_naam"));
+		var city=map.plaats[map.current_map];
+		layout.user_name=Hybrid.createTextBox(layout.bar,100,20,550,100,fonts.head,"#fff","left",fontsz.head,city); // Hybrid.getCookie("user_naam")+":"
+		
+		
 		
 		// Question Progress
 		w=412;
 		h=30;
-		x=(2048-w)/2;
+		x=(Hybrid.width-1000);
 		y=(quiz.bar_height-h)/2+5;
 		Hybrid.debugmessage("create progress boxes.");
 		layout.progress_total=Hybrid.createBox(layout.bar,x,y,w,h);
@@ -8305,7 +8941,9 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		Hybrid.setBoxColor(layout.progress,palet.pale_yellow); 
 		
 		Hybrid.debugmessage("create progress text");
-		layout.vraag_nr=Hybrid.createTextBox(layout.bar,440,25,350,100,fonts.body,"#fff","right",fontsz.menu,"Vraag x/x");
+		layout.vraag_nr=Hybrid.createTextBox(layout.bar,x-400,25,350,100,fonts.body,"#fff","right",fontsz.menu,"Vraag x/x");
+
+
 		
 		// SET Question Progress
 		var show_vraag_nr=(parseInt(user.data.progress)+1);
@@ -8318,6 +8956,18 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		
 		layout.score_label=Hybrid.createTextBox(layout.bar,Hybrid.width-680,25,600,100,fonts.body,"#fff","right",fontsz.menu,"Score <em>"+parseInt(user.data.punten)+"</em> punten / <em>"+parseInt(user.data.stenen)+"</em> stenen");
 
+
+
+		// make the switch city control!
+	
+		
+//		w=Hybrid.graphics_manifest['buttons'].ss['high'][0][2];
+//		h=Hybrid.graphics_manifest['buttons'].ss['high'][0][3];
+//		x=x-w-30;
+//		Hybrid.createSpriteButton(layout.hotspot,x,y,w,h,'buttons',"high","button_high",handleButtonsMap);
+
+		
+		
 		// background and scrollbox of menu buttons
 		w=map.menu_width;//+layout.scrollwidth
 		h=Hybrid.height-map.bar_height;
@@ -8481,21 +9131,37 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		//Hybrid.setBoxImage(layout.loading_anim, "loading_anim"); // index, you get it from the graphics manifest!
 		//Hybrid.setVisible(layout.loading_anim, false); // index, you get it from the graphics manifest!
 
+		
+		// prev/next button
+		x=10;
+		y=5;
+		w=Hybrid.graphics_manifest['buttons'].ss['prev'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['prev'][0][3];
+		Hybrid.createSpriteButton(layout.hotspot,x,y,w,h,'buttons',"prev","button_prev",handleButtonsMap);
+
+		x=520;
+		y=5;
+		w=Hybrid.graphics_manifest['buttons'].ss['next'][0][2];
+		h=Hybrid.graphics_manifest['buttons'].ss['next'][0][3];
+		Hybrid.createSpriteButton(layout.hotspot,x,y,w,h,'buttons',"next","button_next",handleButtonsMap);
+		
+		
 		Hybrid.startLoop(mapLoop,20);
 		
 		
 	}
 	function drawShopItem(nr)
 	{
+		var w=map.menu_width,h=map.button_height;
 		Hybrid.clearCanvas(map.shop[nr].canv);
 		var ctx=map.shop[nr].canv.context;
 		// setText naam
 		ctx.font = fontsz.menu+'px '+fonts.head;
 		ctx.textAlign = 'left';
 		ctx.fillStyle = "#fff";
-		ctx.fillText(nr+" "+map.shop[nr].naam, 34, 400); // "+map.shop[nr].img+"  for debug handy!
+		ctx.fillText((nr+1)+") "+map.shop[nr].naam, 34, 400); // "+map.shop[nr].img+"  for debug handy!
 		// setText stenen
-		ctx.font = fontsz.body+'px '+fonts.body;;
+		ctx.font = fontsz.body+'px '+fonts.body;
 		ctx.textAlign = 'right';
 		ctx.fillStyle = "#fff";
 		ctx.fillText(map.shop[nr].prijs+" stenen", 494, 400);
@@ -8520,12 +9186,40 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		Hybrid.drawImage(map.shop[nr].canv,map.shop[nr].img,35+(map.menu_width-70)/2,35+320/2,0,f);
 
 		// check if we can actually afford this and if not grey it!
-		Hybrid.debugmessage(map.shop[nr].prijs+" > "+parseInt(user.data.stenen) );
-		if(map.shop[nr].prijs>parseInt(user.data.stenen) )
+		//Hybrid.debugmessage(map.shop[nr].prijs+" > "+parseInt(user.data.stenen) );
+		console.log(map.shop[nr].unlock+">"+parseInt(user.data.punten))
+		if(map.shop[nr].unlock>parseInt(user.data.punten) )
 		{
 			// grey the item
-			ctx.fillStyle="rgba(87,118,135,0.5)";
-			ctx.fillRect(35,35,map.menu_width-70,420);
+			ctx.save();
+			ctx.globalCompositeOperation="xor";
+			Hybrid.drawImage(map.shop[nr].canv,map.shop[nr].img,35+(w-70)/2,35+320/2,0,f);
+			ctx.restore();
+			ctx.fillStyle="rgba(87,118,135,0.9)";
+			ctx.fillRect(0,35,map.menu_width,330);
+			ctx.strokeStyle="#fff";
+			ctx.lineWidth=2;
+			ctx.strokeRect(35,35,w-70,320); // omcirkel waar plaatje normaal staat..
+			ctx.strokeRect(35,h-92,w-70,20);
+			ctx.fillStyle="#fff";
+			ctx.font = fontsz.head+'px '+fonts.head;
+			ctx.textAlign = 'center';
+			var pct=user.data.punten/map.shop[nr].unlock;
+			ctx.fillRect(37,h-90,(w-74)*pct,16);
+			ctx.fillText("beschikbaar bij",w/2,h/2-40);
+			ctx.fillText(map.shop[nr].unlock+" punten",w/2,h/2);
+			// show when you can get it!
+		}else{
+			if(map.shop[nr].prijs>parseInt(user.data.stenen) )
+			{
+				// grey the item
+				ctx.fillStyle="rgba(87,118,135,0.5)";
+				ctx.fillRect(0,35,map.menu_width,420);
+				ctx.fillStyle="#fff";
+				ctx.font = fontsz.head+'px '+fonts.head;
+				ctx.textAlign = 'center';
+				ctx.fillText("Stenen nodig: "+(map.shop[nr].prijs-user.data.stenen),w/2,h/2);
+			}
 		}
 		
 		// and the little stripe underneath
@@ -8608,7 +9302,9 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 
 	function map_HandleDown(id,x,y)
 	{
+		console.log("map_HandleDown");
 		if(y>map.bar_height)
+		{
 			if(x<map.menu_width)
 			{
 				// controlling menu
@@ -8620,6 +9316,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 				Hybrid.debugmessage("Clicked button:"+map.button_clicked);
 				// if you have the money, that is!
 				var cost=getPriceFromId(map.shop[map.button_clicked].img);
+				var unlocked=getUnlockFromId(map.shop[map.button_clicked].img);
 				// IE 11 wist mij te melden: map.button_clicked= NaN (online!)
 				// ook deed de scrollbar het niet.
 				
@@ -8630,6 +9327,11 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 				{
 					map.button_clicked=-1;
 					Hybrid.debugmessage("Sorry, you don't have: "+cost);
+				}
+				if(unlocked>user.data.punten)
+				{
+					map.button_clicked=-1;
+					Hybrid.debugmessage("not unlocked yet: "+unlocked);
 				}
 			}else
 			{
@@ -8788,6 +9490,11 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 					}
 				}// end control map!
 			}
+		}else{
+			// you clicked in the bar, so:
+			map.dragTarget="bar";
+			map.dragging=-1;
+		}
 	}
 	function map_HandleUp(id,x,y)
 	{
@@ -8833,25 +9540,11 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 					data.ox=Math.floor(map.drag_object.ox);
 					data.oy=Math.floor(map.drag_object.oy);
 					data.naam=Hybrid.getCookie("user_naam");
+					data.map=map.current_map;
 					data.wachtwoord=Hybrid.getCookie("user_wachtwoord");
-					Hybrid.debugmessage("move_house.php?naam="+data.naam+"&wachtwoord="+data.wachtwoord+"&id="+data.id+"&lx="+data.lx+"&ly="+data.ly+"&ly="+data.id+"&ox="+data.ox+"&oy="+data.oy);
+					Hybrid.debugmessage("move_house.php?naam="+data.naam+"&wachtwoord="+data.wachtwoord+"&id="+data.id+"&map="+data.map+"&lx="+data.lx+"&ly="+data.ly+"&ly="+data.id+"&ox="+data.ox+"&oy="+data.oy);
 					Hybrid.getVars("move_house.php",data,map_BuyCallback,map_BuyFail);// we don't want to know about any stuff.
 						
-					// also move it in local for rebuilds
-					// this doesn't need to be done, sorry!
-					/*
-					// find it first!
-					//var place_in_gekochtehuizen=-1,i;
-					for(i=0;i<user.data.gekochtehuizen.length;i++)
-					{
-						if(user.data.gekochtehuizen[i].id==data.id && user.data.gekochtehuizen[i].lx==data.ox && user.data.gekochtehuizen[i].ly==data.oy)
-						{
-							Hybrid.debugmessage("found the house you are moving");
-							user.data.gekochtehuizen[i].lx=data.lx;
-							user.data.gekochtehuizen[i].ly=data.ly;
-						}
-					}*/
-				
 					// remove drag item
 					Hybrid.setVisible(layout.dragitem,false); // this should be set to cover all, but that's for later!
 					map.dragging=-1;
@@ -8904,13 +9597,14 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 						data.ly=Math.floor(map_y);
 						data.prijs=getPriceFromId(map.drag_object.id);
 						data.naam=Hybrid.getCookie("user_naam");
+						data.map=map.current_map;
 						data.wachtwoord=Hybrid.getCookie("user_wachtwoord");
-						Hybrid.debugmessage("buy_house.php?naam="+data.naam+"&wachtwoord="+data.wachtwoord+"&id="+data.id+"&lx="+data.lx+"&ly="+data.ly+"&ly="+data.id+"&prijs="+data.prijs);// we don't want to know about any stuff.
+						//Hybrid.debugmessage("buy_house.php?naam="+data.naam+"&wachtwoord="+data.wachtwoord+"&id="+data.id+"&lx="+data.lx+"&ly="+data.ly+"&ly="+data.id+"&prijs="+data.prijs);// we don't want to know about any stuff.
 						//data.prijs=0; // so you can buy infinite houses.
 						Hybrid.getVars("buy_house.php",data,map_BuyCallback,map_BuyFail);// we don't want to know about any stuff.
 						
 						// also add to local for rebuilds
-						user.data.gekochtehuizen.push({id:data.id,lx:data.lx,ly:data.ly});
+						user.data.bought_per_city[map.current_map].push({id:data.id,lx:data.lx,ly:data.ly});
 						
 						// subtract the stones
 						user.data.stenen-=parseInt(data.prijs);
@@ -8943,12 +9637,21 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		var i;
 		for(i=0;i<map.shop.length;i++)
 		{
-			Hybrid.debugmessage("getPriceFromId  "+map.shop[i].img+"=="+id);
+//			Hybrid.debugmessage("getPriceFromId  "+map.shop[i].img+"=="+id);
 			if(map.shop[i].img==id) return map.shop[i].prijs;
 		}
 		return -1;
 	}
-	
+	function getUnlockFromId(id)
+	{
+		var i;
+		for(i=0;i<map.shop.length;i++)
+		{
+//			Hybrid.debugmessage("getUnlockFromId  "+map.shop[i].img+"=="+id);
+			if(map.shop[i].img==id) return map.shop[i].unlock;
+		}
+		return -1;
+	}
 	function map_BuyCallback(response)
 	{
 		var id;
@@ -8986,6 +9689,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 	
 	function handleDrag(id,x,y,dx,dy)
 	{
+		console.log("handleDrag "+map.dragTarget);
 		switch(map.dragTarget)
 		{
 			case "scroll":
@@ -9000,8 +9704,11 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 				}
 			break;
 			case "moveHouse":
-				// show the dragItem in the right position!
-				Hybrid.moveBox(layout.dragitem,x+map.drag_object.gx,y+map.drag_object.gy);
+				if(map.dragging!=-1)
+				{
+					// show the dragItem in the right position!
+					Hybrid.moveBox(layout.dragitem,x+map.drag_object.gx,y+map.drag_object.gy);
+				}
 			break;
 			case "menu":
 				if(map.dragging!=-1)
@@ -9053,7 +9760,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 							// draw the thing on the layout.dragitem canvas
 							Hybrid.clearCanvas(layout.dragitem);
 							layout.dragitem.context.globalAlpha=0.7;
-							var im=map.shop[map.dragging].img;
+							var im=map.shop[map.dragging].img; // if you JUST placed a house AND change the map, you get here and map.dragging =-1?
 							map.drag_object.w=Hybrid.graphics_manifest[im].w;
 							map.drag_object.h=Hybrid.graphics_manifest[im].h;
 							map.drag_object.gx=-map.drag_object.w/2; // grab x for movebox!
@@ -9102,7 +9809,37 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 				Hybrid.stopLoop();
 				high.init();
 			break;				
-			
+			case "button_prev":
+				map.dragging=-1;
+				map.dragTarget="none"; // make sure this doesn't count as a click!
+				map.current_map--;
+				if(map.current_map==0) map.current_map=6;
+				initMap();
+			break;	
+			case "button_next":
+				map.dragging=-1;
+				map.dragTarget="none"; // make sure this doesn't count as a click!
+				map.current_map++;
+				if(map.current_map==7) map.current_map=1;
+				initMap();
+/*				var city=map.plaats[map.current_map];
+				Hybrid.setText(layout.user_name,Hybrid.getCookie("user_naam")+":"+city);
+				// set the location, can be 6 different ones!
+				map.back_index='location'+map.current_map;
+				Hybrid.debugmessage("Hybrid.graphics_manifest['"+map.back_index+"']: ");
+				//Hybrid.debugmessage(Hybrid.graphics_manifest[map.back_index]); // this way it prints the internal structure as well!
+				
+				
+				if(!Hybrid.graphics_manifest.hasOwnProperty(map.back_index))
+				{
+					Hybrid.throwError(map.back_index+" not defined in graphics_manifest");
+				}
+				map.back_w=Hybrid.graphics_manifest[map.back_index].w; // all we need to do is
+				map.back_h=Hybrid.graphics_manifest[map.back_index].h;
+				// center it, kind of..
+				map.offset={x:Hybrid.graphics_manifest[map.back_index].w/2-Hybrid.width/2,y:Hybrid.graphics_manifest[map.back_index].h/2-Hybrid.height/2};*/
+
+			break;	
 			default:
 				Hybrid.debugmessage("handleButtonsStart: "+label);
 		}
@@ -9227,7 +9964,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		// tabs
 		layout.tab=[];
 		var i;
-		for(i=0;i<3;i++)
+		for(i=0;i<high.tabs.length;i++)
 		{
 			x=2048-(334+30)*(i+1);
 			y=layout.split_y-76;
@@ -9504,6 +10241,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		
 		Hybrid.clearCanvas(layout.score_outside_rank);
 		Hybrid.debugmessage("high.rank="+high.rank);
+		high.rank=parseInt(high.rank);
 		if(high.rank!=-1)
 		{
 			ctx=layout.score_outside_rank.context;
@@ -9516,6 +10254,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		if(high.rank>9)
 		{
 			// set to default position and visible!
+			console.log("making it visible bigger than 9");
 			Hybrid.setVisible(layout.score_outside_rank,true);
 			x=0;
 			y=960;
@@ -9529,9 +10268,11 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 				Hybrid.moveBox(layout.score[i].canvas,x,y);
 				y=y+h;
 			}
+
 		}else
 		{
 			// set to position inside list (and doesn't need to be visible!)
+			console.log("making it invisible smaller than 9");
 			Hybrid.setVisible(layout.score_outside_rank,false);
 			h=52;
 			x=148;
@@ -9549,7 +10290,9 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 				}				
 			}
 		}
-		Hybrid.setVisible(layout.own_score,true); // always true, but turned off for loading..
+		if(high.rank!=-1)
+			Hybrid.setVisible(layout.own_score,true); // always true, but turned off for loading..
+
 	}
 	function highSelectTab(nr)
 	{
@@ -9557,7 +10300,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		high.selected_tab=nr;
 		// color the tabs
 		var i;
-		for(i=0;i<3;i++)
+		for(i=0;i<high.tabs.length;i++)
 		{
 			if(high.selected_tab==i)
 			{
@@ -9610,7 +10353,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		high.selected_period=nr;
 		// color the periods
 		var i;
-		for(i=0;i<3;i++)
+		for(i=0;i<high.periods.length;i++)
 		{
 			if(high.selected_period==i)
 			{

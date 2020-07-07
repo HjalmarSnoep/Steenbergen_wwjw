@@ -112,7 +112,7 @@
 		// tabs
 		layout.tab=[];
 		var i;
-		for(i=0;i<3;i++)
+		for(i=0;i<high.tabs.length;i++)
 		{
 			x=2048-(334+30)*(i+1);
 			y=layout.split_y-76;
@@ -389,6 +389,7 @@
 		
 		Hybrid.clearCanvas(layout.score_outside_rank);
 		Hybrid.debugmessage("high.rank="+high.rank);
+		high.rank=parseInt(high.rank);
 		if(high.rank!=-1)
 		{
 			ctx=layout.score_outside_rank.context;
@@ -401,6 +402,7 @@
 		if(high.rank>9)
 		{
 			// set to default position and visible!
+			console.log("making it visible bigger than 9");
 			Hybrid.setVisible(layout.score_outside_rank,true);
 			x=0;
 			y=960;
@@ -414,9 +416,11 @@
 				Hybrid.moveBox(layout.score[i].canvas,x,y);
 				y=y+h;
 			}
+
 		}else
 		{
 			// set to position inside list (and doesn't need to be visible!)
+			console.log("making it invisible smaller than 9");
 			Hybrid.setVisible(layout.score_outside_rank,false);
 			h=52;
 			x=148;
@@ -434,7 +438,9 @@
 				}				
 			}
 		}
-		Hybrid.setVisible(layout.own_score,true); // always true, but turned off for loading..
+		if(high.rank!=-1)
+			Hybrid.setVisible(layout.own_score,true); // always true, but turned off for loading..
+
 	}
 	function highSelectTab(nr)
 	{
@@ -442,7 +448,7 @@
 		high.selected_tab=nr;
 		// color the tabs
 		var i;
-		for(i=0;i<3;i++)
+		for(i=0;i<high.tabs.length;i++)
 		{
 			if(high.selected_tab==i)
 			{
@@ -495,7 +501,7 @@
 		high.selected_period=nr;
 		// color the periods
 		var i;
-		for(i=0;i<3;i++)
+		for(i=0;i<high.periods.length;i++)
 		{
 			if(high.selected_period==i)
 			{

@@ -55,6 +55,32 @@ if($outputformat=="html")
 	<link rel="apple-touch-icon" sizes="120x120" href="img/touch-icon-iphone-120x120.png">
 	<link rel="apple-touch-icon" sizes="152x152" href="img/touch-icon-ipad-152x152.png">		
 	<link rel="apple-touch-startup-image" href="img/offline_startup.jpg">
+
+    <script>
+	<?php
+		// read the tags!
+		// open the file in a binary mode
+		$path_to_root=$_SERVER['DOCUMENT_ROOT'];
+		// we set the name according to the stuff set in the variables (normally!)
+		// for this test, we just do it like this.
+
+		$tags_file=$path_to_root."/mgcms/data/tags/tags.json";
+
+		echo "var cms={};\n"; // gives you a namespace for variable loaded in in this way.
+		if(file_exists($tags_file))
+		{
+			
+			echo "var tags_json='";
+			$fp = fopen($tags_file, 'rb');
+			fpassthru($fp);
+			echo "';\n";
+			echo "cms.tags=JSON.parse(tags_json);"; // gives you all as variable.
+		}else
+		{
+			echo "cms.tags=[]; // file not found ".$tags_file;// 
+		}
+		?>
+	</script>
 	
 	<title>Weet waar je woont</title>
   	 <script src="<?php 
@@ -66,7 +92,7 @@ if($outputformat=="html")
 	if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
 		echo "release_";
 	}
-	 ?>wwjw.js?ck=<?php if(is_file("release_wwjw.js")) echo filemtime("release_wwjw.js");?>" type="text/javascript"></script>
+	 ?>wwjw.js?ck=<?php if(file_exists("release_wwjw.js")) echo  filemtime("release_wwjw.js");?>" type="text/javascript"></script>
 </head>
 <body>
 <script>

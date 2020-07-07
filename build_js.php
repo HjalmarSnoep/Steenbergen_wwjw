@@ -129,6 +129,10 @@ $build = array
         'desc' => array(),
     ),
 	array (
+       'js' => 'wwjw_reset_game.js',
+        'desc' => array(),
+    ),
+	array (
        'js' => 'wwjw_quiz.js',
         'desc' => array(),
     ),	

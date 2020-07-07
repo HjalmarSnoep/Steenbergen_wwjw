@@ -1,7 +1,7 @@
 	//resume_game----------------------------------
 	var resume_game={};
 	resume_game.init=initresume_game;
-	resume_game.form={};
+	resume_game.form={naam:"",wachtwoord:""}; // this will be refreshed, as soon as the user does anything..
 	
 	function initresume_game()
 	{
@@ -29,83 +29,32 @@
 			handleResizeresume_game(); // this builds the page 
 //			Hybrid.listenToKeys(resume_KeyHandler)
 		}
+		// this listens periodically for changes
+		resume_game_TextChangeListener(); // hoeft niet input type!
+
 	}
 	
-//	function resume_KeyHandler(key, down)
-//	{
-		//Hybrid.debugmessage("key "+key+" down "+down);
-		// listen for 13 to close on enter!
-    //}
-	
-	/*
-	Endless loop:
-	
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER : blur
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object Object]
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed to: vossemeer<div><br></div>
-wwjw.js?ck=1417534790:422 user pressed enter!
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER : blur
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object Object]
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed to: vossemeer
-wwjw.js?ck=1417534790:422 blur value:vossemeer
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER : blur
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object Object]
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed to: vossemeer<div><br></div>
-wwjw.js?ck=1417534790:422 user pressed enter!
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER : blur
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object Object]
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed to: vossemeer
-wwjw.js?ck=1417534790:422 blur value:vossemeer
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER : blur
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object Object]
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed to: vossemeer<div><br></div>
-wwjw.js?ck=1417534790:422 user pressed enter!
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER : blur
-wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object Object]
-	*/
-	
-
 	function resume_game_TextChangeListener()
 	{
-		Hybrid.debugmessage("NEW GAME TEXTCHANGE LISTENER : "+Hybrid.lastTextboxChange);
-		Hybrid.debugmessage("NEW GAME TEXTCHANGE LISTENER textbox changed: "+Hybrid.lastTextboxToChange);
-		Hybrid.debugmessage("NEW GAME TEXTCHANGE LISTENER textbox changed to: "+Hybrid.lastTextboxChangedTo);
+		// check if we are still on this page!
 		
 		
 		
-		switch(Hybrid.lastTextboxChange)
+		// this fills the form periodically to NOT loose data on resize.
+		// resize happens when closing keyboard on android, this results in blocking bug.
+		
+		var on_page=true;
+		
+		if(typeof(layout.naam_text)!="undefined" && typeof(layout.wachtwoord_text)!="undefined")
 		{
-
-			case "focus":
-					if(Hybrid.lastTextboxChangedTo==Hybrid.lastTextboxToChange.initialText)
-					{
-						Hybrid.setText(Hybrid.lastTextboxToChange,"");
-					}
-					Hybrid.setTextBoxColor(Hybrid.lastTextboxToChange,palet.dark_blue);
-			break;
-			case "blur":
-				Hybrid.debugmessage("blur value:"+Hybrid.lastTextboxChangedTo);
-				if(Hybrid.lastTextboxChangedTo==Hybrid.lastTextboxToChange.initialText || Hybrid.lastTextboxChangedTo=="" )
-				{
-					Hybrid.setText(Hybrid.lastTextboxToChange,Hybrid.lastTextboxToChange.initialText);
-					Hybrid.setTextBoxColor(Hybrid.lastTextboxToChange,palet.pale_grey);
-				}
-			break;
-			case "change":
-				if(Hybrid.lastTextboxChangedTo.indexOf("<div>")!==-1 || Hybrid.lastTextboxChangedTo.indexOf("<br>")!==-1)
-				{
-					// user pressed enter!
-					Hybrid.debugmessage("user pressed enter!");
-					// we want to erase any div stuff out of it!
-					// we might need to set focus to a dummy textbox, to kill any softkeyboard
-					Hybrid.blurTextField(Hybrid.lastTextboxToChange);
-					//Hybrid.blurTextField(layout.wachtwoord_text);
-					handleButtonsresume_game("button_continue"); // press button manually.
-				}
-			break;
-			default:
-			 Hybrid.debugmessage("unknown textChange:"+Hybrid.lastTextboxChange);
+			resume_game.form.naam=Hybrid.getText(layout.naam_text);
+			resume_game.form.wachtwoord=Hybrid.getText(layout.wachtwoord_text);
+			//Hybrid.debugmessage("NEW GAME TEXTCHANGE LISTENER : "+resume_game.form.naam+","+resume_game.form.wachtwoord);
+		}else{
+			on_page=false;
 		}
+		if(on_page)
+			window.requestAnimationFrame(resume_game_TextChangeListener);
 	}
 	function handleResizeresume_game()
 	{
@@ -168,6 +117,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		// auto fill met restored values;
 		if(resume_game.form.naam!="")
 		{
+			console.log("setting naam on resize");
 			Hybrid.setText(layout.naam_text,resume_game.form.naam);
 			Hybrid.setTextBoxColor(layout.naam_text,palet.dark_blue);
 		}
@@ -184,7 +134,12 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		Hybrid.setBevel(layout.wachtwoord,5,"rgba(10,23,53,0.5)","rgba(255,255,255,0.5)");
 		layout.wachtwoord_text=Hybrid.createTextInput(layout.wachtwoord,40,10,w-80,h-20,fonts.head,palet.pale_grey,"left",fontsz.edit,"wachtwoord","password");
 		//Hybrid.setTextEditable(layout.wachtwoord_text,true);// hoeft niet input type!
-		
+		if(resume_game.form.wachtwoord!="")
+		{
+			console.log("setting wachtewoord");
+			Hybrid.setText(layout.wachtwoord_text,resume_game.form.wachtwoord);
+			Hybrid.setTextBoxColor(layout.wachtwoord_text,palet.dark_blue);
+		}
 		
 		x=layout.split_x;
 		y=900; 
@@ -195,8 +150,6 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 		Hybrid.setBoxColor(layout.feedback_text,palet.pale_green); // this should be set to cover all, but that's for later!
 		Hybrid.setVisible(layout.feedback_text,false); // this should be set to cover all, but that's for later!
 		
-		// we created everything, now set the listener for changes!
-		//Hybrid.textChangeListener=resume_game_TextChangeListener; // hoeft niet input type!
 	}
 	
 	
@@ -235,6 +188,15 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 			user.data=response.user; // we have this..
 			quiz.nr_of_questions=quiz.questions.length; 
 			quiz.question_order=response.user.question_order; // saved it for later!
+			
+			for(var i=0;i<quiz.question_order.length;i++)
+			{
+				if(quiz.question_order[i]>=quiz.questions.length)
+				{
+					quiz.question_order[i]=quiz.questions.length-1;
+				}
+			}
+			
 			quiz_ShowQuestionData();
 			
 			// show it for debugging!
@@ -257,7 +219,7 @@ wwjw.js?ck=1417534790:422 NEW GAME TEXTCHANGE LISTENER textbox changed: [object 
 			Hybrid.setCookie("question_order",response.user.question_order.join("_"));
 			Hybrid.setCookie("user_hints",response.user.hints.join("_"));
 			Hybrid.setCookie("user_plaats",response.user.plaats); // this determins what to load in map when we come back unexpectedly (so not via login!)..
-			Hybrid.setCookie("gekochtehuizen",response.user.gekochtehuizen.join("_")); // gekochte huizen, maar daar moeten we misschien nog iets intelligents mee.*/
+.*/
 
 			// we know the place, so add some houses to the list, we have to load these things dynamically from CMS.
 			Hybrid.debugmessage("user komt uit plaats: "+response.user.plaats+", dus laad de juiste huizen achtergrond..");
