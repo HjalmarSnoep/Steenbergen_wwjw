@@ -11,14 +11,16 @@ $response=array();
 $response['succes']=0;
 
 // clean the variables and echo them:
+// clean the variables and echo them:
 $clean=array();
 foreach ($_GET as $key => $value) 
 {
-	$key=preg_replace('/\s+/', '', $key); // only alphanumeric
-	$value=preg_replace('/\s+/', '', strip_tags($value)); // only alphanumeric and NO additional HTML!
+	$key=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",$key);	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
+	$value=preg_replace("/[^a-zA-Z0-9?@À-ÿ\- _]/","",strip_tags($value));	// can contain accents, spaces and - but nothing else, so St.John doesn't work 
 	$clean[$key]=strip_tags($value);
-	//echo($key."=".$clean[$key]."<br>");
 }
+$map=intval($clean["map"]); // we need a map where it's moving!
+
 //echo("<hr>");
 // get to the user progress file!
 $filename="data/games/".$clean['naam'].".txt";
@@ -35,23 +37,23 @@ if(file_exists($filename))
 		{
 			$response['succes']=1;
 			// get the house that needs to be moved, adjust the position!
-			$len=count($response['gekochtehuizen']);
+			$len=count($response['bought_per_city'][$map]);
 			//unset($response['message']);
 			for($i=0;$i<$len;$i++)
 			{
-				$house=$response['gekochtehuizen'][$i];
+				$house=$response['bought_per_city'][$map][$i];
 				if(intval($house['lx'])==intval($clean['ox']) &&
 				   intval($house['ly'])==intval($clean['oy']) &&
 				   $house['id']==$clean['id'])
 				{
-					$response['gekochtehuizen'][$i]['lx']=intval($clean['lx']);
-					$response['gekochtehuizen'][$i]['ly']=intval($clean['ly']);
+					$response['bought_per_city'][$map][$i]['lx']=intval($clean['lx']);
+					$response['bought_per_city'][$map][$i]['ly']=intval($clean['ly']);
 					//$response['message']="found a house and moved it: (".$clean['ox'].",".$clean['oy'].")->(".$clean['lx'].",".$clean['ly'].")";
 				}
 			}
 		
 			// we should save response as well. (means an extra succes=1 is added, I don't care!)
-			file_put_contents($filename,json_encode($response));
+			file_put_contents($filename,json_encode($response, JSON_PRETTY_PRINT));
 		}else
 		{
 			$response['succes']=0;

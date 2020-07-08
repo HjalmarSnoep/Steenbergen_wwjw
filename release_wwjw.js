@@ -1443,7 +1443,9 @@ for(all in response)
 setTimeout(start.init,200);return;}}
 function _lg(response)
 {_ip.showWarning("Check your internet connection: mangled answer or no answer received.");{}}
-var map={};map.init=initMap;map.mouse={};map.framecounter=0;map.bar_height=80;map.menu_width=530;map.button_height=428;map.menu_offset=0;map.menu_speed=0;map.state="init";map.menu_height=_ip.height;map.dragging=-1;map.drag_object={};map.houses=[];map.current_map=-1;map.shop=[];map.plaats=["null","Steenbergen","De Heen","Nieuw Vossemeer","Kruisland","Dinteloord","Welberg"];function initMap(){var data={};data.page="map";data.user=user.data.naam;data.stat="page";_ip.setVars("add_stat.php",data);if(map.current_map==-1){map.current_map=user.data.plaats;}
+var map={};map.init=initMap;map.mouse={};map.framecounter=0;map.bar_height=80;map.menu_width=530;map.button_height=428;map.menu_offset=0;map.menu_speed=0;map.state="init";map.menu_height=_ip.height;map.dragging=-1;map.drag_object={};map.houses=[];map.current_map=-1;map.shop=[];map.plaats=["null","Steenbergen","De Heen","Nieuw Vossemeer","Kruisland","Dinteloord","Welberg"];function initMap(){if(typeof(user.data.bought_per_city)==="undefined")
+{console.log("user.data.bought_per_city = undefined!");console.log(JSON.stringify(user.data));user.data.bought_per_city=[];user.data.bought_per_city[0]=user.data.gekochtehuizen;user.data.bought_per_city[1]=[];user.data.bought_per_city[2]=[];user.data.bought_per_city[3]=[];user.data.bought_per_city[4]=[];user.data.bought_per_city[5]=[];user.data.bought_per_city[6]=[];user.data.bought_per_city[7]=[];user.data.bought_per_city[8]=[];setTimeout(initMap,1000);return;}
+var data={};data.page="map";data.user=user.data.naam;data.stat="page";_ip.setVars("add_stat.php",data);if(map.current_map==-1){map.current_map=user.data.plaats;}
 _ip._fd("next_question");{}
 _ip._em("lastpage","map");_ip.resizeFunction=_jbmap;map.back_index='location'+map.current_map;{}
 if(!_ip._gj.hasOwnProperty(map.back_index)){_ip.throwError(map.back_index+" not defined in _gj");}

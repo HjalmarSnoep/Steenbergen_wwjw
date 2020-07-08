@@ -107,6 +107,8 @@ foreach ($all_images as $key => $value)
 	$test['ly']=$value['ly'];
 	$test['city']=$city;
 	$test['prijs']=$value['prijs'];
+	if(isset($value['unlock']))
+		$test['unlock']=$value['unlock'];
 	$test['naam']=$value['naam'];
 	$test['kind']="sprite";
 	$response['images']["hous_".$id]=$test;

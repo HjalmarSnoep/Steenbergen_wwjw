@@ -18,6 +18,25 @@
 	map.plaats = ["null", "Steenbergen", "De Heen", "Nieuw Vossemeer", "Kruisland", "Dinteloord", "Welberg"]; // merge
 
 	function initMap() {
+		
+		if(typeof(user.data.bought_per_city)==="undefined")
+		{
+			console.log("user.data.bought_per_city = undefined!");
+			console.log(JSON.stringify(user.data));
+			user.data.bought_per_city=[];
+			user.data.bought_per_city[0]=user.data.gekochtehuizen;
+			user.data.bought_per_city[1]=[];
+			user.data.bought_per_city[2]=[];
+			user.data.bought_per_city[3]=[];
+			user.data.bought_per_city[4]=[];
+			user.data.bought_per_city[5]=[];
+			user.data.bought_per_city[6]=[];
+			user.data.bought_per_city[7]=[];
+			user.data.bought_per_city[8]=[]; // add some at the end, doesn't hurt, shows it's converted.
+			// this otherwise goes wrong if you start in map, with an uncoverted file.. :(
+			setTimeout(initMap,1000);
+			return;
+		}
 	    var data = {};
 	    data.page = "map";
 	    data.user = user.data.naam;
