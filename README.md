@@ -1,14 +1,20 @@
-# Steenbergen_wwjw
+# Steenbergen_wwjw (CLOSED)
 Weet waar je woont spel Steenbergen op basis van Hybrid Game engine.
 
-# bugs melden
-Bugs kun je melden in issues.
+# Dit spel wordt niet meer onderhouden sinds 08-07-2020
+Je kunt bugs melden in issues, maar ik beloof niks.
+Ook kun je daar vragen stellen, mocht jij degene zijn, die benaderd wordt om dit over te nemen.
+Ik zou je aanraden, het front-end gedeelte te herschrijven, gebruik makende van de graphics die er al zijn. 
+Dat zou feitelijk mijn koers zijn, bij verder onderhoud, maar ik stop met spellen maken (en onderhouden) om me te kunnen concentreren op animatie.
+De oorspronkelijke functionaliteit van dit spel is flink wat keren gewijzigd (met weinig budget), waardoor een redesign ondertussen erg nodig is.
+Of je de database en het CMS wilt herschrijven, moet je zelf weten. Voor de doeleinden van de game, doen deze het gewoon nog goed. Wel zal het anders
+zijn dan je gewend bent om deze lokaal te installeren. 
 
 # source code
 Alle source code voor de game is in deze repo aanwezig (PHP/js/html/css)
-Voor compilatie is static/lib/snoep_hybrid_v1_2_2_2 nodig, deze is NIET bijgevoegd.
+Voor compilatie/webpack/minimizing is static/lib/snoep_hybrid_v1_2_2_2 nodig, deze is NIET bijgevoegd.
 De Hybrid gameEngine is copyright SnoepGames.
-I.v.m. met de update van 2018 zijn ook een aantal deprecated files opgenomen. (De repo is gestart in 2018)
+I.v.m. met de update van 2018 zijn ook een aantal deprecated files opgenomen. (Deze repo is gestart in 2018)
 Wel is voor een volledige werkende game ook de MGCMS (copyright SnoepGames) PHP repo nodig (en natuurlijk de data files, deze staan op de server)
 
 # Data backup
